@@ -70,39 +70,34 @@ angular.module('mcqApp', [])
       $scope.generateTelemetry({type: 'SCROLL', id: 'form', target: {id: 'questionunit-mcq-form', ver: '', type: 'form'}})
     });
     $scope.init = function () {
-      $('.menu .item').tab();
-      if (!ecEditor._.isUndefined($scope.questionEditData)) {
-        var data = $scope.questionEditData.data;
-        $scope.mcqFormData.question = data.question;
-        $scope.mcqFormData.options = data.options;
-        $scope.editMedia = $scope.questionEditData.media;
-        //$scope.mcqFormData.media = $scope.questionEditData.media;
-        if (data.length > 2) {
-          for (var j = 2; j < data.length; j++) {
-            $scope.mcqFormData.options.push({
-              'text': '',
-              'image': '',
-              'audio': '',
-              'isCorrect': false
-            });
-            //$scope.mcqConfiguartion.optionsConfig.push({'isText':true,'isImage':true,'isAudio':true,'isHint':true});
-            $scope.$safeApply();
-          }
-        }
-        if ($scope.mcqFormData.options.length < 2) {
-          $scope.mcqFormData.options.splice(2, 1);
+      ecEditor.addEventListener('org.ekstep.questionunit.mcq:validateform',function(event, callback){
+        var validationRes = $scope.formValidation();
+        callback(validationRes.isValid, validationRes.formData);
+      },$scope);
+
+      ecEditor.addEventListener('org.ekstep.questionunit.mcq:editquestion',$scope.editMcqQuestion,$scope);
+      ecEditor.dispatchEvent("org.ekstep.questionunit:compiled");
+    }
+    $scope.editMcqQuestion = function(event,data){
+      var qdata = data.data;
+      $scope.mcqFormData.question = qdata.question;
+      $scope.mcqFormData.options = qdata.options;
+      $scope.editMedia = qdata.media;
+      if (qdata.length > 2) {
+        for (var j = 2; j < qdata.length; j++) {
+          $scope.mcqFormData.options.push({
+            'text': '',
+            'image': '',
+            'audio': '',
+            'isCorrect': false
+          });
+          $scope.$safeApply();
         }
       }
-      $scope.$parent.$on('question:form:val', function (event) { // eslint-disable-line no-unused-vars
-        if ($scope.formValidation()) {
-          /*if dynamic question assign how many questions are create that count to $scope.mcqFormData.questionCount
-          Or else assign 1*/
-          $scope.mcqFormData.questionCount = 1;
-          $scope.$emit('question:form:valid', $scope.mcqFormData);
-        } else {
-          $scope.$emit('question:form:inValid', $scope.mcqFormData);
-        }
-      })
+      if ($scope.mcqFormData.options.length < 2) {
+        $scope.mcqFormData.options.splice(2, 1);
+      }
+      $scope.$safeApply();
     }
     $scope.addAnswerField = function () {
       var option = {
@@ -138,7 +133,6 @@ angular.module('mcqApp', [])
         opSel = false;
         $scope.selLbl = 'error';
       }
-      //$scope.mcqFormData.media = [];
       var tempArray = [];
       var temp = [];
       _.isEmpty($scope.questionMedia.image) ? 0 : tempArray.push($scope.questionMedia.image);
@@ -156,11 +150,21 @@ angular.module('mcqApp', [])
       $scope.mcqFormData.media = _.isEmpty($scope.editMedia[0]) ? temp : $scope.editMedia;
       //check if audio is their then add audio icon in media array
       if ($scope.optionsMedia.audio.length > 0 || _.has($scope.questionMedia, "audio")) $scope.addAudioImage();
-      return (formValid && opSel) ? true : false;
+      var formConfig = {};
+      if(formValid && opSel){
+        formConfig.isValid = true;
+        formConfig.formData = $scope.mcqFormData; 
+      }else{
+        formConfig.isValid = false;
+        formConfig.formData = $scope.mcqFormData;
+      }
+      return formConfig;
     }
+
     $scope.deleteAnswer = function (id) {
       if (id >= 0) $scope.mcqFormData.options.splice(id, 1);
     }
+
     //if audio added then audio icon id sent to ecml add stage
     $scope.addAudioImage = function () {
       var audioIcon = {
@@ -172,6 +176,7 @@ angular.module('mcqApp', [])
       };
       $scope.mcqFormData.media.push(audioIcon);
     }
+
     $scope.addImage = function (id) {
       ecEditor.dispatchEvent('org.ekstep.assetbrowser:show', {
         type: 'image',
@@ -230,7 +235,6 @@ angular.module('mcqApp', [])
         delete $scope.questionMedia.image;
       } else {
         $scope.mcqFormData.options[id].image = '';
-        //$scope.optionsMedia.image.splice(id,1);
         delete $scope.optionsMedia.image[id];
       }
     }
@@ -241,7 +245,6 @@ angular.module('mcqApp', [])
         delete $scope.questionMedia.audio;
       } else {
         $scope.mcqFormData.options[id].audio = '';
-        //$scope.optionsMedia.audio.splice(id,1);
         delete $scope.optionsMedia.audio[id];
       }
     }
@@ -270,5 +273,6 @@ angular.module('mcqApp', [])
         }
       })
     }
+    $scope.init();
   }]);
 //# sourceURL=horizontalMCQ.js
