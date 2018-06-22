@@ -70,11 +70,12 @@ angular.module('mcqApp', [])
       $scope.generateTelemetry({type: 'SCROLL', id: 'form', target: {id: 'questionunit-mcq-form', ver: '', type: 'form'}})
     });
     $scope.init = function () {
+      EventBus.listeners['org.ekstep.questionunit.mcq:validateform'] = [];
       ecEditor.addEventListener('org.ekstep.questionunit.mcq:validateform',function(event, callback){
         var validationRes = $scope.formValidation();
         callback(validationRes.isValid, validationRes.formData);
       },$scope);
-
+      EventBus.listeners['org.ekstep.questionunit.mcq:editquestion'] = [];
       ecEditor.addEventListener('org.ekstep.questionunit.mcq:editquestion',$scope.editMcqQuestion,$scope);
       ecEditor.dispatchEvent("org.ekstep.questionunit:compiled");
     }
@@ -83,8 +84,9 @@ angular.module('mcqApp', [])
       $scope.mcqFormData.question = qdata.question;
       $scope.mcqFormData.options = qdata.options;
       $scope.editMedia = qdata.media;
-      if (qdata.length > 2) {
-        for (var j = 2; j < qdata.length; j++) {
+      var opLength = qdata.length;
+      if (opLength > 2) {
+        for (var j = 2; j < opLength; j++) {
           $scope.mcqFormData.options.push({
             'text': '',
             'image': '',
@@ -151,12 +153,11 @@ angular.module('mcqApp', [])
       //check if audio is their then add audio icon in media array
       if ($scope.optionsMedia.audio.length > 0 || _.has($scope.questionMedia, "audio")) $scope.addAudioImage();
       var formConfig = {};
+      formConfig.formData = $scope.mcqFormData; 
       if(formValid && opSel){
         formConfig.isValid = true;
-        formConfig.formData = $scope.mcqFormData; 
       }else{
         formConfig.isValid = false;
-        formConfig.formData = $scope.mcqFormData;
       }
       return formConfig;
     }
