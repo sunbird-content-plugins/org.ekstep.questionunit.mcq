@@ -96,7 +96,7 @@ angular.module('mcqApp', [])
           $scope.$safeApply();
         }
       }
-      if ($scope.mcqFormData.options.length < 2) {
+       if ($scope.mcqFormData.options.length < 2) {
         $scope.mcqFormData.options.splice(2, 1);
       }
       $scope.$safeApply();
