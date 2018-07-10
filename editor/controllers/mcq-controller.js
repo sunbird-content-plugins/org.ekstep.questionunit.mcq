@@ -77,7 +77,7 @@ angular.module('mcqApp', [])
       },$scope);
       EventBus.listeners['org.ekstep.questionunit.mcq:editquestion'] = [];
       ecEditor.addEventListener('org.ekstep.questionunit.mcq:editquestion',$scope.editMcqQuestion,$scope);
-      ecEditor.dispatchEvent("org.ekstep.questionunit:compiled");
+      ecEditor.dispatchEvent("org.ekstep.questionunit:ready");
     }
     $scope.editMcqQuestion = function(event,data){
       var qdata = data.data;
