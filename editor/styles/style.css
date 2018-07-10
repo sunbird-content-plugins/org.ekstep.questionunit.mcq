@@ -178,3 +178,12 @@ i.large.icon.delete-icon{
   display: block;
   width: 70%;
 }
+.qc-mcq-multiple-option{
+  float: right;
+}
+.qc-error-text{
+    color: red;
+    transition: all linear 0.5s;
+    font-size: medium;
+    margin-top: -18%;
+}
