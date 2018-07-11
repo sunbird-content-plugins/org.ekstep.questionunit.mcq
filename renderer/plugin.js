@@ -19,7 +19,7 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
   },
   _defaultImageIcon:"default-image.png",
   _defaultAudioIcon:"audio.png",
-  _selectedIndex: undefined,
+  _selectedIndex: [],
   _lastAudio: undefined,
   _currentAudio: undefined,
   setQuestionTemplate: function () {
@@ -50,9 +50,9 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
     MCQController.renderQuestion(); // eslint-disable-line no-undef
     if (this._question.state && _.has(this._question.state, 'val')) {
       this._selectedIndex = this._question.state.val;
-      $("input[name='radio']", $(this._constant.mcqParentDiv))[this._selectedIndex].checked = true; // eslint-disable-line no-undef
+      $("input[name='checkbox']", $(this._constant.mcqParentDiv))[this._selectedIndex].checked = true; // eslint-disable-line no-undef
     } else {
-      this._selectedIndex = undefined;
+      this._selectedIndex = [];
     }
   },
   /**
@@ -80,24 +80,45 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
    */
   evaluateQuestion: function (event) {
     var callback = event.target;
-    var correctAnswer = false, telValues = {}, selectedAnsData, selectedAns, result = {},option;
-    option=MCQController.pluginInstance._question.data.options;// eslint-disable-line no-undef
-    selectedAnsData = option[MCQController.pluginInstance._selectedIndex]; // eslint-disable-line no-undef
-    selectedAns = _.isUndefined(selectedAnsData) ? false : selectedAnsData.isCorrect;
-    option.forEach(function (option) { // eslint-disable-line no-undef
-      if (option.isCorrect === selectedAns) {
-        correctAnswer = option.isCorrect;
-      }
+    var totalSelectedCorrectAns=0,totalCorrectAns=0,correctAnswer = false, telemetryValues = [], selectedOption=[], result = {},option,instance;
+    //get plugin instance;
+    instance=MCQController.pluginInstance;
+    option=instance._question.data.options;// eslint-disable-line no-undef
+    _.each(option,function(val,index){
+       //get all correct option count
+        if(val.isCorrect) totalCorrectAns++;
+        //chcck selected option index and option index
+        if(instance._selectedIndex.indexOf(index)!=-1){
+          //get all selected option in  selectedoption array
+            selectedOption.push(option[index]);
+        }
     });
-    if (!_.isUndefined(MCQController.pluginInstance._selectedIndex)) telValues['option' + MCQController.pluginInstance._selectedIndex] = selectedAnsData.image.length > 0 ? selectedAnsData.image : selectedAnsData.text; // eslint-disable-line no-undef
+    //  iterate selected option 
+     _.each(selectedOption,function(val){
+      //count all selected correct ans
+        if(val.isCorrect) totalSelectedCorrectAns++;
+         //push selected option value in telemetry value in option format
+        telemetryValues.push({
+         "option":val.image.length>0?val.image:val.text
+      })
+    });
+     //1.check total correct answer in question object and total selected correct answer
+     //2.check selected correct answer length and total correct answer length
+     // both and condition required in evalution
+     if(totalCorrectAns==totalSelectedCorrectAns&&instance._selectedIndex.length==totalCorrectAns){
+            correctAnswer=true;
+        }
+     var partialScore = this._question.config.partial_scoring?(totalSelectedCorrectAns/option.length) * this._question.config.max_score:0;
     result = {
       eval: correctAnswer,
       state: {
-        val: MCQController.pluginInstance._selectedIndex, // eslint-disable-line no-undef
+        val: instance._selectedIndex, // eslint-disable-line no-undef
         options: option // eslint-disable-line no-undef
       },
-      score: correctAnswer ? MCQController.pluginInstance._question.config.max_score : 0, // eslint-disable-line no-undef
-      values: [telValues]
+      score: partialScore, // eslint-disable-line no-undef
+      values: selectedOption,
+      noOfCorrectAns:totalSelectedCorrectAns,
+      totalAns:totalCorrectAns
     }
     if (_.isFunction(callback)) {
       callback(result);
@@ -160,23 +181,31 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
    * @param {Integer} index from question set.
    */
   selectedvalue: function (event, index) {
-    var state = {}, value, telValues = {};
-    $(this._constant.mcqSelectOption).removeClass(this._constant.optionSelectionUI);
-    $('input:radio[name=radio]')[index].checked = true;
-    if (!_.isUndefined(event)) {
-      this.selectOptionUI(event);//eslint-disable-line no-undef
+    var state = {}, value, telemetryValues = {},instance;
+    instance=MCQController.pluginInstance;
+    if($('input:checkbox[name=checkbox]')[index].checked){
+      $('input:checkbox[name=checkbox]')[index].checked=false;
+      //if uncheck remove value from select index
+      instance._selectedIndex=_.without(instance._selectedIndex,index);
+    }else{
+      $('input:checkbox[name=checkbox]')[index].checked=true;
+      //if check add value from select index
+       instance._selectedIndex.push(index);
     }
-    value = this._question.data.options[index];
-    this._selectedIndex = index; // eslint-disable-line no-undef
+    console.log($('input:checkbox[name=checkbox]')[index].checked);
+    if (!_.isUndefined(event)) {
+     // this.selectOptionUI(event);//eslint-disable-line no-undef
+    }
+    value = instance._question.data.options[index];
     state = {
-      val: this._selectedIndex, // eslint-disable-line no-undef
-      options: this._question.data.options, // eslint-disable-line no-undef
-      score: this._question.config.max_score // eslint-disable-line no-undef
+      val: instance._selectedIndex, // eslint-disable-line no-undef
+      options: instance._question.data.options, // eslint-disable-line no-undef
+      score: instance._question.config.max_score // eslint-disable-line no-undef
     };
-    telValues['option' + index] = value.image.length > 0 ? value.image : value.text;
+    telemetryValues['option' + index] = value.image.length > 0 ? value.image : value.text;
     QSTelemetryLogger.logEvent(QSTelemetryLogger.EVENT_TYPES.RESPONSE, { // eslint-disable-line no-undef
       "type": "MCQ",
-      "values": [telValues]
+      "values": [telemetryValues]
     });
      /**
    * renderer:questionunit.mcq:save question set state.
@@ -191,7 +220,6 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
     } else {
       $(event.target).parents(this._constant.mcqSelectOption).addClass(this._constant.optionSelectionUI);
     }
-    //event.stopPropagation(); //stop event because its added in all child template
   },
   logTelemetryInteract: function (event) {
     if (event != undefined) QSTelemetryLogger.logEvent(QSTelemetryLogger.EVENT_TYPES.TOUCH, { // eslint-disable-line no-undef

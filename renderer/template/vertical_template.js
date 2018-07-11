@@ -4,7 +4,7 @@ MCQController.getVerticalTemplate = function () {
   <table class='qc-vertical-option-table'> \
   <tr class='qc-vertical-option-outer'> \
   <% _.each(question.data.options, function(val,key,index) { %> \
-   <td class='qc-vertical-option-td mcq-option-value' onclick=MCQController.pluginInstance.logTelemetryInteract(event);MCQController.checkOptioninVertical('<%= key %>');MCQController.pluginInstance.selectedvalue(event,'<%= key %>')> \
+   <td class='qc-vertical-option-td mcq-option-value' onclick=MCQController.pluginInstance.logTelemetryInteract(event);MCQController.checkOptioninVertical('<%= key %>');MCQController.pluginInstance.selectedvalue(event,<%= key %>)> \
    <div class='qc-vertical-option-value'> \
    <div class='mcq-selected-option'></div> \
    <div id=<%=key%> class='qc-option-vertical-text'> \
@@ -26,7 +26,7 @@ MCQController.getVerticalTemplate = function () {
    </div> \
     <div class='qc-option-vertical-checkbox'> \
      <div> \
-      <input type='radio' name='radio' value='pass' class='qc-option-input-checkbox' onclick=MCQController.pluginInstance.logTelemetryInteract(event);MCQController.pluginInstance.selectedvalue(event,'<%= key %>') id='option'> \
+      <input type='checkbox' name='checkbox' value='pass' class='qc-option-input-checkbox' onclick=MCQController.pluginInstance.logTelemetryInteract(event);MCQController.pluginInstance.selectedvalue(event,<%= key %>) id='option'> \
      </div> \
      <% if(val.audio.length > 0 && val.image.length > 0){%> \
       <div> \

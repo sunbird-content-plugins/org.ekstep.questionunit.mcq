@@ -58,7 +58,7 @@ MCQController.getHorizontalTemplate = function () {
         <%}%> \
          </div> \
         <div class='qc-option-checkbox'> \
-          <input type='radio' name='radio' value='pass' class='qc-option-input-checkbox' id='option'> \
+          <input type='checkbox' name='checkbox' onclick='MCQController.pluginInstance.selectedvalue(event,<%= key %>)' value='pass' class='qc-option-input-checkbox' id='option'> \
         </div> \
         </div> \
        <% }); %> \

@@ -25,7 +25,7 @@ MCQController.getGridTemplate = function () {
       </div>\
             <div class='qc-option-grid-checkbox'> \
                                 <div class='grid-check-space'> \
-                                    <input type='radio' name='radio' value='pass' class='qc-option-input-checkbox'> \
+                                    <input type='checkbox' name='checkbox' value='pass' class='qc-option-input-checkbox'> \
                                 </div> \
                  <% if(val.option.audio.length>0 && val.option.image.length > 0){%> \
                <div>\
@@ -65,7 +65,7 @@ MCQController.getGridTemplate = function () {
       </div>\
             <div class='qc-option-grid-checkbox'> \
                                 <div class='grid-check-space'> \
-                                    <input type='radio' name='radio' value='pass' class='qc-option-input-checkbox'> \
+                                    <input type='checkbox' name='checkbox' value='pass' class='qc-option-input-checkbox'> \
                                 </div> \
                  <% if(val.option.audio.length>0 && val.option.image.length > 0){%> \
                <div>\
