@@ -108,7 +108,14 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
    * @returns {String} url.
    */
   getAudioIcon:function(){
-    return this.getAssetUrl(org.ekstep.pluginframework.pluginManager.resolvePluginResource(this._manifest.id, this._manifest.ver, "renderer/assets/audio.png"));
+     //In browser and device base path is different so we have to check
+    if(isbrowserpreview){// eslint-disable-line no-undef
+      return this.getAssetUrl(org.ekstep.pluginframework.pluginManager.resolvePluginResource(this._manifest.id, this._manifest.ver, "renderer/assets/audio.png"));
+    }
+    else{
+      //static url
+      return this.getAssetUrl("/content-plugins/"+this._manifest.id+"-"+this._manifest.ver+"/renderer/assets/audio.png");
+    }
   },
    /**
    * provide media url to asset

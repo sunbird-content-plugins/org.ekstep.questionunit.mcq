@@ -1,4 +1,4 @@
-<div ng-controller="mcqQuestionFormController" ng-init="init()">
+  <div ng-controller="mcqQuestionFormController" ng-init="init()">
   <div class="ui grid mcqFullGrid">
     <div class="one column row">
       <div class="column innerScroll">
@@ -13,7 +13,7 @@
                   <div class="ui grid">
                     <div class="twelve wide column">
                       <div class="form-group segment textBoxDiv">
-                        <textarea class="form-control textboxQ" ng-class="{'has-success':mcqForm.question.$valid, 'has-error': submitted && mcqForm.question.$error.required}" placeholder="Enter the question" name="ckedit" ng-model="mcqFormData.question.text" maxlength="220" ng-init="$ctrl.focused = false" ng-focus="$ctrl.focused = true;" ng-blur="$ctrl.focused = false" ng-required="!(mcqFormData.question.text.length || mcqFormData.question.image.length || mcqFormData.question.audio.length)"></textarea>
+                        <textarea class="form-control textboxQ" ng-class="{'has-success':mcqForm.question.$valid, 'has-error': submitted && mcqForm.question.$error.required}" placeholder="Enter the question" name="ckedit" ng-model="mcqFormData.question.text" ng-init="$ctrl.focused = false" ng-focus="$ctrl.focused = true;" ng-blur="$ctrl.focused = false" ng-required="!(mcqFormData.question.text.length || mcqFormData.question.image.length || mcqFormData.question.audio.length)"></textarea>
                       </div>
                     </div>
                     <div class="six column row">
@@ -68,7 +68,7 @@
                         <img src="{{mcqFormData.options[key].image}}" class="imgWidth" ng-click="addImage(key)"/>
                       </div>
                       <div class="one wide column" ng-if="mcqFormData.options[key].image.length > 0">
-                        <a href="" ng-click="deleteImage(key);generateTelemetry({type: 'TOUCH', id: 'button' target: {id: 'questionunit-mcq-delete-ans-image', ver: '', type: 'button'}})" class="deleteMedia" data-tooltip="Delete image" data-inverted=""><i class="trash large icon delete-icon"></i></a>
+                        <a href="" ng-click="deleteImage(key);generateTelemetry({type: 'TOUCH', id: 'button', target: {id: 'questionunit-mcq-delete-ans-image', ver: '', type: 'button'}})" class="deleteMedia" data-tooltip="Delete image" data-inverted=""><i class="trash large icon delete-icon"></i></a>
                       </div>
                       <div class="one wide column" ng-if="mcqFormData.options[key].audio.length > 0">
                        <audio src="{{mcqFormData.options[key].audio}}" controls  controlsList="nodownload" preload="none" class="audio-container myAudio" ng-click="addAudio(key)">
