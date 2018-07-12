@@ -46,6 +46,7 @@ angular.module('mcqApp', []).controller('mcqQuestionFormController', ['$scope', 
       'isCorrect': false
     }],
     'questionCount': 0,
+    //to do add condition and enable
     "multipleOption": true
   };
   $scope.oHint = [];
