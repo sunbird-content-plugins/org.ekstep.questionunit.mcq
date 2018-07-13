@@ -6,6 +6,7 @@
 angular.module('mcqApp', []).controller('mcqQuestionFormController', ['$scope', '$rootScope', function($scope) {
   $scope.formVaild = false;
   $scope.errorOptionCount=false;
+  $scope.multipleOption;
   $scope.mcqConfiguartion = {
     'questionConfig': {
       'isText': true,
@@ -46,8 +47,7 @@ angular.module('mcqApp', []).controller('mcqQuestionFormController', ['$scope', 
       'isCorrect': false
     }],
     'questionCount': 0,
-    //to do add condition and enable
-    "multipleOption": true
+    "multipleOption": $scope.multipleOption
   };
   $scope.oHint = [];
   $scope.questionMedia = {};
@@ -89,6 +89,7 @@ angular.module('mcqApp', []).controller('mcqQuestionFormController', ['$scope', 
     })
   });
   $scope.init = function() {
+    $scope.mcqFormData.multipleOption=true;
     EventBus.listeners['org.ekstep.questionunit.mcq:validateform'] = [];
     ecEditor.addEventListener('org.ekstep.questionunit.mcq:validateform', function(event, callback) {
       var validationRes = $scope.formValidation();
@@ -102,6 +103,7 @@ angular.module('mcqApp', []).controller('mcqQuestionFormController', ['$scope', 
     var qdata = data.data;
     $scope.mcqFormData.question = qdata.question;
     $scope.mcqFormData.options = qdata.options;
+    $scope.mcqFormData.multipleOption= _.has(qdata, 'multipleOption')?qdata.multipleOption:false;
     $scope.editMedia = qdata.media;
     var opLength = qdata.length;
     if (opLength > 2) {
@@ -298,7 +300,7 @@ angular.module('mcqApp', []).controller('mcqQuestionFormController', ['$scope', 
       }
     })
   }
-  $scope.validateSingleOption = function(pos, value) {
+  $scope.validateSingleOption = function(pos) {
     if (!$scope.mcqFormData.multipleOption) {
       _.each($scope.mcqFormData.options, function(value, index) {
         if (pos != index) {
@@ -310,14 +312,17 @@ angular.module('mcqApp', []).controller('mcqQuestionFormController', ['$scope', 
   $scope.handleMultipleOption = function() {
     $scope.errorOptionCount=false;
     var tempOptionCout = 0;
-    if ($scope.mcqFormData.multipleOption) {} else {}
-    _.each($scope.mcqFormData.options, function(value, key) {
+    _.each($scope.mcqFormData.options, function(value) {
       if (value.isCorrect) tempOptionCout++;
     });
     if (tempOptionCout > 1) {
       $scope.errorOptionCount=true;
       $scope.mcqFormData.multipleOption = true;
     }
+    ecEditor.dispatchEvent('editor:handle:partialscoring',$scope.mcqFormData.multipleOption,function(partial){
+      $scope.mcqFormData.multipleOption = partial;
+      $scope.$safeApply();
+    });
   }
   $scope.init();
 }]);

@@ -82,6 +82,6 @@ MCQController.getGridTemplate = function () {
       </div>";
 };
 MCQController.checkOptioninGrid = function (index) {
-  $(".mcq-selected-option").removeClass("mcq-option-checked");
-  $('.mcq-selected-option').eq(index).addClass('mcq-option-checked');
+  // $(".mcq-selected-option").removeClass("mcq-option-checked");
+  // $('.mcq-selected-option').eq(index).addClass('mcq-option-checked');
 };

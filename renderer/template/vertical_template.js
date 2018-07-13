@@ -43,6 +43,6 @@ MCQController.getVerticalTemplate = function () {
   </div>";
 };
 MCQController.checkOptioninVertical = function (index) {
-  $(".mcq-selected-option").removeClass("mcq-option-checked");
-  $('.mcq-selected-option').eq(index).addClass('mcq-option-checked');
+  // $(".mcq-selected-option").removeClass("mcq-option-checked");
+  // $('.mcq-selected-option').eq(index).addClass('mcq-option-checked');
 };
