@@ -142,8 +142,8 @@ input.qc-option-input-checkbox {
   right: 0;
   bottom: 0;
   left: 0;
-  height: 17px;
-  width: 17px;
+  height: 15px;
+  width: 15px;
   transition: all 0.15s ease-out 0s;
   color: #fff;
   cursor: pointer;
@@ -163,9 +163,9 @@ input.qc-option-input-checkbox:checked::before {
   position: absolute;
   content: "\2713";
   display: inline-block;
-  font-size: 21.66667px;
+  font-size: 19px;
   text-align: center;
-  line-height: 16px;
+  line-height: 15px;
 }
 
 input.qc-option-input-checkbox:checked::after {
@@ -206,7 +206,7 @@ img.qc-option-image {
   object-fit: scale-down;
 }
 
-img.qc-vertical-option-image {
+img.qc-horizontal-option-image {
   width: 100%;
   height: 35vh;
   margin-top: 0;
@@ -269,7 +269,7 @@ audio.qc-option-audio-with-image {
   cursor: pointer;
 }
 
-.qc-vertical-option-zoomin {
+.qc-horizontal-option-zoomin {
   width: 5%;
   position: initial;
   cursor: pointer;
@@ -402,7 +402,7 @@ audio.qc-question-audio {
   padding-left: 5%;
 }
 
-.qc-vertical-option-container {
+.qc-horizontal-option-container {
   width: 80vw;
   overflow-x: auto;
   margin-top: 5%;
@@ -410,27 +410,27 @@ audio.qc-question-audio {
   overflow-y: hidden;
 }
 
-.qc-vertical-option-table {
+.qc-horizontal-option-table {
   height: 100%;
   width: 100%;
 }
 
-.qc-vertical-option-outer {
+.qc-horizontal-option-outer {
   height: 100%;
 }
 
-.qc-vertical-option-value {
+.qc-horizontal-option-value {
   height: 98%;
   display: table;
   width: 100%;
 }
 
-.qc-vertical-option-td {
+.qc-horizontal-option-td {
   padding: 0% 0.5%;
   min-width: 25vw;
 }
 
-.qc-option-vertical-text {
+.qc-option-horizontal-text {
   border: 1px solid #c8ccd0;
   display: table-cell;
   vertical-align: middle;
@@ -439,14 +439,14 @@ audio.qc-question-audio {
   width: 62%;
 }
 
-.qc-option-vertical-checkbox {
+.qc-option-horizontal-checkbox {
   display: table-cell;
   position: relative;
   top: 50%;
   right: 3%;
 }
 
-.qsverticalselectedopt {
+.qshorizontalselectedopt {
   background-color: #4a90e2;
 }
 
@@ -459,14 +459,14 @@ audio.qc-question-audio {
   display: inline;
 }
 
-audio.qc-vertical-audio {
+audio.qc-horizontal-audio {
   width: 28%;
   top: 62%;
   margin-left: 6%;
   position: absolute;
 }
 
-.qc-vertical-audio-with-image {
+.qc-horizontal-audio-with-image {
   width: 30%;
 }
 
