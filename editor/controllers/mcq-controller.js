@@ -96,7 +96,7 @@ angular.module('mcqApp', [])
           $scope.$safeApply();
         }
       }
-       if ($scope.mcqFormData.options.length < 2) {
+      if ($scope.mcqFormData.options.length < 2) {
         $scope.mcqFormData.options.splice(2, 1);
       }
       $scope.$safeApply();
@@ -151,9 +151,9 @@ angular.module('mcqApp', [])
       $scope.editMedia = _.isEmpty(temp) ? 0 : _.union($scope.editMedia, temp);
       $scope.mcqFormData.media = _.isEmpty($scope.editMedia[0]) ? temp : $scope.editMedia;
       //check if audio is their then add audio icon in media array
-      if ($scope.optionsMedia.audio.length > 0 || _.has($scope.questionMedia, "audio")) $scope.addAudioImage();
+      if ($scope.mcqFormData.media.length > 0) $scope.addDefaultMedia();
       var formConfig = {};
-      formConfig.formData = $scope.mcqFormData; 
+      formConfig.formData = $scope.mcqFormData;
       if(formValid && opSel){
         formConfig.isValid = true;
       }else{
@@ -167,15 +167,23 @@ angular.module('mcqApp', [])
     }
 
     //if audio added then audio icon id sent to ecml add stage
-    $scope.addAudioImage = function () {
-      var audioIcon = {
+    $scope.addDefaultMedia = function () {
+      var addAllMedia=[{
         id: "org.ekstep.questionset.audioicon",
         src: ecEditor.resolvePluginResource("org.ekstep.questionunit.mcq", "1.0", 'renderer/assets/audio.png'),
         assetId: "org.ekstep.questionset.audioicon",
         type: "image",
         preload: true
-      };
-      $scope.mcqFormData.media.push(audioIcon);
+      },{
+        id: "org.ekstep.questionset.default-imgageicon",
+        src: ecEditor.resolvePluginResource("org.ekstep.questionunit.mcq", "1.0", 'renderer/assets/default-image.png'),
+        assetId: "org.ekstep.questionset.default-imgageicon",
+        type: "image",
+        preload: true
+      }];
+      addAllMedia.forEach(function(obj) {
+        $scope.mcqFormData.media.push(obj);
+      })
     }
 
     $scope.addImage = function (id) {
