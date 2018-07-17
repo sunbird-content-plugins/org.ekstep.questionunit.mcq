@@ -3,8 +3,8 @@
  * @class org.ekstep.questionunitmcq:mcqQuestionFormController
  * Jagadish P<jagadish.pujari@tarento.com>
  */
-angular.module('mcqApp', [])
-  .controller('mcqQuestionFormController', ['$scope', '$rootScope', function ($scope) {
+angular.module('mcqApp', ['org.ekstep.question'])
+  .controller('mcqQuestionFormController', ['$scope', '$rootScope','questionServices', function ($scope, rootScope, $questionServices) {
     $scope.formVaild = false;
     $scope.mcqConfiguartion = {
       'questionConfig': {
@@ -30,18 +30,21 @@ angular.module('mcqApp', [])
         'text': '',
         'image': '',
         'audio': '',
+        'audioName' : '',
         'hint': ''
       },
       'options': [{
         'text': '',
         'image': '',
         'audio': '',
+        'audioName' : '',
         'hint': '',
         'isCorrect': false
       }, {
         'text': '',
         'image': '',
         'audio': '',
+        'audioName' : '',
         'hint': '',
         'isCorrect': false
       }],
@@ -70,45 +73,44 @@ angular.module('mcqApp', [])
       $scope.generateTelemetry({type: 'SCROLL', id: 'form', target: {id: 'questionunit-mcq-form', ver: '', type: 'form'}})
     });
     $scope.init = function () {
-      $('.menu .item').tab();
-      if (!ecEditor._.isUndefined($scope.questionEditData)) {
-        var data = $scope.questionEditData.data;
-        $scope.mcqFormData.question = data.question;
-        $scope.mcqFormData.options = data.options;
-        $scope.editMedia = $scope.questionEditData.media;
-        //$scope.mcqFormData.media = $scope.questionEditData.media;
-        if (data.length > 2) {
-          for (var j = 2; j < data.length; j++) {
-            $scope.mcqFormData.options.push({
-              'text': '',
-              'image': '',
-              'audio': '',
-              'isCorrect': false
-            });
-            //$scope.mcqConfiguartion.optionsConfig.push({'isText':true,'isImage':true,'isAudio':true,'isHint':true});
-            $scope.$safeApply();
-          }
-        }
-        if ($scope.mcqFormData.options.length < 2) {
-          $scope.mcqFormData.options.splice(2, 1);
+      EventBus.listeners['org.ekstep.questionunit.mcq:validateform'] = [];
+      ecEditor.addEventListener('org.ekstep.questionunit.mcq:validateform',function(event, callback){
+        var validationRes = $scope.formValidation();
+        callback(validationRes.isValid, validationRes.formData);
+      },$scope);
+      EventBus.listeners['org.ekstep.questionunit.mcq:editquestion'] = [];
+      ecEditor.addEventListener('org.ekstep.questionunit.mcq:editquestion',$scope.editMcqQuestion,$scope);
+      ecEditor.dispatchEvent("org.ekstep.questionunit:ready");
+    }
+    $scope.editMcqQuestion = function(event,data){
+      var qdata = data.data;
+      $scope.mcqFormData.question = qdata.question;
+      $scope.mcqFormData.options = qdata.options;
+      $scope.editMedia = qdata.media;
+      var opLength = qdata.length;
+      if (opLength > 2) {
+        for (var j = 2; j < opLength; j++) {
+          $scope.mcqFormData.options.push({
+            'text': '',
+            'image': '',
+            'audio': '',
+             'audioName' : '',
+            'isCorrect': false
+          });
+          $scope.$safeApply();
         }
       }
-      $scope.$parent.$on('question:form:val', function (event) { // eslint-disable-line no-unused-vars
-        if ($scope.formValidation()) {
-          /*if dynamic question assign how many questions are create that count to $scope.mcqFormData.questionCount
-          Or else assign 1*/
-          $scope.mcqFormData.questionCount = 1;
-          $scope.$emit('question:form:valid', $scope.mcqFormData);
-        } else {
-          $scope.$emit('question:form:inValid', $scope.mcqFormData);
-        }
-      })
+       if ($scope.mcqFormData.options.length < 2) {
+        $scope.mcqFormData.options.splice(2, 1);
+      }
+      $scope.$safeApply();
     }
     $scope.addAnswerField = function () {
       var option = {
         'text': '',
         'image': '',
         'audio': '',
+        'audioName' : '',
         'isCorrect': false
       };
       if ($scope.mcqFormData.options.length < 8) $scope.mcqFormData.options.push(option);
@@ -138,7 +140,6 @@ angular.module('mcqApp', [])
         opSel = false;
         $scope.selLbl = 'error';
       }
-      //$scope.mcqFormData.media = [];
       var tempArray = [];
       var temp = [];
       _.isEmpty($scope.questionMedia.image) ? 0 : tempArray.push($scope.questionMedia.image);
@@ -156,11 +157,20 @@ angular.module('mcqApp', [])
       $scope.mcqFormData.media = _.isEmpty($scope.editMedia[0]) ? temp : $scope.editMedia;
       //check if audio is their then add audio icon in media array
       if ($scope.optionsMedia.audio.length > 0 || _.has($scope.questionMedia, "audio")) $scope.addAudioImage();
-      return (formValid && opSel) ? true : false;
+      var formConfig = {};
+      formConfig.formData = $scope.mcqFormData; 
+      if(formValid && opSel){
+        formConfig.isValid = true;
+      }else{
+        formConfig.isValid = false;
+      }
+      return formConfig;
     }
+
     $scope.deleteAnswer = function (id) {
       if (id >= 0) $scope.mcqFormData.options.splice(id, 1);
     }
+
     //if audio added then audio icon id sent to ecml add stage
     $scope.addAudioImage = function () {
       var audioIcon = {
@@ -172,50 +182,60 @@ angular.module('mcqApp', [])
       };
       $scope.mcqFormData.media.push(audioIcon);
     }
-    $scope.addImage = function (id) {
-      ecEditor.dispatchEvent('org.ekstep.assetbrowser:show', {
+    $scope.addImage = function (type, index) {
+      var telemetryObject = {type: 'TOUCH', id: 'button', target: {id: '', ver: '', type: 'button'}};
+      var mediaObject =  {
         type: 'image',
-        search_filter: {}, // All composite keys except mediaType
-        callback: function (data) {
-          var tempImage = {
-            "id": Math.floor(Math.random() * 1000000000), // Unique identifier
-            "src": org.ekstep.contenteditor.mediaManager.getMediaOriginURL(data.assetMedia.src), // Media URL
-            "assetId": data.assetMedia.id, // Asset identifier
-            "type": "image", // Type of asset (image, audio, etc)
-            "preload": false // true or false
-          };
-          //$scope.mcqFormData.media.push(tempImage);
-          if (id == 'q') {
-            $scope.mcqFormData.question.image = org.ekstep.contenteditor.mediaManager.getMediaOriginURL(data.assetMedia.src);
-            $scope.questionMedia.image = tempImage;
-          } else {
-            $scope.mcqFormData.options[id].image = org.ekstep.contenteditor.mediaManager.getMediaOriginURL(data.assetMedia.src);
-            $scope.optionsMedia.image[id] = tempImage;
-          }
+        search_filter: {} // All composite keys except mediaType
+      }
+      //Defining the callback function of mediaObject before invoking asset browser
+      mediaObject.callback = function(data) {
+        var tempImage = {
+          "id": Math.floor(Math.random() * 1000000000), // Unique identifier
+          "src": org.ekstep.contenteditor.mediaManager.getMediaOriginURL(data.assetMedia.src), // Media URL
+          "assetId": data.assetMedia.id, // Asset identifier
+          "type": "image", // Type of asset (image, audio, etc)
+          "preload": false // true or false
+        };
+  
+        if (type == 'q') {
+          $scope.mcqFormData.question.image = org.ekstep.contenteditor.mediaManager.getMediaOriginURL(data.assetMedia.src);
+          $scope.questionMedia.image = tempImage;
+        } else {
+          $scope.mcqFormData.options[index].image = org.ekstep.contenteditor.mediaManager.getMediaOriginURL(data.assetMedia.src);
+          $scope.optionsMedia.image[index] = tempImage;
         }
-      });
+      }
+      $questionServices.invokeAssetBrowser(mediaObject);
+      $scope.generateTelemetry(telemetryObject)
     }
-    $scope.addAudio = function (id) {
-      ecEditor.dispatchEvent('org.ekstep.assetbrowser:show', {
+    $scope.addAudio = function (type, index) {
+      var telemetryObject = {type: 'TOUCH', id: 'button', target: {id: '', ver: '', type: 'button'}};
+      var mediaObject =  {
         type: 'audio',
-        search_filter: {}, // All composite keys except mediaType
-        callback: function (data) {
-          var tempAudio = {
-            "id": Math.floor(Math.random() * 1000000000), // Unique identifier
-            "src": org.ekstep.contenteditor.mediaManager.getMediaOriginURL(data.assetMedia.src), // Media URL
-            "assetId": data.assetMedia.id, // Asset identifier
-            "type": "audio", // Type of asset (image, audio, etc)
-            "preload": false // true or false
-          };
-          if (id == 'q') {
-            $scope.mcqFormData.question.audio = org.ekstep.contenteditor.mediaManager.getMediaOriginURL(data.assetMedia.src);
-            $scope.questionMedia.audio = tempAudio;
-          } else {
-            $scope.mcqFormData.options[id].audio = org.ekstep.contenteditor.mediaManager.getMediaOriginURL(data.assetMedia.src);
-            $scope.optionsMedia.audio[id] = tempAudio;
-          }
+        search_filter: {} // All composite keys except mediaType
+      }
+      //Defining the callback function of mediaObject before invoking asset browser
+      mediaObject.callback = function(data) {
+        var tempAudio = {
+          "id": Math.floor(Math.random() * 1000000000), // Unique identifier
+          "src": org.ekstep.contenteditor.mediaManager.getMediaOriginURL(data.assetMedia.src), // Media URL
+          "assetId": data.assetMedia.id, // Asset identifier
+          "type": "audio", // Type of asset (image, audio, etc)
+          "preload": false // true or false
+        };
+        if (type == 'q') {
+          $scope.mcqFormData.question.audio = org.ekstep.contenteditor.mediaManager.getMediaOriginURL(data.assetMedia.src);
+          $scope.mcqFormData.question.audioName = data.assetMedia.name;
+          $scope.questionMedia.audio = tempAudio;
+        } else {
+          $scope.mcqFormData.options[index].audio = org.ekstep.contenteditor.mediaManager.getMediaOriginURL(data.assetMedia.src);
+          $scope.mcqFormData.options[index].audioName = data.assetMedia.name;
+          $scope.optionsMedia.audio[index] = tempAudio;
         }
-      });
+      }
+      $questionServices.invokeAssetBrowser(mediaObject);
+      $scope.generateTelemetry(telemetryObject)
     }
     $scope.addHint = function (id) {
       if (id == 'q') {
@@ -224,25 +244,23 @@ angular.module('mcqApp', [])
         $scope.oHint[id] = true;
       }
     }
-    $scope.deleteImage = function (id) {
-      if (id == 'q') {
+    $scope.deleteImage = function (type, index) {
+      if (type == 'q') {
         $scope.mcqFormData.question.image = '';
         delete $scope.questionMedia.image;
       } else {
-        $scope.mcqFormData.options[id].image = '';
-        //$scope.optionsMedia.image.splice(id,1);
-        delete $scope.optionsMedia.image[id];
+        $scope.mcqFormData.options[index].image = '';
+        delete $scope.optionsMedia.image[index];
       }
     }
-    $scope.deleteAudio = function (id) {
-      if (id == 'q') {
+    $scope.deleteAudio = function (type, index) {
+      if (type == 'q') {
         $scope.isPlayingQ = false;
         $scope.mcqFormData.question.audio = '';
         delete $scope.questionMedia.audio;
       } else {
-        $scope.mcqFormData.options[id].audio = '';
-        //$scope.optionsMedia.audio.splice(id,1);
-        delete $scope.optionsMedia.audio[id];
+        $scope.mcqFormData.options[index].audio = '';
+        delete $scope.optionsMedia.audio[index];
       }
     }
     $scope.deleteHint = function (id) {
@@ -255,20 +273,21 @@ angular.module('mcqApp', [])
       }
     }
     $scope.generateTelemetry = function(data) {
-      if (data) ecEditor.getService('telemetry').interact({
-        "type": data.type,
-        "id": data.id,
-        "pageid": 'question-creation-mcq-form',
-        "target": {
-          "id": data.target.id,
-          "ver": data.target.ver,
-          "type": data.target.type
-        },
-        "plugin": {
-          "id": "org.ekstep.questionunit.mcq",
-          "ver": "1.0"
-        }
-      })
+      var plugin = {
+        "id": "org.ekstep.questionunit.mcq",
+        "ver": "1.0"
+      }
+      data.form = 'question-creation-mcq-form';
+      $questionServices.generateTelemetry(data);
     }
+
+    $scope.functionConfig = {
+      deleteImage: $scope.deleteImage,
+      addImage: $scope.addImage,
+      addAudio: $scope.addAudio,
+      deleteAudio: $scope.deleteAudio,
+      qtype: 'mcq'
+    }
+
   }]);
 //# sourceURL=horizontalMCQ.js

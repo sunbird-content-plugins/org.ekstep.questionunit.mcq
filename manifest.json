@@ -22,28 +22,13 @@
             "ver": "1.0"
         },
         {
+            "type": "js",
+            "src": "editor/controllers/mcq-controller.js"
+        },
+        {
             "type": "css",
             "src": "editor/styles/style.css"
-        }],
-        "menu": [],
-        "init-data":
-        {
-            "type": "rect",
-            "x": 10,
-            "y": 2,
-            "w": 80,
-            "h": 80,
-            "fill": "#DCDCDC"
-        },
-        "configManifest": [
-        {
-
-        }],
-        "help":
-        {
-            "src": "editor/help.md",
-            "dataType": "text"
-        }
+        }]
     },
     "templates": [
     {
