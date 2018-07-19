@@ -115,6 +115,11 @@ angular.module('mcqApp', [])
       var valid = false;
       var formValid = $scope.mcqForm.$valid && $scope.mcqFormData.options.length > 1;
       $scope.submitted = true;
+      if(!($scope.mcqFormData.question.text.length || $scope.mcqFormData.question.image.length || $scope.mcqFormData.question.audio.length)){
+        $('.questionTextBox').addClass("ck-error");
+      }else{
+        $('.questionTextBox').removeClass("ck-error");
+      }
       if (!_.isUndefined($scope.selectedOption)) {
         _.each($scope.mcqFormData.options, function (k, v) {
           $scope.mcqFormData.options[v].isCorrect = false;

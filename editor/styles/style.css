@@ -178,3 +178,6 @@ i.large.icon.delete-icon{
   display: block;
   width: 70%;
 }
+.ck-error{
+  border: 1px solid red;
+}
