@@ -55,7 +55,6 @@ angular.module('mcqApp', [])
     };
     $scope.mcqFormData.media = [];
     $scope.editMedia = [];
-    $scope.isQuestionTextValid = true;
     var questionInput = CKEDITOR.replace('ckedit', {// eslint-disable-line no-undef
       customConfig: CKEDITOR.basePath + "config.js",// eslint-disable-line no-undef
       skin: 'moono-lisa,' + CKEDITOR.basePath + "skins/moono-lisa/",// eslint-disable-line no-undef
