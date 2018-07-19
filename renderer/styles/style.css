@@ -515,3 +515,20 @@ span.qc-option-txt{
     margin-left: 2%;
     margin-top: -4%;
 }
+
+.qc-popup-close-button {
+    position: absolute;
+    right: -35px;
+    color: white;
+    bottom: 87%;
+}
+
+img.qc-question-fullimage{
+    width:83%;
+    height:100%;
+}
+
+.popup{
+    top:0;
+    height: 90%;
+}
