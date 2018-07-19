@@ -17,6 +17,8 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
     mcqSelectOption: ".mcq-option-value",
     optionSelectionUI: "qsselectedopt"
   },
+  _defaultImageIcon:"default-image.png",
+  _defaultAudioIcon:"audio.png",
   _selectedIndex: undefined,
   _lastAudio: undefined,
   _currentAudio: undefined,
@@ -106,15 +108,16 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
    * provide media url to audio image
    * @memberof org.ekstep.questionunit.mcq
    * @returns {String} url.
+   * @param {String} icon from question set.
    */
-  getAudioIcon:function(){
+  getDefaultAsset:function(icon){
      //In browser and device base path is different so we have to check
     if(isbrowserpreview){// eslint-disable-line no-undef
-      return this.getAssetUrl(org.ekstep.pluginframework.pluginManager.resolvePluginResource(this._manifest.id, this._manifest.ver, "renderer/assets/audio.png"));
+      return this.getAssetUrl(org.ekstep.pluginframework.pluginManager.resolvePluginResource(this._manifest.id, this._manifest.ver, "renderer/assets/"+icon));
     }
     else{
       //static url
-      return this.getAssetUrl("/content-plugins/"+this._manifest.id+"-"+this._manifest.ver+"/renderer/assets/audio.png");
+      return this.getAssetUrl("/content-plugins/"+this._manifest.id+"-"+this._manifest.ver+"/renderer/assets/"+icon);
     }
   },
    /**
