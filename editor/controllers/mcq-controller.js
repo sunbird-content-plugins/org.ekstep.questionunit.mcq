@@ -185,8 +185,8 @@ angular.module('mcqApp', ['org.ekstep.question'])
     }
     /**
    * invokes the asset browser to pick an image to add to either the question or the options
-   * @param {string} id if `q` then it is image for question, else for options
-   * @param {string} type if `id` is not `q` but an index, then it can be either 'LHS' or 'RHS'
+   * @param {string} type if `q` then it is image for question, else for options
+   * @param {string} index if `id` is not `q` but an index, then it can be either 'LHS' or 'RHS'
    * @param {string} mediaType `image` or `audio`
    */
     $scope.addMedia = function (type, index, mediaType) {
