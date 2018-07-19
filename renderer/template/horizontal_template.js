@@ -5,29 +5,57 @@ MCQController.getHorizontalTemplate = function () {
      <% _.each(question.data.options, function(val,key,index) { %> \
       <div class='qc-option-value mcq-option-value' onclick=MCQController.pluginInstance.logTelemetryInteract(event);MCQController.pluginInstance.selectedvalue(event,<%= key %>)> \
       <div class='qc-option-text'> \
-      <% if(val.image.length>0){%> \
+      <% if(MCQController.isImageIcon){%> \
       <div class='qc-opt'>\
-      <img class='qc-option-image' onclick='MCQController.showImageModel(event)' src=<%=MCQController.pluginInstance.getAssetUrl( val.image) %>>\
+      <%if(_.isEmpty(val.image)){%> \
+         <img class='qc-option-image' src=<%=MCQController.pluginInstance.getDefaultAsset(MCQController.pluginInstance._defaultImageIcon)%>>\
+        <%}else{%> \
+           <img class='qc-option-image' onclick='MCQController.showImageModel(event)' src=<%=MCQController.pluginInstance.getAssetUrl( val.image)%>>\
+          <%}%>\
       </div>\
       <% } %> \
-        <% if(val.audio.length>0){%> \
+        <% if(MCQController.isAudioIcon&&MCQController.isImageIcon){%> \
       <div class='qc-opt'>\
-      <img class='qc-horizontal-audio' onclick=MCQController.pluginInstance.playAudio('<%= val.audio %>')  src=<%=MCQController.pluginInstance.getAudioIcon() %>>\
+       <%if(_.isEmpty(val.audio)){%> \
+         <img class='qc-horizontal-audio-disable' src=<%=MCQController.pluginInstance.getDefaultAsset(MCQController.pluginInstance._defaultAudioIcon) %>>\
+        <%}else{%> \
+           <img class='qc-horizontal-audio' onclick=MCQController.pluginInstance.playAudio('<%= val.audio %>')  src=<%=MCQController.pluginInstance.getDefaultAsset(MCQController.pluginInstance._defaultAudioIcon) %>>\
+           <%}%>\
       </div>\
-      <% } %> \
-        <% if(val.audio.length>0 || val.image.length>0){%> \
+      <% }else if(MCQController.isAudioIcon&& !MCQController.isImageIcon){ %> \
+         <div class='qc-opt'>\
+       <%if(_.isEmpty(val.audio)){%> \
+         <img class='qc-horizontal-audio-txt-disable' src=<%=MCQController.pluginInstance.getDefaultAsset(MCQController.pluginInstance._defaultAudioIcon) %>>\
+        <%}else{%> \
+           <img class='qc-horizontal-audio-txt' onclick=MCQController.pluginInstance.playAudio('<%= val.audio %>')  src=<%=MCQController.pluginInstance.getDefaultAsset(MCQController.pluginInstance._defaultAudioIcon) %>>\
+           <%}%>\
+      </div>\
+        <%}%>\
+        <% if(!MCQController.isImageIcon && !MCQController.isAudioIcon){%> \
       <div class='qc-opt'> \
-      <span class='qc-option-txt'> \
+      <span class='qc-option-txt-only'> \
       <%=val.text%> \
       </span> \
        </div>\
-        <% }else{ %>  \
+       <% }else if(!MCQController.isAudioIcon &&MCQController.isImageIcon){ %>  \
             <div class='qc-opt'> \
+             <span class='qc-option-txt-image'> \
+      <%=val.text%> \
+      </span>\
+       </div>\
+        <% }else if(MCQController.isAudioIcon && !MCQController.isImageIcon){ %>  \
+           <div class='qc-opt'> \
+             <span class='qc-option-txt-audio'> \
+      <%=val.text%> \
+      </span>\
+       </div>\
+      <%}else{%> \
+        <div class='qc-opt'> \
              <span class='qc-option-txt'> \
       <%=val.text%> \
       </span>\
        </div>\
-      <%}%> \
+        <%}%> \
          </div> \
         <div class='qc-option-checkbox'> \
           <input type='radio' name='radio' value='pass' class='qc-option-input-checkbox' id='option'> \
