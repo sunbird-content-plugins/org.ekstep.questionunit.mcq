@@ -5,19 +5,24 @@ MCQController.initTemplate = function (pluginInstance) {
 MCQController.loadTemplateContent = function () {
   return "<div id='qs-mcq-template'><div id='qc-mcqlayout'></div></div>";
 },
-  MCQController.renderQuestion = function () {
-    var template = _.template(MCQController.getQuesLayout());
-    $("#qc-mcqlayout").html(template({
-      question: MCQController.pluginInstance._question
-    }));
-    MCQController.renderTemplateLayout(MCQController.pluginInstance._question);
-  },
+MCQController.isMediaAsset=function(question){
+  MCQController.isAudioIcon=!_.isUndefined(_.find(question.data.options,"audio"))?true:false;
+  MCQController.isImageIcon=!_.isUndefined(_.find(question.data.options,"image"))?true:false;
+}
+MCQController.renderQuestion = function () {
+  var template = _.template(MCQController.getQuesLayout());
+  $("#qc-mcqlayout").html(template({
+    question: MCQController.pluginInstance._question
+  }));
+  MCQController.renderTemplateLayout(MCQController.pluginInstance._question);
+},
   /**
    * render template using underscore
    * @param {Object} question from question set.
    * @memberof org.ekstep.questionunit.mcq.template_controller
    */
   MCQController.renderTemplateLayout = function (question) {
+    MCQController.isMediaAsset(question);
     var layout = question.config.layout;
     var template;
     switch (layout) {
@@ -61,7 +66,7 @@ MCQController.loadTemplateContent = function () {
     </div>\
     <% if ( question.data.question.audio.length > 0 ){ %> \
       <div class='mcq-question-audio'>\
-      <img class='qc-question-audio-image' src=<%=MCQController.pluginInstance.getAudioIcon() %> onclick=MCQController.pluginInstance.playAudio('<%= question.data.question.audio %>') > \
+      <img class='qc-question-audio-image' src=<%=MCQController.pluginInstance.getDefaultAsset(MCQController.pluginInstance._defaultAudioIcon) %> onclick=MCQController.pluginInstance.playAudio('<%= question.data.question.audio %>') > \
         </div>\
        <% } %> \
 </header>\

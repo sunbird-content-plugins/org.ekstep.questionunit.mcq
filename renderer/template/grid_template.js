@@ -9,7 +9,7 @@ MCQController.getGridTemplate = function () {
       <div class='qc-grid-option-text'>\
               <% if(val.option.audio.length > 0 && val.option.image.length == 0){%> \
           <div class='qc-opt'>\
-                   <img class='qc-vertical-audio-with-image' onclick=MCQController.pluginInstance.playAudio('<%= val.option.audio %>')  src=<%=MCQController.pluginInstance.getAudioIcon() %>>\
+                   <img class='qc-vertical-audio-with-image' onclick=MCQController.pluginInstance.playAudio('<%= val.option.audio %>')  src=<%=MCQController.pluginInstance.getDefaultAsset(MCQController.pluginInstance._defaultAudioIcon) %>>\
           </div>\
                 <%}%> \
                   <% if(val.option.image.length>0){%> \
@@ -29,7 +29,7 @@ MCQController.getGridTemplate = function () {
                                 </div> \
                  <% if(val.option.audio.length>0 && val.option.image.length > 0){%> \
                <div>\
-                      <img class='qc-grid-audio-with-image' onclick=MCQController.pluginInstance.playAudio('<%= val.option.audio %>')  src=<%=MCQController.pluginInstance.getAudioIcon() %>>\
+                      <img class='qc-grid-audio-with-image' onclick=MCQController.pluginInstance.playAudio('<%= val.option.audio %>')  src=<%=MCQController.pluginInstance.getDefaultAsset(MCQController.pluginInstance._defaultAudioIcon) %>>\
                </div>\
                 <%}%> \
             </div>\
@@ -49,7 +49,7 @@ MCQController.getGridTemplate = function () {
       <div class='qc-grid-option-text'>\
               <% if(val.option.audio.length > 0 && val.option.image.length == 0){%> \
           <div class='qc-opt'>\
-                   <img class='qc-vertical-audio-with-image' onclick=MCQController.pluginInstance.playAudio('<%= val.option.audio %>')  src=<%=MCQController.pluginInstance.getAudioIcon() %>>\
+                   <img class='qc-vertical-audio-with-image' onclick=MCQController.pluginInstance.playAudio('<%= val.option.audio %>')  src=<%=MCQController.pluginInstance.getDefaultAsset(MCQController.pluginInstance._defaultAudioIcon) %>>\
           </div>\
                 <%}%> \
                   <% if(val.option.image.length>0){%> \
@@ -69,7 +69,7 @@ MCQController.getGridTemplate = function () {
                                 </div> \
                  <% if(val.option.audio.length>0 && val.option.image.length > 0){%> \
                <div>\
-                      <img class='qc-grid-audio-with-image' onclick=MCQController.pluginInstance.playAudio('<%= val.option.audio %>')  src=<%=MCQController.pluginInstance.getAudioIcon() %>>\
+                      <img class='qc-grid-audio-with-image' onclick=MCQController.pluginInstance.playAudio('<%= val.option.audio %>')  src=<%=MCQController.pluginInstance.getDefaultAsset(MCQController.pluginInstance._defaultAudioIcon) %>>\
                </div>\
                 <%}%> \
             </div>\

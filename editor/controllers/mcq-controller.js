@@ -121,6 +121,11 @@ angular.module('mcqApp', ['org.ekstep.question'])
       var valid = false;
       var formValid = $scope.mcqForm.$valid && $scope.mcqFormData.options.length > 1;
       $scope.submitted = true;
+      if (!($scope.mcqFormData.question.text.length || $scope.mcqFormData.question.image.length || $scope.mcqFormData.question.audio.length)) {
+        $('.questionTextBox').addClass("ck-error");
+      } else {
+        $('.questionTextBox').removeClass("ck-error");
+      }
       if (!_.isUndefined($scope.selectedOption)) {
         _.each($scope.mcqFormData.options, function (k, v) {
           $scope.mcqFormData.options[v].isCorrect = false;
@@ -157,7 +162,7 @@ angular.module('mcqApp', ['org.ekstep.question'])
       $scope.editMedia = _.isEmpty(temp) ? 0 : _.union($scope.editMedia, temp);
       $scope.mcqFormData.media = _.isEmpty($scope.editMedia[0]) ? temp : $scope.editMedia;
       //check if audio is their then add audio icon in media array
-      if ($scope.optionsMedia.audio.length > 0 || _.has($scope.questionMedia, "audio")) $scope.addAudioImage();
+      if ($scope.mcqFormData.media.length > 0) $scope.addDefaultMedia();
       var formConfig = {};
       formConfig.formData = $scope.mcqFormData;
       if (formValid && opSel) {
@@ -173,22 +178,30 @@ angular.module('mcqApp', ['org.ekstep.question'])
     }
 
     //if audio added then audio icon id sent to ecml add stage
-    $scope.addAudioImage = function () {
-      var audioIcon = {
+    $scope.addDefaultMedia = function () {
+      var addAllMedia = [{
         id: "org.ekstep.questionset.audioicon",
         src: ecEditor.resolvePluginResource("org.ekstep.questionunit.mcq", "1.0", 'renderer/assets/audio.png'),
         assetId: "org.ekstep.questionset.audioicon",
         type: "image",
         preload: true
-      };
-      $scope.mcqFormData.media.push(audioIcon);
+      }, {
+        id: "org.ekstep.questionset.default-imgageicon",
+        src: ecEditor.resolvePluginResource("org.ekstep.questionunit.mcq", "1.0", 'renderer/assets/default-image.png'),
+        assetId: "org.ekstep.questionset.default-imgageicon",
+        type: "image",
+        preload: true
+      }];
+      addAllMedia.forEach(function (obj) {
+        $scope.mcqFormData.media.push(obj);
+      })
     }
     /**
-   * invokes the asset browser to pick an image to add to either the question or the options
-   * @param {string} type if `q` then it is image for question, else for options
-   * @param {string} index if `id` is not `q` but an index, then it can be either 'LHS' or 'RHS'
-   * @param {string} mediaType `image` or `audio`
-   */
+     * invokes the asset browser to pick an image to add to either the question or the options
+     * @param {string} type if `q` then it is image for question, else for options
+     * @param {string} index if `id` is not `q` but an index, then it can be either 'LHS' or 'RHS'
+     * @param {string} mediaType `image` or `audio`
+     */
     $scope.addMedia = function (type, index, mediaType) {
       var mediaObject = {
         type: mediaType,
@@ -208,25 +221,25 @@ angular.module('mcqApp', ['org.ekstep.question'])
         if (type == 'q') {
           telemetryObject.target.id = 'questionunit-mcq-add' + mediaType;
           $scope.mcqFormData.question[mediaType] = org.ekstep.contenteditor.mediaManager.getMediaOriginURL(data.assetMedia.src);
-          data.assetMedia.type == 'audio'  ? $scope.mcqFormData.question.audioName = data.assetMedia.name : '';
+          data.assetMedia.type == 'audio' ? $scope.mcqFormData.question.audioName = data.assetMedia.name : '';
           $scope.questionMedia[mediaType] = media;
         } else {
           telemetryObject.target.id = 'questionunit-mcq-option-add-' + mediaType;
           $scope.mcqFormData.options[index][mediaType] = org.ekstep.contenteditor.mediaManager.getMediaOriginURL(data.assetMedia.src);
-          data.assetMedia.type == 'audio'  ? $scope.mcqFormData.options[index].audioName = data.assetMedia.name : '';
+          data.assetMedia.type == 'audio' ? $scope.mcqFormData.options[index].audioName = data.assetMedia.name : '';
           $scope.optionsMedia[mediaType][index] = media;
         }
         $scope.generateTelemetry(telemetryObject)
       }
       questionServices.invokeAssetBrowser(mediaObject);
     }
-    $scope.addHint = function (id) {
-      if (id == 'q') {
-        $scope.qHint = true;
-      } else {
-        $scope.oHint[id] = true;
-      }
-    }
+
+    /**
+     * Deletes the selected media from the question element (question, LHS or RHS options)
+     * @param {string} type 
+     * @param {Integer} index 
+     * @param {string} mediaType 
+     */
     $scope.deleteMedia = function (type, index, mediaType) {
       var telemetryObject = { type: 'TOUCH', id: 'button', target: { id: '', ver: '', type: 'button' } };
       if (type == 'q') {
@@ -238,6 +251,15 @@ angular.module('mcqApp', ['org.ekstep.question'])
       }
       $scope.generateTelemetry(telemetryObject)
     }
+
+    $scope.addHint = function (id) {
+      if (id == 'q') {
+        $scope.qHint = true;
+      } else {
+        $scope.oHint[id] = true;
+      }
+    }
+
     $scope.deleteHint = function (id) {
       if (id == 'q') {
         $scope.qHint = false;
@@ -247,6 +269,11 @@ angular.module('mcqApp', ['org.ekstep.question'])
         $scope.mcqFormData.options[id].hint = '';
       }
     }
+
+    /**
+     * Helper function to generate telemetry event
+     * @param {Object} data telemetry data
+     */
     $scope.generateTelemetry = function (data) {
       data.plugin = data.plugin || {
         "id": $scope.mcqPluginInstance.id,
@@ -256,6 +283,9 @@ angular.module('mcqApp', ['org.ekstep.question'])
       questionServices.generateTelemetry(data);
     }
 
+    /**
+     * Callbacks object to be passed to the directive to manage selected media
+     */
     $scope.callbacks = {
       deleteMedia: $scope.deleteMedia,
       addMedia: $scope.addMedia,
