@@ -566,7 +566,6 @@ span.qc-option-txt-only {
   background-color: #4a4a4a;
   height: 75%;
 }
-<<<<<<< HEAD
 span.qc-option-txt{
     position: absolute;
     font-size: 85%;
@@ -616,7 +615,6 @@ img.qc-question-fullimage{
     font-size:20px;
 }
   
-=======
 
 .qc-option-txt-audio {
   position: absolute;
@@ -626,4 +624,3 @@ img.qc-question-fullimage{
   margin-top: -2%;
   vertical-align: top;
 }
->>>>>>> 23c1197ed4c6ec209578dea75e6a91db7167ddeb
