@@ -186,11 +186,17 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
     EkstepRendererAPI.dispatchEvent('org.ekstep.questionset:saveQuestionState', state);
   },
   selectOptionUI: function (event) {
-    if ($(event.target).hasClass(this._constant.mcqSelectOption.replace(".", ""))) {
+    if(this._question.config.layout != "Horizontal"){
+      if ($(event.target).hasClass(this._constant.mcqSelectOption.replace(".", ""))) {
       $(event.target).addClass(this._constant.optionSelectionUI);
-    } else {
-      $(event.target).parents(this._constant.mcqSelectOption).addClass(this._constant.optionSelectionUI);
+      } else {
+        $(event.target).parents(this._constant.mcqSelectOption).addClass(this._constant.optionSelectionUI);
+      }
+    }else{
+      $('.option').removeClass('selected');
+      $(event.target).parents('.option').toggleClass('selected');
     }
+    
     //event.stopPropagation(); //stop event because its added in all child template
   },
   logTelemetryInteract: function (event) {

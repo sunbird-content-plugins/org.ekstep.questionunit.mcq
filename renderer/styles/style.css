@@ -1,3 +1,8 @@
+#qc-mcqlayout{
+    width: 80%;
+    margin-left: 10%;
+}
+
 #qs-mcq-template {
   height: 90vh;
   margin: auto;
@@ -574,4 +579,263 @@ span.qc-option-txt-only {
   width: 80%;
   margin-top: -2%;
   vertical-align: top;
+}
+
+.mcq-horizontal-container .question {
+  position: relative;
+  height: 80px;
+  padding: 0;
+  border: 1px solid orange;
+  border-radius: 5px;
+}
+
+.mcq-horizontal-container .q-image img {
+  max-height: 72px;
+  max-width: 100px;
+  z-index: 1;
+}
+
+.mcq-horizontal-container .q-image {
+  border: 1px #eee solid;
+  max-width: 100px;
+  border-radius: 10px;
+  text-align: center;
+  float: left;
+}
+
+.mcq-horizontal-container .a-image img {
+  max-height: 60px;
+  max-width: 100px;
+  z-index: 1;
+}
+
+.mcq-horizontal-container .a-image {
+  max-width: 100px;
+  border-radius: 10px;
+  text-align: center;
+  float: left;
+}
+
+.mcq-horizontal-container .q-audio {
+  position: relative;
+  float: left;
+  padding-top: 4.5%;
+  margin-left: -2%;
+}
+
+.mcq-horizontal-container .q-audio img {
+  height: 22px;
+  width: 22px;
+  z-index: 99999;
+  cursor: pointer;
+}
+
+.mcq-horizontal-container .a-audio {
+  position: relative;
+  float: left;
+  padding-top: 3%;
+  margin-left: -1.5%;
+}
+
+.mcq-horizontal-container .a-audio img {
+  height: 22px;
+  width: 22px;
+  z-index: 99999;
+  cursor: pointer;
+}
+
+.mcq-horizontal-container .q-audio-only {
+  position: relative;
+  float: left;
+  padding-top: 4.5%;
+  margin: 0 10px 0 10px;
+}
+
+.mcq-horizontal-container .q-audio-only img {
+  height: 22px;
+  width: 22px;
+  z-index: 99999;
+  cursor: pointer;
+}
+
+.mcq-horizontal-container .a-audio-only {
+  position: relative;
+  float: left;
+  padding-top: 2%;
+  margin: 0 10px 0 10px;
+}
+
+.mcq-horizontal-container .a-audio-only img {
+  height: 22px;
+  width: 22px;
+  z-index: 99999;
+  cursor: pointer;
+}
+
+.mcq-horizontal-container .expand {
+  width: 100%;
+  position: absolute;
+  text-align: right;
+  bottom: 0;
+}
+
+.mcq-horizontal-container .expand img {
+  padding-right: 5px;
+  height: 20px;
+  width: 26px;
+  cursor: pointer;
+}
+
+.mcq-horizontal-container .q-text {
+  position: relative;
+  width: 72%;
+  float: left;
+  overflow: hidden;
+  max-height: 72px;
+}
+
+.mcq-horizontal-container .a-text {
+  position: relative;
+  width: 80%;
+  float: left;
+  overflow: hidden;
+  max-height: 55px;
+}
+
+.mcq-horizontal-container .q-text-content {
+  padding: 4px 5px;
+}
+
+.mcq-horizontal-container .a-text-content {
+  padding: 4px 5px;
+}
+
+.mcq-horizontal-container .answers {
+  overflow-y: scroll;
+  height: 200px;
+  position: relative;
+  padding: 0;
+  border-radius: 5px;
+}
+
+.mcq-horizontal-container .a-container: {
+  margin-top: 5px;
+}
+
+.mcq-horizontal-container .option {
+  position: relative;
+  height: 60px;
+  border-bottom: 2px #eee solid;
+  padding: 2px 0;
+  margin-bottom: 10px;
+}
+
+.mcq-horizontal-container .answers::-webkit-scrollbar {
+    width: 0.5em;
+}
+ 
+.mcq-horizontal-container .answers::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+ 
+.mcq-horizontal-container .answers::-webkit-scrollbar-thumb {
+  background-color: #65A0E6;
+  outline: 1px solid slategrey;
+}
+
+.mcq-horizontal-container .selected {
+  border-radius: 5px;
+  border: 2px solid #65A0E6;
+}
+.mcq-horizontal-container .multiline-ellipsis {
+    display: block;
+    display: -webkit-box;
+    line-height: 1.5em;
+    margin: 0 auto;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mcq-horizontal-container .two-line {
+  -webkit-line-clamp: 2;
+}
+
+.mcq-horizontal-container .three-line {
+  -webkit-line-clamp: 3;
+}
+
+/*MCQ expand question and option popup*/
+.mcq-expand-popup{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  z-index: 9999
+}
+.mcq-popup-container {
+  width: 100%;
+  height: 100vh;
+  display: block;
+  font-family: NotoSans;
+}
+.mcq-popup-image {
+  width: 50%;
+  float: left;
+  padding-right: 15px;
+}
+.mcq-popup-image img {
+  width: 100%;
+  height: 100%;
+}
+.mcq-popup-text {
+  padding: 0 10px;
+  display: block;
+  width: 100%;
+  height: 76vh;
+  overflow-y: auto;
+}
+.mcq-popup-audio{
+  text-align: left;
+  cursor: pointer;
+}
+.mcq-popup-audio img {
+  height: 42px;
+  width: 42px;
+}
+.mcq-popup-text p {
+  margin: 0;
+  color: #4c4c4c;
+  line-height: 1.4;
+  font-size: 14px;
+  text-align: left;
+  padding: 10px 0;
+}
+.mcq-popup-actions {
+  position: fixed;
+  bottom: 0;
+  text-align: center;
+  padding: 10px;
+  background-color: #fff;
+  width: 480px;
+  border-top: 1px solid rgba(34, 36, 38, .15);
+}
+.mcq-popup-back-button {
+  background-color: #65A0E6;
+  color: #fff;
+  border: none;
+  height: 36px;
+  width: 150px;
+  border-radius: 5px;
+  font-size: 1em;
+  outline: none;
+}
+.mcq-popup-text::-webkit-scrollbar {
+  width: 0.4em;
+}
+.mcq-popup-text::-webkit-scrollbar-thumb {
+  background-color: #65A0E6;
+  height: 75%;
 }
