@@ -225,11 +225,6 @@ img.qc-grid-option-image {
   position: absolute;
 }
 
-img.qc-question-fullimage {
-  width: 83%;
-  height: 100%;
-}
-
 audio.qc-question-audio {
   float: left;
 }
@@ -580,12 +575,6 @@ span.qc-option-txt{
     bottom: 87%;
 }
 
-img.qc-question-fullimage{
-    width:83%;
-    height:100%;
-}
-
-
 #image-model-popup .popup-overlay{
     opacity:0.8;
 }
@@ -603,7 +592,7 @@ img.qc-question-fullimage{
 }
 
 #image-model-popup img.qc-question-fullimage {
-    max-width: 60vw;
+    max-width: 100%;
     max-height: 100%;
 }
 
