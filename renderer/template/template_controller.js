@@ -84,11 +84,11 @@ MCQController.renderQuestion = function () {
     var eventData = event.target.src;
     var modelTemplate = "<div class='popup' id='image-model-popup' onclick='MCQController.hideImageModel()'><div class='popup-overlay' onclick='MCQController.hideImageModel()'></div> \
     <div class='popup-full-body'> \
-    <div class='font-lato assess-popup assess-goodjob-popup'> \
-     <img class='qc-question-fullimage' src=<%= src %> /> \
-      <div onclick='MCQController.hideImageModel()' class='qc-popup-close-button'>X</div> \
-      <div  class='qc-popup-close-button'>X</div> \
-    </div></div>";
+      <div class='font-lato assess-popup assess-goodjob-popup'> \
+        <img class='qc-question-fullimage' src=<%= src %> /> \
+        <div onclick='MCQController.hideImageModel()' class='qc-popup-close-button'>&times;</div> \
+      </div>\
+    </div>";
     var template = _.template(modelTemplate);
     var templateData = template({
       src: eventData
