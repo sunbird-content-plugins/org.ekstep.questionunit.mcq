@@ -28,11 +28,9 @@
   color: white;
   font-size: initial;
   text-align: center;
-  line-height: 1;
   height: 100%;
   width: 75%;
   display: inline-block;
-  padding-top: 0;
   padding: 1% 1% 1% 1%;
   line-height: 1.3;
 }
@@ -581,6 +579,7 @@ span.qc-option-txt-only {
   vertical-align: top;
 }
 
+/* MCQ Horizontal Template Styling */
 .mcq-horizontal-container .question {
   position: relative;
   height: 80px;
@@ -718,7 +717,7 @@ span.qc-option-txt-only {
   border-radius: 5px;
 }
 
-.mcq-horizontal-container .a-container: {
+.mcq-horizontal-container .a-container {
   margin-top: 5px;
 }
 
@@ -805,13 +804,13 @@ span.qc-option-txt-only {
   height: 42px;
   width: 42px;
 }
-.mcq-popup-text p {
+.mcq-popup-text .mcq-popup-text-content {
   margin: 0;
   color: #4c4c4c;
   line-height: 1.4;
   font-size: 14px;
   text-align: left;
-  padding: 10px 0;
+  padding: 0 0 20px 0;
 }
 .mcq-popup-actions {
   position: fixed;
@@ -819,7 +818,7 @@ span.qc-option-txt-only {
   text-align: center;
   padding: 10px;
   background-color: #fff;
-  width: 480px;
+  width: 82%;
   border-top: 1px solid rgba(34, 36, 38, .15);
 }
 .mcq-popup-back-button {

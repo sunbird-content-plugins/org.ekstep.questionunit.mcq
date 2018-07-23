@@ -140,9 +140,9 @@ MCQController.renderQuestion = function () {
             <img src='<%=MCQController.pluginInstance.getDefaultAsset('audio-icon.png') %>' onclick=MCQController.pluginInstance.playAudio('<%= data.audio %>')>\
           </div>\
         <%}%>\
-        <p>\
+        <div class='mcq-popup-text-content'>\
         <%= data.text %>\
-        </p>\
+        </div>\
       </div>\
       <div class = 'mcq-popup-actions'>\
         <button class = 'mcq-popup-back-button' onclick=MCQController.closePopup();><%= (MCQController.currentPopUp == 'question') ? 'Answer' : 'Back' %></button>\
@@ -155,6 +155,7 @@ MCQController.renderQuestion = function () {
       data: data
     })
     $(".mcq-horizontal-container").append(templateData);
+    EkstepRendererAPI.dispatchEvent('org.ekstep.questionunit:rendermath');
 };
 
 MCQController.closePopup = function () {
