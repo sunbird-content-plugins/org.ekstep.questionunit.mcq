@@ -691,6 +691,7 @@ span.qc-option-txt-only {
   float: left;
   overflow: hidden;
   max-height: 72px;
+  text-align: left;
 }
 
 .mcq-horizontal-container .a-text {
@@ -699,6 +700,7 @@ span.qc-option-txt-only {
   float: left;
   overflow: hidden;
   max-height: 55px;
+  text-align: left;
 }
 
 .mcq-horizontal-container .q-text-content {
