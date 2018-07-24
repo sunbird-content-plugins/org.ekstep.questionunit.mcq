@@ -106,10 +106,6 @@
   margin-top: 2%;
   margin-bottom: 2%;
 }
-
-/*.headQA {
-  margin-top: 3%;
-}*/
 .qHeader{
   font-size: 1.42rem;
   padding: 0;
@@ -177,6 +173,15 @@ i.large.icon.delete-icon{
 .imgWidth{
   display: block;
   width: 70%;
+}
+.qc-mcq-multiple-option{
+  float: right;
+}
+.qc-error-text{
+    color: red;
+    transition: all linear 0.5s;
+    font-size: medium;
+    margin-top: -18%;
 }
 .ck-error{
   border: 1px solid red;
