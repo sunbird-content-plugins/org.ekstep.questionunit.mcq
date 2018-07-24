@@ -22,6 +22,7 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
   _selectedIndex: [],
   _lastAudio: undefined,
   _currentAudio: undefined,
+  _totalCorrectAns:[],
   setQuestionTemplate: function() {
     this._question.template = MCQController.loadTemplateContent(); // eslint-disable-line no-undef
     MCQController.initTemplate(this); // eslint-disable-line no-undef
@@ -49,6 +50,7 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
     QSTelemetryLogger.logEvent(QSTelemetryLogger.EVENT_TYPES.ASSESS); // eslint-disable-line no-undef
     MCQController.renderQuestion(); // eslint-disable-line no-undef
     this._selectedIndex = [];
+    this.getCorrectAnswerCount(this._question.data.options,this);
     if (this._question.state && _.has(this._question.state, 'val')) {
       this._selectedIndex = this._question.state.val;
       _.each(this._selectedIndex, function(val) {
@@ -57,6 +59,16 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
     } else {
       this._selectedIndex = [];
     }
+  },
+  /**
+   * on page load get all correct answer for user select ex: 
+   * @memberof org.ekstep.questionunit.mcq
+   * @param {Object} option from question set.
+   */
+  getCorrectAnswerCount:function(option,instance){
+    _.each(option,function(val){
+        if (val.isCorrect) instance._totalCorrectAns.push(val);
+    })
   },
   /**
    * grid layout divide option
@@ -87,7 +99,7 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
   evaluateQuestion: function(event) {
     var callback = event.target;
     var totalSelectedCorrectAns = 0,
-      totalCorrectAns = 0,
+     // totalCorrectAns = 0,
       correctAnswer = false,
       telemetryValues = [],
       selectedOption = [],
@@ -101,7 +113,7 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
     option = instance._question.data.options;
     _.each(option, function(val, index) {
       //get all correct option count
-      if (val.isCorrect) totalCorrectAns++;
+      // if (val.isCorrect) totalCorrectAns++;
       //chcck selected option index and option index
       if (instance._selectedIndex.indexOf(index) != -1) {
         //get all selected option in  selectedoption array
@@ -120,7 +132,7 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
     //1.check total correct answer in question object and total selected correct answer
     //2.check selected correct answer length and total correct answer length
     // both and condition required in evalution
-    if (totalCorrectAns == totalSelectedCorrectAns && instance._selectedIndex.length == totalCorrectAns) {
+    if (instance._totalCorrectAns.length == totalSelectedCorrectAns && instance._selectedIndex.length == instance._totalCorrectAns.length) {
       correctAnswer = true;
     }
     var partialScore = this._question.config.partial_scoring ? (totalSelectedCorrectAns / option.length) * this._question.config.max_score : 0;
@@ -133,7 +145,7 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
       score: partialScore, // eslint-disable-line no-undef
       values: selectedOption,
       noOfCorrectAns: totalSelectedCorrectAns,
-      totalAns: totalCorrectAns
+      totalAns: instance._totalCorrectAns.length
     }
     if (_.isFunction(callback)) {
       callback(result);
@@ -198,14 +210,14 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
       value, telemetryValues = {},
       instance;
     instance = MCQController.pluginInstance;// eslint-disable-line no-undef
-    if ($('input:checkbox[name=checkbox]')[index].checked) {
+    if (!$('input:checkbox[name=checkbox]')[index].checked && ($("input:checkbox[name=checkbox]:checked").length<instance._totalCorrectAns.length)) {
+       $('input:checkbox[name=checkbox]')[index].checked = true;
+      //if check add value from select index
+      instance._selectedIndex.push(index);
+    } else {
       $('input:checkbox[name=checkbox]')[index].checked = false;
       //if uncheck remove value from select index
       instance._selectedIndex = _.without(instance._selectedIndex, index);
-    } else {
-      $('input:checkbox[name=checkbox]')[index].checked = true;
-      //if check add value from select index
-      instance._selectedIndex.push(index);
     }
     if (!_.isUndefined(event)) {
       // this.selectOptionUI(event);//eslint-disable-line no-undef
