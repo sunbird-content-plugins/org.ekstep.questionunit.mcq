@@ -716,6 +716,7 @@ span.qc-option-txt-only {
   height: 200px;
   position: relative;
   padding: 0;
+  padding-bottom: 14%;
   border-radius: 5px;
 }
 
@@ -839,4 +840,7 @@ span.qc-option-txt-only {
 .mcq-popup-text::-webkit-scrollbar-thumb {
   background-color: #65A0E6;
   height: 75%;
+}
+.qc-grid-option-container .selected{
+    background-color: #4a90e2;
 }

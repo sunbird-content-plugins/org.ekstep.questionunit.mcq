@@ -1,6 +1,6 @@
 var MCQController = MCQController || {};
 MCQController.getHorizontalTemplate = function () {
-return "<div class='mcq-horizontal-container'><div class='q-container'>\
+ return "<div class='mcq-horizontal-container'><div class='q-container'>\
   <div class='question'>\
     <div class='q-media'>\
     <% if ( question.data.question.image){ %> \
@@ -31,8 +31,8 @@ return "<div class='mcq-horizontal-container'><div class='q-container'>\
 <div class='a-container'>\
   <div class='answers'>\
   <% _.each(question.data.options, function(val,key,index) { %> \
-    <div class='option' onclick=MCQController.pluginInstance.logTelemetryInteract(event);MCQController.pluginInstance.selectedvalue(event,<%= key %>)>\
-      <input type='radio' name='radio' style='display: none;'/>\
+    <div class='option' id='active<%= key %>' onclick=MCQController.pluginInstance.logTelemetryInteract(event);MCQController.pluginInstance.selectedvalue(event,<%= key %>)>\
+      <input type='checkbox' name='checkbox' style='display: none;'/>\
       <div class='a-media'>\
         <% if ( val.image){ %> \
           <div class='a-image'>\

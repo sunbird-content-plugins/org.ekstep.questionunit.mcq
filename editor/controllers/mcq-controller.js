@@ -73,6 +73,7 @@ angular.module('mcqApp', [])
       $scope.generateTelemetry({type: 'SCROLL', id: 'form', target: {id: 'questionunit-mcq-form', ver: '', type: 'form'}})
     });
     $scope.init = function () {
+      $scope.mcqFormData.multipleOption=true;
       EventBus.listeners['org.ekstep.questionunit.mcq:validateform'] = [];
       ecEditor.addEventListener('org.ekstep.questionunit.mcq:validateform',function(event, callback){
         var validationRes = $scope.formValidation();

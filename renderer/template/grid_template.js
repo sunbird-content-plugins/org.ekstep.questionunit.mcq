@@ -5,7 +5,7 @@ MCQController.getGridTemplate = function () {
 <div class='qc-grid-option-outer-value'> \
 <div class='qc-grid-option-value'> \
   <div class='qc-grid-option-text-outer' id=<%=key%>  onclick=MCQController.pluginInstance.logTelemetryInteract(event);MCQController.checkOptioninGrid(<%=val.keyIndex%>);MCQController.pluginInstance.selectedvalue(event,<%=val.keyIndex%>) id='option'> \
-  <div class='mcq-selected-option'></div> \
+  <div class='mcq-selected-option' id='active<%=val.keyIndex%>'></div> \
       <div class='qc-grid-option-text'>\
               <% if(val.option.audio.length > 0 && val.option.image.length == 0){%> \
           <div class='qc-opt'>\
@@ -25,7 +25,7 @@ MCQController.getGridTemplate = function () {
       </div>\
             <div class='qc-option-grid-checkbox'> \
                                 <div class='grid-check-space'> \
-                                    <input type='radio' name='radio' value='pass' class='qc-option-input-checkbox'> \
+                                    <input type='checkbox' name='checkbox' value='pass' class='qc-option-input-checkbox'> \
                                 </div> \
                  <% if(val.option.audio.length>0 && val.option.image.length > 0){%> \
                <div>\
@@ -45,7 +45,7 @@ MCQController.getGridTemplate = function () {
 <div class='qc-grid-option-outer-value'> \
 <div class='qc-grid-option-value'> \
   <div class='qc-grid-option-text-outer mcq-option-value' id=<%=key%> onclick=MCQController.pluginInstance.logTelemetryInteract(event);MCQController.checkOptioninGrid(<%=val.keyIndex%>);MCQController.pluginInstance.selectedvalue(event,<%=val.keyIndex%>) id='option'> \
-  <div class='mcq-selected-option'></div> \
+  <div class='mcq-selected-option' id='active<%=val.keyIndex%>'></div> \
       <div class='qc-grid-option-text'>\
               <% if(val.option.audio.length > 0 && val.option.image.length == 0){%> \
           <div class='qc-opt'>\
@@ -65,7 +65,7 @@ MCQController.getGridTemplate = function () {
       </div>\
             <div class='qc-option-grid-checkbox'> \
                                 <div class='grid-check-space'> \
-                                    <input type='radio' name='radio' value='pass' class='qc-option-input-checkbox'> \
+                                    <input type='checkbox' name='checkbox' value='pass' class='qc-option-input-checkbox'> \
                                 </div> \
                  <% if(val.option.audio.length>0 && val.option.image.length > 0){%> \
                <div>\
@@ -80,8 +80,4 @@ MCQController.getGridTemplate = function () {
 </div> \
 <%}%>\
       </div>";
-};
-MCQController.checkOptioninGrid = function (index) {
-  $(".mcq-selected-option").removeClass("mcq-option-checked");
-  $('.mcq-selected-option').eq(index).addClass('mcq-option-checked');
 };
