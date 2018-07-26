@@ -28,19 +28,11 @@
                     <div class="one column row segment-column">
                       <div class="column right floated">
                         <span class="custom-bottom-label">Add: </span>
-                        <span class="custom-bottom-segment ui icon" ng-if="mcqFormData.question.image.length <= 0" data-tooltip="Add image" data-inverted=""
+                        <span class="custom-bottom-segment ui icon"  data-tooltip="{{!mcqFormData.question.image ? 'Add Image' : 'Edit Image'}}" data-inverted=""
                           ng-click="addMedia('q','', 'image')">
                           <i class="image large icon"></i>
                         </span>
-                        <span class="custom-bottom-segment ui icon" ng-if="mcqFormData.question.image.length > 0" data-tooltip="Edit image" data-inverted=""
-                          ng-click="addMedia('q','', 'image')">
-                          <i class="image large icon"></i>
-                        </span>
-                        <span class="custom-bottom-segment ui icon" ng-if="mcqFormData.question.audio.length <= 0" data-tooltip="Add audio" data-inverted=""
-                          ng-click="addMedia('q','', 'audio')">
-                          <i class="music large icon"></i>
-                        </span>
-                        <span class="custom-bottom-segment ui icon" ng-if="mcqFormData.question.audio.length > 0" data-tooltip="Edit audio" data-inverted=""
+                        <span class="custom-bottom-segment ui icon" data-tooltip="{{!mcqFormData.question.audio ? 'Add Audio' : 'Edit Audio'}}" data-tooltip="Add audio" data-inverted=""
                           ng-click="addMedia('q','', 'audio')">
                           <i class="music large icon"></i>
                         </span>
@@ -60,16 +52,11 @@
                   <div class="ui grid">
                     <div class="eleven wide column">
                       <div class="form-group segment textBoxDiv">
-                        <input type="text" class="form-control textbox" ng-class="{'has-success':mcqForm['options_' + $index].$valid, 'has-error': submitted && mcqForm['options_' + $index].$error.required}"
-                          placeholder="Enter answer" name="options_{{$index}}" ng-model="mcqFormData.options[key].text" maxlength="60"
-                          ng-init="focused = false" ng-focus="focused = true;generateTelemetry({type: 'TOUCH', id: 'input', target: {id: 'questionunit-mcq-answer', ver: '', type: 'input'}})"
-                          ng-blur="focused = false" ng-required="!(mcqFormData.options[key].text.length || mcqFormData.options[key].image.length || mcqFormData.options[key].audio.length)"
-                        />
+                        <input type="text" class="form-control textbox" ng-class="{'has-success':mcqForm['options_' + $index].$valid, 'has-error': submitted && mcqForm['options_' + $index].$error.required}" placeholder="Enter answer" name="options_{{$index}}" ng-model="mcqFormData.options[key].text" maxlength="1000" ng-init="focused = false" ng-focus="focused = true;generateTelemetry({type: 'TOUCH', id: 'input', target: {id: 'questionunit-mcq-answer', ver: '', type: 'input'}})" ng-blur="focused = false" ng-required="!(mcqFormData.options[key].text.length || mcqFormData.options[key].image.length || mcqFormData.options[key].audio.length)"/>
                       </div>
                     </div>
                     <div class="one wide column text-len">
-                      <span class="maxLengthText">{{value.text.length}}
-                        <span class="length-divider">/</span>60</span>
+                      <span class="maxLengthText">{{value.text.length}}<span class="length-divider">/</span>1000</span>
                     </div>
                     <div class="twelve wide column">
                       <selected-media-container media-callbacks="callbacks" class="row" formdata="mcqFormData.options[key]" media-type='op' media-index='key'></selected-media-container>
@@ -93,19 +80,11 @@
                       </div>
                       <div class="column right aligned">
                         <span class="custom-bottom-label">Add: </span>
-                        <span class="custom-bottom-segment ui icon" ng-if="mcqFormData.options[key].image.length <= 0" data-tooltip="Add image" data-inverted=""
+                        <span class="custom-bottom-segment ui icon" data-tooltip="{{!mcqFormData.options[key].image ? 'Add Image' : 'Edit Image'}}" data-inverted=""
                           ng-click="addMedia('op', key, 'image')">
                           <i class="image large icon"></i>
                         </span>
-                        <span class="custom-bottom-segment ui icon" ng-if="mcqFormData.options[key].image.length > 0" data-tooltip="Edit image" data-inverted=""
-                          ng-click="addMedia('op', key, 'image')">
-                          <i class="image large icon"></i>
-                        </span>
-                        <span class="custom-bottom-segment ui icon" ng-if="mcqFormData.options[key].audio.length <= 0" data-tooltip="Add audio" data-inverted=""
-                          ng-click="addMedia('op', key, 'audio')">
-                          <i class="music large icon"></i>
-                        </span>
-                        <span class="custom-bottom-segment ui icon" ng-if="mcqFormData.options[key].audio.length > 0" data-tooltip="Edit audio" data-inverted=""
+                        <span class="custom-bottom-segment ui icon" data-tooltip="{{!mcqFormData.options[key].audio ? 'Add Audio' : 'Edit Audio'}}" data-inverted=""
                           ng-click="addMedia('op', key, 'audio')">
                           <i class="music large icon"></i>
                         </span>
