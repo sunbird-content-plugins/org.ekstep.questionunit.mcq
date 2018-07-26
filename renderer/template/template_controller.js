@@ -127,7 +127,10 @@ MCQController.renderQuestion = function () {
   }else{
     data = MCQController.pluginInstance._question.data.options[id];
   }
-  var mcqpopupTemplate = "<div class = 'mcq-expand-popup'>\
+  var mcqpopupTemplate = " <div class='mcq-expand-popup' onclick=MCQController.closePopup()>\
+  <div class='popup' style='z-index: 9999999'>\
+   <div class='popup-overlay'></div>\
+   <div class='popup-full-body'>\
     <div class = 'mcq-popup-container'>\
       <div class = 'mcq-popup-text'>\
         <%if(!_.isEmpty(data.image)){%> \
@@ -143,18 +146,20 @@ MCQController.renderQuestion = function () {
         <div class='mcq-popup-text-content'>\
         <%= data.text %>\
         </div>\
-      </div>\
       <div class = 'mcq-popup-actions'>\
         <button class = 'mcq-popup-back-button' onclick=MCQController.closePopup();><%= (MCQController.currentPopUp == 'question') ? 'Answer' : 'Back' %></button>\
       </div>\
+       </div>\
     </div>\
+     </div>\
+       </div>\
   </div>";
     var template = _.template(mcqpopupTemplate);
     
     var templateData = template({
       data: data
     })
-    $(".mcq-horizontal-container").append(templateData);
+    $("#questionset").append(templateData);
     EkstepRendererAPI.dispatchEvent('org.ekstep.questionunit:rendermath');
 };
 
