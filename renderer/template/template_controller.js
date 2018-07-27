@@ -126,7 +126,10 @@ MCQController.openPopup = function(id) {
   } else {
     data = MCQController.pluginInstance._question.data.options[id];
   }
-  var mcqpopupTemplate = "<div class = 'mcq-expand-popup'>\
+  var mcqpopupTemplate = " <div class='mcq-expand-popup'>\
+  <div class='popup' style='z-index: 9999999'>\
+   <div class='popup-overlay'></div>\
+   <div class='mcq-popup-full-body'>\
     <div class = 'mcq-popup-container'>\
       <div class = 'mcq-popup-text'>\
         <%if(!_.isEmpty(data.image)){%> \
@@ -142,20 +145,23 @@ MCQController.openPopup = function(id) {
         <div class='mcq-popup-text-content'>\
         <%= data.text %>\
         </div>\
-      </div>\
+        </div>\
       <div class = 'mcq-popup-actions'>\
         <button class = 'mcq-popup-back-button' onclick=MCQController.closePopup();><%= (MCQController.currentPopUp == 'question') ? 'Answer' : 'Back' %></button>\
-      </div>\
+       </div>\
     </div>\
+     </div>\
+       </div>\
   </div>";
-  var template = _.template(mcqpopupTemplate);
-  var templateData = template({
-    data: data
-  })
-  $(".mcq-horizontal-container").append(templateData);
-  EkstepRendererAPI.dispatchEvent('org.ekstep.questionunit:rendermath');
-  //stop bubbling when we click on image checkbox click event also fired.
-  event.stopPropagation();
+    var template = _.template(mcqpopupTemplate);
+    
+    var templateData = template({
+      data: data
+    })
+    $("#questionset").append(templateData);
+    EkstepRendererAPI.dispatchEvent('org.ekstep.questionunit:rendermath');
+    //stop bubbling when we click on image checkbox click event also fired.
+    event.stopPropagation();
 };
 MCQController.closePopup = function() {
   $(".mcq-expand-popup").remove();
