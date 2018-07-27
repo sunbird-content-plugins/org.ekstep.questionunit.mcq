@@ -293,29 +293,29 @@ angular.module('mcqApp', [])
       })
     }
     $scope.validateSingleOption = function(pos) {
-    if (!$scope.mcqFormData.multipleOption) {
-      _.each($scope.mcqFormData.options, function(value, index) {
-        if (pos != index) {
-          value.isCorrect = false;
-        }
-      })
+      if (!$scope.mcqFormData.multipleOption) {
+        _.each($scope.mcqFormData.options, function(value, index) {
+          if (pos != index) {
+            value.isCorrect = false;
+          }
+        })
+      }
     }
-  }
-   $scope.handleMultipleOption = function() {
-    $scope.errorOptionCount=false;
-    var tempOptionCout = 0;
-    _.each($scope.mcqFormData.options, function(value) {
-      if (value.isCorrect) tempOptionCout++;
-    });
-    if (tempOptionCout > 1) {
-      $scope.errorOptionCount=true;
-      $scope.mcqFormData.multipleOption = true;
+    $scope.handleMultipleOption = function() {
+      $scope.errorOptionCount=false;
+      var tempOptionCout = 0;
+      _.each($scope.mcqFormData.options, function(value) {
+        if (value.isCorrect) tempOptionCout++;
+      });
+      if (tempOptionCout > 1) {
+        $scope.errorOptionCount=true;
+        $scope.mcqFormData.multipleOption = true;
+      }
+      ecEditor.dispatchEvent('editor:handle:partialscoring',$scope.mcqFormData.multipleOption,function(partial){
+        $scope.mcqFormData.multipleOption = partial;
+        $scope.$safeApply();
+      });
     }
-    ecEditor.dispatchEvent('editor:handle:partialscoring',$scope.mcqFormData.multipleOption,function(partial){
-      $scope.mcqFormData.multipleOption = partial;
-      $scope.$safeApply();
-    });
-  }
     $scope.init();
   }]);
 //# sourceURL=horizontalMCQ.js

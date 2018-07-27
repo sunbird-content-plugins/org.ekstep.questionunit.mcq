@@ -1,6 +1,5 @@
 describe("MCQ Editor template controller", function() {
-  var $controller, $scope, ctrl, $rootScope, telemetryService,data;
-
+  var $controller, $scope, ctrl, $rootScope, telemetryService, data;
   beforeEach(module('mcqApp'));
   beforeEach(function(done) {
     setTimeout(function() {
@@ -23,24 +22,21 @@ describe("MCQ Editor template controller", function() {
           "audio": "",
           "hint": ""
         },
-        "options": [
-        {
+        "options": [{
           "text": "A",
           "image": "",
           "audio": "",
           "hint": "",
           "isCorrect": true,
           "$$hashKey": "object:716"
-        },
-        {
+        }, {
           "text": "B",
           "image": "",
           "audio": "",
           "hint": "",
           "isCorrect": false,
           "$$hashKey": "object:717"
-        }
-        ],
+        }],
         "questionCount": 0,
         "media": []
       };
@@ -57,37 +53,30 @@ describe("MCQ Editor template controller", function() {
             "audio": "",
             "hint": ""
           },
-          "options": [
-          {
+          "options": [{
             "text": "A",
             "image": "",
             "audio": "",
             "hint": "",
             "isCorrect": true,
             "$$hashKey": "object:716"
-          },
-          {
+          }, {
             "text": "B",
             "image": "",
             "audio": "",
             "hint": "",
             "isCorrect": false,
             "$$hashKey": "object:717"
-          }
-          ],
+          }],
           "media": []
         },
         "config": {
           "metadata": {
             "category": "MCQ",
             "title": "ydghfgg",
-            "language": [
-            "English"
-            ],
+            "language": ["English"],
             "qlevel": "EASY",
-            "gradeLevel": [
-            "Grade 1"
-            ],
+            "gradeLevel": ["Grade 1"],
             "description": "jfvjhfj",
             "max_score": 1
           },
@@ -113,23 +102,23 @@ describe("MCQ Editor template controller", function() {
         }
       };
       $scope.audio = function(event, data) {
-       if (data && data.callback) data.callback(audioData);
+        if (data && data.callback) data.callback(audioData);
       };
       var imageData = {
-       "asset": "do_21244188730232012811910",
-       "assetMedia": {
-         "id": "do_21244188730232012811910",
-         "src": "https://ekstep-public-qa.s3-ap-south-1.amazonaws.com/content/do_21244188730232012811910/artifact/113-600x337_1518785071391.jpg",
-         "type": "image"
+        "asset": "do_21244188730232012811910",
+        "assetMedia": {
+          "id": "do_21244188730232012811910",
+          "src": "https://ekstep-public-qa.s3-ap-south-1.amazonaws.com/content/do_21244188730232012811910/artifact/113-600x337_1518785071391.jpg",
+          "type": "image"
         }
       }
       $scope.image = function(event, data) {
-       if (data && data.callback) data.callback(imageData);
+        if (data && data.callback) data.callback(imageData);
       };
       $scope.mcqForm = {
         $valid: true
       };
-      $scope.questionMedia={};
+      $scope.questionMedia = {};
       ctrl = $controller('mcqQuestionFormController', {
         $scope: $scope,
         $rootScope: $rootScope
@@ -157,48 +146,48 @@ describe("MCQ Editor template controller", function() {
       expect(validform.isValid).toBe(false);
     });
     it("checkform validation false function", function() {
-      $scope.mcqForm.$valid= false
+      $scope.mcqForm.$valid = false
       var validform = $scope.formValidation();
       expect(validform.isValid).toBe(false);
     });
-    it("should add media in array",function(){
-     $scope.questionMedia.image=["image"];
-     $scope.questionMedia.audio=["audio"];
-     $scope.formValidation();
-   });
-    it("should add hint",function(){
-     var id = 'q';
-     $scope.addHint(id);
-     expect($scope.qHint).toBe(true);
-     id=1;
-     $scope.addHint(id);
-     expect($scope.oHint[id]).toBe(true);
-   });
-    it("should delete hint",function(){
-     var id = 'q';
-     $scope.deleteHint(id);
-     expect($scope.qHint).toBe(false);
-     id=1;
-     $scope.deleteHint(id);
-     expect($scope.oHint[id]).toBe(false);
-   });
-    it("should delete image",function(){
-     var id = 'q';
-     $scope.deleteImage(id);
-     expect($scope.mcqFormData.question.image).toBe('');
-     id=1;
-     $scope.deleteImage(id);
-     expect($scope.mcqFormData.options[id].image).toBe('');
-   });
-    it("should delete audio",function(){
-     var id = 'q';
-     $scope.deleteAudio(id);
-     expect($scope.mcqFormData.question.audio).toBe('');
-     expect($scope.isPlayingQ).toBe(false);
-     id=1;
-     $scope.deleteAudio(id);
-     expect($scope.mcqFormData.options[id].audio).toBe('');
-   });
+    it("should add media in array", function() {
+      $scope.questionMedia.image = ["image"];
+      $scope.questionMedia.audio = ["audio"];
+      $scope.formValidation();
+    });
+    it("should add hint", function() {
+      var id = 'q';
+      $scope.addHint(id);
+      expect($scope.qHint).toBe(true);
+      id = 1;
+      $scope.addHint(id);
+      expect($scope.oHint[id]).toBe(true);
+    });
+    it("should delete hint", function() {
+      var id = 'q';
+      $scope.deleteHint(id);
+      expect($scope.qHint).toBe(false);
+      id = 1;
+      $scope.deleteHint(id);
+      expect($scope.oHint[id]).toBe(false);
+    });
+    it("should delete image", function() {
+      var id = 'q';
+      $scope.deleteImage(id);
+      expect($scope.mcqFormData.question.image).toBe('');
+      id = 1;
+      $scope.deleteImage(id);
+      expect($scope.mcqFormData.options[id].image).toBe('');
+    });
+    it("should delete audio", function() {
+      var id = 'q';
+      $scope.deleteAudio(id);
+      expect($scope.mcqFormData.question.audio).toBe('');
+      expect($scope.isPlayingQ).toBe(false);
+      id = 1;
+      $scope.deleteAudio(id);
+      expect($scope.mcqFormData.options[id].audio).toBe('');
+    });
     it("Should add answer", function() {
       $scope.addAnswerField();
     });
@@ -210,22 +199,21 @@ describe("MCQ Editor template controller", function() {
       var id = 'q';
       ecEditor.addEventListener('org.ekstep.assetbrowser:show', $scope.audio, $scope);
       $scope.addAudio(id);
-      id=1;
+      id = 1;
       $scope.addAudio(id);
-      setTimeout(function(){
+      setTimeout(function() {
         done();
-       }, 1000);
-
+      }, 1000);
     });
     it("Should addImage", function(done) {
       var id = 'q';
       ecEditor.addEventListener('org.ekstep.assetbrowser:show', $scope.image, $scope);
       $scope.addImage(id);
-      id=1;
+      id = 1;
       $scope.addImage(id);
-      setTimeout(function(){
+      setTimeout(function() {
         done();
-       }, 1000);
+      }, 1000);
     });
     it("should generate telemetry with data", function() {
       var data = {
@@ -237,9 +225,9 @@ describe("MCQ Editor template controller", function() {
           "type": "input"
         }
       };
-      $scope.mcqPluginInstance={
-        id:"mcq",
-        ver:1.0
+      $scope.mcqPluginInstance = {
+        id: "mcq",
+        ver: 1.0
       };
       $scope.generateTelemetry(data);
       expect(ecEditor.getService).toHaveBeenCalledWith('telemetry');
@@ -248,6 +236,22 @@ describe("MCQ Editor template controller", function() {
       $scope.generateTelemetry();
       expect(ecEditor.getService).not.toHaveBeenCalledWith('telemetry');
     });
+    it("Validate single option", function() {
+      $scope.validateSingleOption("1");
+      expect($scope.mcqFormData.options[1].isCorrect).toBe(false);
+    })
+    it("Validate single option with multiple option false", function() {
+      $scope.mcqFormData.multipleOption = false;
+      $scope.validateSingleOption("1");
+      expect($scope.mcqFormData.options[0].isCorrect).toBe(false);
+    })
+    it("handleMultipleOption", function() {
+      $scope.errorOptionCount = false;
+      $scope.mcqFormData.options[1].isCorrect = true;
+      $scope.mcqFormData.options[0].isCorrect = true;
+      $scope.handleMultipleOption();
+      expect($scope.mcqFormData.multipleOption).toBe(true);
+    })
   });
 });
 //# sourceURL=mcq-controller.spec.js
