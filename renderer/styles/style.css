@@ -774,7 +774,7 @@ span.qc-option-txt-only {
   left: 0;
   right: 0;
   background: #fff;
-  z-index: 9999
+  z-index: 9999;
   width: 100%;
 }
 .mcq-popup-container {
