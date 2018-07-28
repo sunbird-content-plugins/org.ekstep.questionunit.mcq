@@ -230,6 +230,9 @@ angular.module('mcqApp', ['org.ekstep.question'])
           $scope.optionsMedia[mediaType][index] = media;
         }
         $scope.generateTelemetry(telemetryObject)
+        if(!$scope.$$phase) {
+          $scope.$digest()
+        }
       }
       questionServices.invokeAssetBrowser(mediaObject);
     }
