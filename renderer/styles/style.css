@@ -878,3 +878,11 @@ span.qc-option-txt{
   background-color: #65A0E6;
   height: 75%;
 }
+
+.image-model-popup{
+  position:fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
