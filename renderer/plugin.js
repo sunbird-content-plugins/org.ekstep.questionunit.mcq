@@ -230,9 +230,9 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
   },
   selectOptionUI: function () {
       $(this._constant.mcqParentDiv).parent().find('div').removeClass("selected");
-      _.each(this._selectedIndex,(val)=>{
-       $(this._constant.mcqParentDiv).find("#active"+val).addClass("selected");
-      });
+      // _.each(this._selectedIndex,(val)=>{
+      //  $(this._constant.mcqParentDiv).find("#active"+val).addClass("selected");
+      // });
   },
   logTelemetryInteract: function (event) {
     if (event != undefined) QSTelemetryLogger.logEvent(QSTelemetryLogger.EVENT_TYPES.TOUCH, { // eslint-disable-line no-undef

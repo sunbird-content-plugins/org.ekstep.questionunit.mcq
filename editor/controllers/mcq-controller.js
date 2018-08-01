@@ -350,6 +350,9 @@ angular.module('mcqApp', [])
         editor.on('blur', function (e) {
           ecEditor.jQuery('.cke_float').hide();
         });
+        // $( ".innerScroll" ).scroll(function() {
+        //   ecEditor.jQuery('.cke_float').hide();
+        // });
         // optionElement.focus();
       }
       $scope.generateTelemetry({type: 'TOUCH', id: 'input', target: {id: 'questionunit-mcq-answer', ver: '', type: 'input'}})

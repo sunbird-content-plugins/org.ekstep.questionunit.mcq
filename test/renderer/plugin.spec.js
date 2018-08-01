@@ -15,7 +15,7 @@ describe('MCQRendererPlugin', function() {
     window.Audio = audioOriginal;
   });
   beforeAll(function(done) {
-    var elem = '<div id="preview-mcq-template" class="mcq-selected-option mcq-option-value"><input type="radio" name="radio"></input></div>';
+    var elem = '<div id="preview-mcq-template" class="mcq-selected-option mcq-option-value"><input type="checkbox" name="checkbox"></input></div>';
     var body = document.getElementsByTagName("body")[0];
     var div = document.createElement('div');
     div.innerHTML = elem;
@@ -268,7 +268,17 @@ describe('MCQRendererPlugin', function() {
   });
   describe('preQuestionShow', function() {
     it("should call preQuestionShow function", function() {
-      //plugin.preQuestionShow(questionsetEvent);
+      plugin.preQuestionShow(questionsetEvent);
+      expect(plugin.preQuestionShow(questionsetEvent)).toBeUndefined();
+    })
+    it("should layout is grid", function() {
+      plugin._question.config.layout="Grid";
+      plugin.preQuestionShow(questionsetEvent);
+      expect(plugin.preQuestionShow(questionsetEvent)).toBeUndefined();
+    })
+    it("should enable shuffle option",function(){
+      plugin._question.config.isShuffleOption=true;
+      plugin.preQuestionShow(questionsetEvent);
       expect(plugin.preQuestionShow(questionsetEvent)).toBeUndefined();
     })
     it('should check grid layout', function() {
@@ -319,7 +329,9 @@ describe('MCQRendererPlugin', function() {
   });
   describe('postQuestionShow', function() {
     it("should call postquestion function", function() {
-      plugin._question.state=0;
+      plugin._question.state={
+        val:0
+      }
       var questionObj = plugin.postQuestionShow();
       expect(questionObj).toBeUndefined();
     })
