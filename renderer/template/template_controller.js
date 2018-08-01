@@ -4,18 +4,20 @@ MCQController.initTemplate = function (pluginInstance) {
 };
 MCQController.loadTemplateContent = function () {
   return "<div id='qs-mcq-template'><div id='qc-mcqlayout'></div></div>";
-},
+};
 MCQController.isMediaAsset=function(question){
   MCQController.isAudioIcon=!_.isUndefined(_.find(question.data.options,"audio"))?true:false;
   MCQController.isImageIcon=!_.isUndefined(_.find(question.data.options,"image"))?true:false;
-}
+};
+// MCQController.audioIcon = MCQController.pluginInstance.getAssetUrl('audio-icon.png');
+// MCQController.expandIcon = MCQController.pluginInstance.getAssetUrl('expand-icon.png');
 MCQController.renderQuestion = function () {
   var template = _.template(MCQController.getQuesLayout());
   $("#qc-mcqlayout").html(template({
     question: MCQController.pluginInstance._question
   }));
   MCQController.renderTemplateLayout(MCQController.pluginInstance._question);
-},
+};
   /**
    * render template using underscore
    * @param {Object} question from question set.
@@ -41,14 +43,15 @@ MCQController.renderQuestion = function () {
     $("#qc-mcqlayout").append(template({
       question: question
     }));
-  },
+  };
   /**
    * This question layout is common for all the template
    * @memberof org.ekstep.questionunit.mcq.template_controller
    * @returns {String} template.
    */
   MCQController.getQuesLayout = function () {
-    return "<div id='mcq-question-header'> \
+    return "<% if(question.config.layout != 'Horizontal') { %>\
+    <div id='mcq-question-header'> \
  <header id='mcq-question'> \
  <% if ( question.data.question.image.length > 0 ){ %> \
     <div class='question-image'>\
@@ -70,8 +73,9 @@ MCQController.renderQuestion = function () {
         </div>\
        <% } %> \
 </header>\
-</div>";
-  },
+</div>\
+<% } %>";
+  };
   /**
    * image will be shown in popup
    * @memberof org.ekstep.questionunit.mcq.template_controller
@@ -90,14 +94,14 @@ MCQController.renderQuestion = function () {
       src: eventData
     })
     $("#qs-mcq-template").append(templateData);
-  },
+  };
   /**
    * onclick overlay or X button the popup will be hide
    * @memberof org.ekstep.questionunit.mcq.template_controller
    */
   MCQController.hideImageModel = function () {
     $("#image-model-popup").remove();
-  },
+  };
   /**
    * question text if long then handle using ellipse
    * @memberof org.ekstep.questionunit.mcq.template_controller
@@ -114,4 +118,55 @@ MCQController.renderQuestion = function () {
       $("#mcq-question").css('height', '17.7vh');
     }
   };
+
+  MCQController.openPopup = function (id) {
+  var data = undefined;
+  MCQController.currentPopUp = id;
+  if(id == 'question'){
+    data = MCQController.pluginInstance._question.data.question;
+  }else{
+    data = MCQController.pluginInstance._question.data.options[id];
+  }
+  var mcqpopupTemplate = " <div class='mcq-expand-popup'>\
+  <div class='popup' style='z-index: 9999999'>\
+   <div class='popup-overlay'></div>\
+   <div class='mcq-popup-full-body'>\
+    <div class = 'mcq-popup-container'>\
+      <div class = 'mcq-popup-text'>\
+        <%if(!_.isEmpty(data.image)){%> \
+          <div class = 'mcq-popup-image'>\
+            <img src=<%=MCQController.pluginInstance.getAssetUrl( data.image) %>>\
+          </div>\
+        <%}%>\
+        <%if(!_.isEmpty(data.audio)){%> \
+          <div class ='mcq-popup-audio'>\
+            <img src='<%=MCQController.pluginInstance.getDefaultAsset('audio-icon.png') %>' onclick=MCQController.pluginInstance.playAudio('<%= data.audio %>')>\
+          </div>\
+        <%}%>\
+        <div class='mcq-popup-text-content'>\
+        <%= data.text %>\
+        </div>\
+        </div>\
+      <div class = 'mcq-popup-actions'>\
+        <button class = 'mcq-popup-back-button' onclick=MCQController.closePopup();><%= (MCQController.currentPopUp == 'question') ? 'Answer' : 'Back' %></button>\
+       </div>\
+    </div>\
+     </div>\
+       </div>\
+  </div>";
+    var template = _.template(mcqpopupTemplate);
+    
+    var templateData = template({
+      data: data
+    })
+    $("#questionset").append(templateData);
+    EkstepRendererAPI.dispatchEvent('org.ekstep.questionunit:rendermath');
+};
+
+MCQController.closePopup = function () {
+  $(".mcq-expand-popup").remove();
+};
+
+
+
 //# sourceURL=MCQController.js
