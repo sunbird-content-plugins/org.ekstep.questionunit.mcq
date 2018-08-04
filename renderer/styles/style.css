@@ -713,7 +713,7 @@ span.qc-option-txt-only {
 
 .mcq-horizontal-container .answers {
   overflow-y: auto;
-  height: 200px;
+  height: 56vh;
   position: relative;
   padding: 0;
   border-radius: 5px;
@@ -774,7 +774,7 @@ span.qc-option-txt-only {
   left: 0;
   right: 0;
   background: #fff;
-  z-index: 9999;
+  z-index: 999999;
   width: 100%;
 }
 .mcq-popup-container {
