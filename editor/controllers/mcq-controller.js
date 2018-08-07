@@ -4,7 +4,7 @@
  * Jagadish P<jagadish.pujari@tarento.com>
  */
 angular.module('mcqApp', [])
-  .controller('mcqQuestionFormController', ['$scope', '$rootScope', function ($scope) {
+  .controller('mcqQuestionFormController', ['$scope','$sce', '$rootScope', function ($scope,$sce) {
     $scope.formVaild = false;
     $scope.mcqConfiguartion = {
       'questionConfig': {
@@ -55,11 +55,12 @@ angular.module('mcqApp', [])
     };
     $scope.mcqFormData.media = [];
     $scope.editMedia = [];
-    var questionInput = CKEDITOR.replace('ckedit', {// eslint-disable-line no-undef
+    $scope.ckConfig={// eslint-disable-line no-undef
       customConfig: ecEditor.resolvePluginResource('org.ekstep.questionunit', '1.0', "editor/ckeditor-config.js"),
       skin: 'moono-lisa,' + CKEDITOR.basePath + "skins/moono-lisa/",// eslint-disable-line no-undef
       contentsCss: CKEDITOR.basePath + "contents.css"// eslint-disable-line no-undef
-    });
+    };
+    var questionInput = CKEDITOR.replace('ckedit',$scope.ckConfig);
     questionInput.on('change', function() {
       $scope.mcqFormData.question.text = this.getData();
     });
@@ -110,9 +111,30 @@ angular.module('mcqApp', [])
       };
       if ($scope.mcqFormData.options.length < 8) $scope.mcqFormData.options.push(option);
     }
+    $scope.getTextFromHTML = function(html) {
+      var div = document.createElement('div');
+      div.innerHTML = html;
+      return div.textContent || div.innerText;
+    };
     $scope.formValidation = function () {
       var opSel = false;
       var valid = false;
+      var optionElems = ecEditor.jQuery('.option-text');
+      optionElems.each(function (i, op) {
+          var index = op.id.split('options_')[1];
+          ecEditor.jQuery('option-box').removeClass('has-errorCard');
+          if(index && CKEDITOR.instances[op.id]) {
+            $scope.mcqFormData.options[index].text = CKEDITOR.instances[op.id].getData();
+            var opText = $scope.getTextFromHTML($scope.mcqFormData.options[index].text);
+            if(opText.length <= 0) {
+              ecEditor.jQuery('#option-box-' + index).addClass('has-errorCard');
+              $scope.mcqForm.$valid = false;
+            }
+          } else {
+            ecEditor.jQuery('#option-box-' + index).addClass('has-errorCard');
+            $scope.mcqForm.$valid = false;
+          }
+      });
       var formValid = $scope.mcqForm.$valid && $scope.mcqFormData.options.length > 1;
       $scope.submitted = true;
       if(!($scope.mcqFormData.question.text.length || $scope.mcqFormData.question.image.length || $scope.mcqFormData.question.audio.length)){
@@ -287,6 +309,28 @@ angular.module('mcqApp', [])
         }
       })
     }
+    $scope.optionBindHtml=function(html_code){
+      return $sce.trustAsHtml(html_code);
+    }
+    $scope.optionEditable = function(event) {
+      var optionElement = ecEditor.jQuery(event.target);
+      if(!optionElement.hasClass('option-text')) {
+        optionElement = optionElement.parents('.option-text');
+      }
+      if(!optionElement.hasClass('cke_editable_inline')) {
+        optionElement.attr('contenteditable', true);
+        optionElement.attr('title', '');
+        var editor = CKEDITOR.inline(optionElement[0].id, $scope.ckConfig);
+        editor.on('blur', function (e) {
+          ecEditor.jQuery('.cke_float').hide();
+        });
+        $( ".innerScroll" ).scroll(function() {
+          ecEditor.jQuery('.cke_float').hide();
+        });
+        optionElement.focus();
+      }
+      $scope.generateTelemetry({type: 'TOUCH', id: 'input', target: {id: 'questionunit-mcq-answer', ver: '', type: 'input'}})
+    };
     $scope.init();
   }]);
 //# sourceURL=horizontalMCQ.js
