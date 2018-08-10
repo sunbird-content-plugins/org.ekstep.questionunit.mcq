@@ -823,7 +823,9 @@ span.qc-option-txt{
   font-family: NotoSans;
 }
 .mcq-popup-image {
-  width: 50%;
+  width: 35%;
+  height: 40vh;
+  margin: 0;
   float: left;
   margin-top: 1%;
   padding-right: 15px;
