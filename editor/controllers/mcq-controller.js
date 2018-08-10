@@ -119,21 +119,27 @@ angular.module('mcqApp', [])
     $scope.formValidation = function () {
       var opSel = false;
       var valid = false;
+      var opData;
       var optionElems = ecEditor.jQuery('.option-text');
       optionElems.each(function (i, op) {
           var index = op.id.split('options_')[1];
           ecEditor.jQuery('option-box').removeClass('has-errorCard');
           if(index && CKEDITOR.instances[op.id]) {
             $scope.mcqFormData.options[index].text = CKEDITOR.instances[op.id].getData();
-            var opText = $scope.getTextFromHTML($scope.mcqFormData.options[index].text);
-            if(opText.length <= 0) {
+            opData={
+              "text":$scope.getTextFromHTML($scope.mcqFormData.options[index].text),
+              "image":$scope.getTextFromHTML($scope.mcqFormData.options[index].image),
+              "audio":$scope.getTextFromHTML($scope.mcqFormData.options[index].audio)
+            }
+            if(opData.text.length <= 0 && opData.image.length <= 0 && opData.audio.length <= 0) {
               ecEditor.jQuery('#option-box-' + index).addClass('has-errorCard');
               $scope.mcqForm.$valid = false;
+              return false;
+            }else{
+              ecEditor.jQuery('#option-box-' + index).removeClass('has-errorCard');
+              $scope.mcqForm.$valid = true;
             }
-          } else {
-            ecEditor.jQuery('#option-box-' + index).addClass('has-errorCard');
-            $scope.mcqForm.$valid = false;
-          }
+          } 
       });
       var formValid = $scope.mcqForm.$valid && $scope.mcqFormData.options.length > 1;
       $scope.submitted = true;
