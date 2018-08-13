@@ -313,9 +313,6 @@ angular.module('mcqApp', ['org.ekstep.question'])
       data.form = data.form || 'question-creation-mcq-form';
       questionServices.generateTelemetry(data);
     }
-    $scope.optionBindHtml=function(html_code){
-      return $sce.trustAsHtml(html_code);
-    }
     $scope.optionEditable = function(event) {
       var optionElement = ecEditor.jQuery(event.target);
       if(!optionElement.hasClass('option-text')) {
@@ -336,7 +333,9 @@ angular.module('mcqApp', ['org.ekstep.question'])
       $scope.generateTelemetry({type: 'TOUCH', id: 'input', target: {id: 'questionunit-mcq-answer', ver: '', type: 'input'}})
     };
     $scope.init();
-
+     $scope.optionBindHtml=function(html_code){
+      return $sce.trustAsHtml(html_code);
+    }
     /**
      * Callbacks object to be passed to the directive to manage selected media
      */
