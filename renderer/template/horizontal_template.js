@@ -36,7 +36,7 @@ return "<div class='mcq-horizontal-container'><div class='q-container'>\
       <div class='a-media'>\
         <% if ( val.image){ %> \
           <div class='a-image'>\
-            <img src='<%=val.image%>' style='height: 54px;'/>\
+            <img src=<%=MCQController.pluginInstance.getAssetUrl(val.image)%> style='height: 54px;'/>\
           </div>\
         <%}%>\
         <% if (val.image && val.audio){ %> \
