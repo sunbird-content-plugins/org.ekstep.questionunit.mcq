@@ -51,7 +51,7 @@
                   <div class="ui grid">
                     <div class="one column row">
                       <div class="form-group one column row">
-                        <div ng-click="optionEditable($event)" class="form-control option-text contenteditable" id="options_{{$index}}" name="options_{{$index}}" contenteditable="true" ng-bind-html="optionBindHtml(mcqFormData.options[key].text)"></div>
+                        <div ng-click="optionEditable($event)" class="form-control option-text contenteditable" id="options_{{$index}}" name="options_{{$index}}" contenteditable="true" ng-model="mcqFormData.options[key].text" ng-bind="optionToCkeditor(mcqFormData.options[key].text,$index)"></div>
                       </div>
                        <div class="twelve wide column">
                       <selected-media-container media-callbacks="callbacks" class="row" formdata="mcqFormData.options[key]" media-type='op' media-index='{{key}}'></selected-media-container>

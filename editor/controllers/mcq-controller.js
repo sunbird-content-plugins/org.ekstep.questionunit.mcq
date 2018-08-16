@@ -3,7 +3,7 @@
  * @class org.ekstep.questionunitmcq:mcqQuestionFormController
  * Jagadish P<jagadish.pujari@tarento.com>
  */
-angular.module('mcqApp', ['org.ekstep.question']).controller('mcqQuestionFormController', ['$scope', '$rootScope', 'questionServices', '$sce', function($scope, rootScope, questionServices, $sce) {
+angular.module('mcqApp', ['org.ekstep.question']).controller('mcqQuestionFormController', ['$scope', '$rootScope', 'questionServices', function($scope, rootScope, questionServices) {
   $scope.formVaild = false;
   $scope.mcqConfiguartion = {
     'questionConfig': {
@@ -346,6 +346,10 @@ angular.module('mcqApp', ['org.ekstep.question']).controller('mcqQuestionFormCon
     data.form = data.form || 'question-creation-mcq-form';
     questionServices.generateTelemetry(data);
   }
+  $scope.optionToCkeditor=function(val,index){
+      var optionInput = CKEDITOR.inline('options_'+index, $scope.ckConfig);
+      CKEDITOR.instances['options_'+index].setData(val);
+  }
   $scope.optionEditable = function(event) {
     var optionElement = ecEditor.jQuery(event.target);
     if (!optionElement.hasClass('option-text')) {
@@ -355,6 +359,11 @@ angular.module('mcqApp', ['org.ekstep.question']).controller('mcqQuestionFormCon
       optionElement.attr('contenteditable', true);
       optionElement.attr('title', '');
       var editor = CKEDITOR.inline(optionElement[0].id, $scope.ckConfig);
+      var opElement = optionElement[0].id;
+      var index = optionElement[0].id.split('options_')[1];
+      editor.on('change', function (e) {
+         $scope.mcqFormData.options[index].text = CKEDITOR.instances[opElement].getData();
+       });
       editor.on('blur', function() {
         ecEditor.jQuery('.cke_float').hide();
       });
@@ -374,9 +383,6 @@ angular.module('mcqApp', ['org.ekstep.question']).controller('mcqQuestionFormCon
     })
   };
   $scope.init();
-  $scope.optionBindHtml = function(html_code) {
-    return $sce.trustAsHtml(html_code);
-  }
   $scope.callbacks = {
     deleteMedia: $scope.deleteMedia,
     addMedia: $scope.addMedia,
