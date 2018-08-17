@@ -51,7 +51,7 @@
                   <div class="ui grid">
                     <div class="one column row">
                       <div class="form-group one column row">
-                        <div class="form-control option-text contenteditable" ng-class="{'has-success':mcqForm['options_' + $index].$valid, 'has-error': submitted && mcqForm['options_' + $index].$error.required}" ng-required="!(mcqFormData.options[key].text.length || mcqFormData.options[key].image.length || mcqFormData.options[key].audio.length)" id="options_{{$index}}" name="options_{{$index}}" contenteditable="true" ng-model="mcqFormData.options[key].text" ng-bind="bindCkEditor(mcqFormData.options[key].text,$index)"></div>
+                        <div class="form-control contenteditable" ng-class="{'has-success':mcqForm['options_' + $index].$valid, 'has-error': submitted && mcqForm['options_' + $index].$error.required,'option-placeholder':mcqFormData.options[$index].text.length==0}" ng-required="!(mcqFormData.options[key].text.length || mcqFormData.options[key].image.length || mcqFormData.options[key].audio.length)" id="options_{{$index}}" name="options_{{$index}}" contenteditable="true" ng-model="mcqFormData.options[key].text" ng-bind="bindCkEditor(mcqFormData.options[key].text,$index)"></div>
                       </div>
                        </div>
                        <div class="twelve wide column">

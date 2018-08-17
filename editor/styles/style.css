@@ -222,9 +222,15 @@ i.large.icon.delete-icon{
 }
 
 .option-text::before {
-  content: 'Enter answer';
   color: #aaa;
   text-align: center;
   position: relative;
   display: block;
+}
+.option-placeholder::before{
+ content: 'Enter answer';
+ color: #aaa;
+ text-align: center;
+ position: relative;
+ display: block;
 }
