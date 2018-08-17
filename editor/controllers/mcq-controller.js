@@ -134,11 +134,7 @@ angular.module('mcqApp', ['org.ekstep.question']).controller('mcqQuestionFormCon
     if ($scope.mcqFormData.options.length < 8) $scope.mcqFormData.options.push(option);
   }
   $scope.formValidation = function() {
-    var opSel = false,
-      objOption = {
-        "valid": true
-      },
-      optionElems, valid;
+    var opSel = false,valid=false;
     var formValid = $scope.mcqForm.$valid && $scope.mcqFormData.options.length > 1;
     $scope.submitted = true;
     if (!_.isUndefined($scope.selectedOption)) {
