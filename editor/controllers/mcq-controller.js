@@ -133,51 +133,14 @@ angular.module('mcqApp', ['org.ekstep.question']).controller('mcqQuestionFormCon
     };
     if ($scope.mcqFormData.options.length < 8) $scope.mcqFormData.options.push(option);
   }
-  $scope.getTextFromHTML = function(html) {
-    var div = document.createElement('div');
-    div.innerHTML = html;
-    return div.textContent || div.innerText;
-  };
-  $scope.isFormValid = function() {
-    var opData = {
-      "text": $scope.getTextFromHTML($scope.mcqFormData.options[this.index].text),
-      "image": $scope.getTextFromHTML($scope.mcqFormData.options[this.index].image),
-      "audio": $scope.getTextFromHTML($scope.mcqFormData.options[this.index].audio)
-    }
-    if (opData.text.length != 0 || opData.image.length != 0 || opData.audio.length != 0) {
-      ecEditor.jQuery('#option-box-' + this.index).removeClass('has-errorCard');
-      $scope.mcqForm.$valid = true;
-    } else {
-      ecEditor.jQuery('#option-box-' + this.index).addClass('has-errorCard');
-      $scope.mcqForm.$valid = false;
-      this.valid = false;
-    }
-  }
   $scope.formValidation = function() {
     var opSel = false,
       objOption = {
         "valid": true
       },
       optionElems, valid;
-    optionElems = ecEditor.jQuery('.option-text');
-    optionElems.each(function(i, op) {
-      objOption.index = op.id.split('options_')[1];
-      ecEditor.jQuery('option-box').removeClass('has-errorCard');
-      if (objOption.index && CKEDITOR.instances[op.id]) {
-        $scope.mcqFormData.options[objOption.index].text = CKEDITOR.instances[op.id].getData();
-        $scope.isFormValid.call(objOption);
-      } else {
-        $scope.isFormValid.call(objOption);
-      }
-    });
-    $scope.mcqForm.$valid = objOption.valid;
     var formValid = $scope.mcqForm.$valid && $scope.mcqFormData.options.length > 1;
     $scope.submitted = true;
-    if (!($scope.mcqFormData.question.text.length || $scope.mcqFormData.question.image.length || $scope.mcqFormData.question.audio.length)) {
-      $('.questionTextBox').addClass("ck-error");
-    } else {
-      $('.questionTextBox').removeClass("ck-error");
-    }
     if (!_.isUndefined($scope.selectedOption)) {
       _.each($scope.mcqFormData.options, function(k, v) {
         $scope.mcqFormData.options[v].isCorrect = false;
@@ -346,42 +309,20 @@ angular.module('mcqApp', ['org.ekstep.question']).controller('mcqQuestionFormCon
     data.form = data.form || 'question-creation-mcq-form';
     questionServices.generateTelemetry(data);
   }
-  $scope.optionToCkeditor=function(val,index){
-      var optionInput = CKEDITOR.inline('options_'+index, $scope.ckConfig);
-      CKEDITOR.instances['options_'+index].setData(val);
+  $scope.bindCkEditor = function(val, index) {
+    var optionInput = CKEDITOR.inline('options_' + index, $scope.ckConfig);
+    CKEDITOR.instances['options_' + index].setData(val);
+    optionInput.on('change', function() {
+      $scope.mcqFormData.options[index].text = CKEDITOR.instances['options_' + index].getData();
+    });
+    optionInput.on('blur', function() {
+      ecEditor.jQuery('.cke_float').hide();
+    });
+    $(".innerScroll").scroll(function() {
+      ecEditor.jQuery('.cke_float').hide();
+    });
+    optionInput.focus();
   }
-  $scope.optionEditable = function(event) {
-    var optionElement = ecEditor.jQuery(event.target);
-    if (!optionElement.hasClass('option-text')) {
-      optionElement = optionElement.parents('.option-text');
-    }
-    if (!optionElement.hasClass('cke_editable_inline')) {
-      optionElement.attr('contenteditable', true);
-      optionElement.attr('title', '');
-      var editor = CKEDITOR.inline(optionElement[0].id, $scope.ckConfig);
-      var opElement = optionElement[0].id;
-      var index = optionElement[0].id.split('options_')[1];
-      editor.on('change', function (e) {
-         $scope.mcqFormData.options[index].text = CKEDITOR.instances[opElement].getData();
-       });
-      editor.on('blur', function() {
-        ecEditor.jQuery('.cke_float').hide();
-      });
-      $(".innerScroll").scroll(function() {
-        ecEditor.jQuery('.cke_float').hide();
-      });
-      optionElement.focus();
-    }
-    $scope.generateTelemetry({
-      type: 'TOUCH',
-      id: 'input',
-      target: {
-        id: 'questionunit-mcq-answer',
-        ver: '',
-        type: 'input'
-      }
-    })
-  };
   $scope.init();
   $scope.callbacks = {
     deleteMedia: $scope.deleteMedia,
