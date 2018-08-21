@@ -213,6 +213,8 @@ i.large.icon.delete-icon{
 }
 .option-text {
   text-align: center;
+  border: none;
+  border-bottom: 1px solid #d8d8d8;
 }
 /*Its adding placeholder in text box option*/
 .option-placeholder::before{

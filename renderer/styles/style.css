@@ -898,3 +898,6 @@ span.qc-option-txt{
   width: 100%;
   height: 100%;
 }
+.math-text {
+    font-size: small;
+}
