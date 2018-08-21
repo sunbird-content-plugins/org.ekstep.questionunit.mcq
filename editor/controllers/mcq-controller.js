@@ -58,8 +58,10 @@ angular.module('mcqApp', ['org.ekstep.question'])
     };
     $scope.mcqFormData.media = [];
     $scope.editMedia = [];
-     $scope.ckConfig = { // eslint-disable-line no-undef
-    customConfig: ecEditor.resolvePluginResource('org.ekstep.questionunit', '1.0', "editor/ckeditor-config.js"),
+    //get questionunit manifest
+    var questionUnitIns=org.ekstep.pluginframework.pluginManager.getPluginManifest("org.ekstep.questionunit");
+    $scope.ckConfig = { // eslint-disable-line no-undef
+    customConfig: ecEditor.resolvePluginResource(questionUnitIns.id, questionUnitIns.ver, "editor/ckeditor-config.js"),
     skin: 'moono-lisa,' + CKEDITOR.basePath + "skins/moono-lisa/", // eslint-disable-line no-undef
     contentsCss: CKEDITOR.basePath + "contents.css" // eslint-disable-line no-undef
     };
