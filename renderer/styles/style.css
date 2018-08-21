@@ -622,8 +622,8 @@ span.qc-option-txt{
   position: relative;
   height: 80px;
   padding: 0;
-  border: 1px solid orange;
-  border-radius: 5px;
+/*  border: 1px solid orange;
+  border-radius: 5px;*/
 }
 
 .mcq-horizontal-container .q-image img {
@@ -765,8 +765,11 @@ span.qc-option-txt{
   position: relative;
   height: 60px;
   border-bottom: 2px #eee solid;
-  padding: 2px 0;
+/*  padding: 2px 0;*/
   margin-bottom: 10px;
+}
+.katex-display{
+  margin: 0.4em 0;
 }
 
 .mcq-horizontal-container .answers::-webkit-scrollbar {
@@ -897,4 +900,7 @@ span.qc-option-txt{
   top: 0;
   width: 100%;
   height: 100%;
+}
+.math-text {
+    font-size: small;
 }

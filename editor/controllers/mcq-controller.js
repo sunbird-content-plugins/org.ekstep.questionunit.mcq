@@ -301,18 +301,18 @@ angular.module('mcqApp', ['org.ekstep.question'])
      * bind ckeditor in all option
      */
     $scope.bindCkEditor = function(val, index) {
-     var optionInput = CKEDITOR.inline('options_' + index, $scope.ckConfig);
-     CKEDITOR.instances['options_' + index].setData(val);
-     optionInput.on('change', function() {
-      $scope.mcqFormData.options[index].text = CKEDITOR.instances['options_' + index].getData();
+      var optionInput = CKEDITOR.inline('options_' + index, $scope.ckConfig);
+      CKEDITOR.instances['options_' + index].setData(val);
+      optionInput.on('change', function() {
+       $scope.mcqFormData.options[index].text = CKEDITOR.instances['options_' + index].getData();
       });
-     optionInput.on('blur', function() {
-      ecEditor.jQuery('.cke_float').hide();
-     });
-     $(".innerScroll").scroll(function() {
-      ecEditor.jQuery('.cke_float').hide();
-     });
-     optionInput.focus();
+      optionInput.on('blur', function() {
+       ecEditor.jQuery('.cke_float').hide();
+      });
+      $(".innerScroll").scroll(function() {
+       ecEditor.jQuery('.cke_float').hide();
+      });
+      optionInput.focus();
     }
 
   }]);
