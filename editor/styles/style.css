@@ -211,3 +211,16 @@ i.large.icon.delete-icon{
 .ck-error{
   border: 1px solid red;
 }
+.cke_float {
+  z-index: 9999999 !important;
+}
+.option-text {
+  text-align: center;
+}
+.option-placeholder::before{
+ content: 'Enter answer';
+ color: #aaa;
+ text-align: center;
+ position: relative;
+ display: block;
+}

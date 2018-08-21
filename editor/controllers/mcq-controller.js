@@ -58,11 +58,12 @@ angular.module('mcqApp', ['org.ekstep.question'])
     };
     $scope.mcqFormData.media = [];
     $scope.editMedia = [];
-    var questionInput = CKEDITOR.replace('ckedit', {// eslint-disable-line no-undef
-      customConfig: ecEditor.resolvePluginResource('org.ekstep.questionunit', '1.0', "editor/ckeditor-config.js"),
-      skin: 'moono-lisa,' + CKEDITOR.basePath + "skins/moono-lisa/",// eslint-disable-line no-undef
-      contentsCss: CKEDITOR.basePath + "contents.css"// eslint-disable-line no-undef
-    });
+     $scope.ckConfig = { // eslint-disable-line no-undef
+    customConfig: ecEditor.resolvePluginResource('org.ekstep.questionunit', '1.0', "editor/ckeditor-config.js"),
+    skin: 'moono-lisa,' + CKEDITOR.basePath + "skins/moono-lisa/", // eslint-disable-line no-undef
+    contentsCss: CKEDITOR.basePath + "contents.css" // eslint-disable-line no-undef
+    };
+    var questionInput = CKEDITOR.replace('ckedit', $scope.ckConfig);
     questionInput.on('change', function () {
       $scope.mcqFormData.question.text = this.getData();
     });
@@ -293,6 +294,23 @@ angular.module('mcqApp', ['org.ekstep.question'])
       deleteMedia: $scope.deleteMedia,
       addMedia: $scope.addMedia,
       qtype: 'mcq'
+    }
+    /**
+     * bind ckeditor in all option
+     */
+    $scope.bindCkEditor = function(val, index) {
+     var optionInput = CKEDITOR.inline('options_' + index, $scope.ckConfig);
+     CKEDITOR.instances['options_' + index].setData(val);
+     optionInput.on('change', function() {
+      $scope.mcqFormData.options[index].text = CKEDITOR.instances['options_' + index].getData();
+      });
+     optionInput.on('blur', function() {
+      ecEditor.jQuery('.cke_float').hide();
+     });
+     $(".innerScroll").scroll(function() {
+      ecEditor.jQuery('.cke_float').hide();
+     });
+     optionInput.focus();
     }
 
   }]);
