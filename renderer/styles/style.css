@@ -914,6 +914,7 @@ span.qc-option-txt{
   width: 100vw;
   height: 22.22vh;
   position: relative;
+  font-size: 14px;
 }
 
 .mcq-grid-option-container {
@@ -977,6 +978,7 @@ span.qc-option-txt{
   background-color: #000000;
   color: #FFFFFF;
   z-index: 1;
+  font-size: 14px;
 }
 
 .mcq-grid-option-text > div{
