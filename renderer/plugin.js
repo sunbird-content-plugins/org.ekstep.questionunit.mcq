@@ -164,11 +164,11 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
    */
   selectedvalue: function (event, index) {
     var state = {}, value, telValues = {};
-    $(this._constant.mcqSelectOption).removeClass(this._constant.optionSelectionUI);
+    /* $(this._constant.mcqSelectOption).removeClass(this._constant.optionSelectionUI);
     $('input:radio[name=radio]')[index].checked = true;
     if (!_.isUndefined(event)) {
       this.selectOptionUI(event);//eslint-disable-line no-undef
-    }
+    } */
     value = this._question.data.options[index];
     this._selectedIndex = index; // eslint-disable-line no-undef
     state = {
