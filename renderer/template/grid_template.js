@@ -17,7 +17,7 @@ MCQController.getOptionTemplate = function (option) {
   <div class="mcq-grid-option-outer">\
     <% if (option.audio){ %> \
       <div class="mcq-grid-option-audio">\
-        <img src="<%= MCQController.pluginInstance.getDefaultAsset("audio-icon.png") %>"  onclick=MCQController.pluginInstance.playAudio("<%= option.audio %>") />\
+        <img src="<%= MCQController.pluginInstance.getDefaultAsset("audio-icon2.png") %>"  onclick=MCQController.pluginInstance.playAudio("<%= option.audio %>") />\
       </div>\
     <% } %> \
     <div class="mcq-grid-option">\
