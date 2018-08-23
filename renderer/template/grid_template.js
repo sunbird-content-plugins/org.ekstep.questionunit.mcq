@@ -19,12 +19,14 @@ MCQController.onGridOptionSelected = function (event, index) {
   var optElt = $(event.target).closest('.mcq-grid-option');
   if (optElt) optElt.addClass('selected');
   MCQController.pluginInstance.selectedvalue(event, index);
+  if (MCQController.pluginInstance._question.data.options[index].audio)
+    MCQController.pluginInstance.playAudio(MCQController.pluginInstance._question.data.options[index].audio);
 }
 
 MCQController.getOptionTemplate = function (option, index) {
   var optTemplate = '\
   <div class="mcq-grid-option-outer">\
-    <% if (option.audio){ %> \
+    <% if (false && option.audio){ %> \
       <div class="mcq-grid-option-audio">\
         <img src="<%= MCQController.pluginInstance.getDefaultAsset("audio-icon2.png") %>"  onclick=MCQController.pluginInstance.playAudio("<%= option.audio %>") />\
       </div>\
