@@ -637,6 +637,7 @@ span.qc-option-txt{
 }
 .question > .katex-display{
   margin: 0%;
+  display: initial;
 }
 .question>.q-text{
   flex-grow:11;
@@ -696,7 +697,8 @@ span.qc-option-txt{
 }
 
 .mcq-horizontal-container .q-audio-only img {
-  width: 12vw;
+  width: 10vw;
+  margin-top: 15%;
   z-index: 99999;
   cursor: pointer;
 }
@@ -805,7 +807,7 @@ span.qc-option-txt{
 .mcq-horizontal-container .multiline-ellipsis {
     display: block;
     display: -webkit-box;
-    width: 90%;
+    width: 87%;
     line-height: 1.5em;
     -webkit-box-orient: vertical;
     overflow: hidden;
