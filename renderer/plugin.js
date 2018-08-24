@@ -1,5 +1,4 @@
 /**
- *
  * Question Unit plugin to render a MCQ question
  * @class org.ekstep.questionunit.mcq
  * @extends org.ekstep.contentrenderer.questionUnitPlugin
@@ -162,20 +161,7 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
   */
     EkstepRendererAPI.dispatchEvent('org.ekstep.questionset:saveQuestionState', state);
   },
-  selectOptionUI: function (event) {
-    if (this._question.config.layout != "Horizontal") {
-      if ($(event.target).hasClass(this._constant.mcqSelectOption.replace(".", ""))) {
-        $(event.target).addClass(this._constant.optionSelectionUI);
-      } else {
-        $(event.target).parents(this._constant.mcqSelectOption).addClass(this._constant.optionSelectionUI);
-      }
-    } else {
-      $('.option').removeClass('selected');
-      $(event.target).parents('.option').toggleClass('selected');
-    }
 
-    //event.stopPropagation(); //stop event because its added in all child template
-  },
   logTelemetryInteract: function (event) {
     if (event != undefined) QSTelemetryLogger.logEvent(QSTelemetryLogger.EVENT_TYPES.TOUCH, { // eslint-disable-line no-undef
       type: QSTelemetryLogger.EVENT_TYPES.TOUCH, // eslint-disable-line no-undef
