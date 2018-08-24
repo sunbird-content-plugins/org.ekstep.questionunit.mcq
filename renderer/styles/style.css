@@ -824,11 +824,13 @@ span.qc-option-txt{
   width: 100%;
   height: 100%;
   font-family: NotoSans;
+  padding: 10px 0 0 0;
 }
 .mcq-popup-image {
-  width: 50%;
+  width: 35%;
+  object-fit: contain;
+  margin: 0;
   float: left;
-  margin-top: 1%;
   padding-right: 15px;
 }
 .mcq-popup-full-body{
@@ -842,14 +844,15 @@ span.qc-option-txt{
   height: 90vh;
 }
 .mcq-popup-image img {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 40vh;
+    object-fit: contain;
 }
 .mcq-popup-text {
   padding: 0 10px;
   display: block;
   width: 100%;
-  height: 64vh;
+  height: 75%;
   overflow-y: auto;
 }
 .mcq-popup-audio{
@@ -869,12 +872,11 @@ span.qc-option-txt{
   padding: 0 0 20px 0;
 }
 .mcq-popup-actions {
-  position: fixed;
-  bottom: 0;
   text-align: center;
-  padding: 3.7%;
   width: 96vw;
+  height: 25%;
   border-top: 1px solid rgba(34, 36, 38, .15);
+  padding: 10px;
 }
 .mcq-popup-back-button {
   background-color: #65A0E6;
