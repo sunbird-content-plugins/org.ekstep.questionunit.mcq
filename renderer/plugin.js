@@ -33,9 +33,6 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
    */
   preQuestionShow: function (event) {
     this._super(event);
-    /* if (this._question.config.layout == this._constant.gridLayout) { // eslint-disable-line no-undef
-      this.divideOption(this._question.data); // eslint-disable-line no-undef
-    } */
     if (this._question.config.isShuffleOption) {
       this._question.data.options = _.shuffle(this._question.data.options);
     }
@@ -57,24 +54,6 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
     } else {
       this._selectedIndex = undefined;
     }
-  },
-  /**
-   * grid layout divide option
-   * @memberof org.ekstep.questionunit.mcq
-   * @param {Object} questionData from question set.
-   */
-  divideOption: function (questionData) {
-    questionData.topOptions = [], questionData.bottomOptions = [];
-    questionData.options.forEach(function (option, key) {
-      var obj = { 'option': option, 'keyIndex': key };
-      if (questionData.options.length <= 4 || questionData.options.length > 6) {
-        if (key < 4) questionData.topOptions.push(obj);
-        else questionData.bottomOptions.push(obj);
-      } else if (questionData.options.length == 5 || questionData.options.length == 6) {
-        if (key < 3) questionData.topOptions.push(obj);
-        else questionData.bottomOptions.push(obj);
-      }
-    });
   },
   /**
    * Question evalution
@@ -162,13 +141,8 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
    * @param {event} event from question set.
    * @param {Integer} index from question set.
    */
-  selectedvalue: function (event, index) {
+  onOptionSelected: function (event, index) {
     var state = {}, value, telValues = {};
-    $(this._constant.mcqSelectOption).removeClass(this._constant.optionSelectionUI);
-    $('input:radio[name=radio]')[index].checked = true;
-    if (!_.isUndefined(event)) {
-      this.selectOptionUI(event);//eslint-disable-line no-undef
-    }
     value = this._question.data.options[index];
     this._selectedIndex = index; // eslint-disable-line no-undef
     state = {

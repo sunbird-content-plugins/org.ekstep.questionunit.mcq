@@ -914,6 +914,7 @@ span.qc-option-txt{
   width: 100vw;
   height: 22.22vh;
   position: relative;
+  font-size: 14px;
 }
 
 .mcq-grid-option-container {
@@ -921,7 +922,7 @@ span.qc-option-txt{
 	width: 80vw;
 	height: 70.56vh;
   margin: auto;
-  padding-top: 7vh;
+  padding-top: 0.1vh;
 }
 
 .mcq-grid-option-container > div {
@@ -943,12 +944,14 @@ span.qc-option-txt{
 
 .mcq-grid-option {
   width: 19vw;
-  height: 28.77vh;
+  height: 33.27vh;
   position: relative;
   border-radius: 4px;
   overflow: hidden;
-  box-shadow: 2px 2px 2px 0px #dddddd;
-  top: 4.5vh;
+  box-shadow: 0px 1px 1px 0px #000000;
+  background-color: #FFFFFF;
+  /* top: 4.5vh; */
+  cursor: pointer;
 }
 
 .mcq-grid-option-wrapper {
@@ -976,6 +979,7 @@ span.qc-option-txt{
   background-color: #000000;
   color: #FFFFFF;
   z-index: 1;
+  font-size: 14px;
 }
 
 .mcq-grid-option-text > div{
@@ -994,4 +998,26 @@ span.qc-option-txt{
 .mcq-grid-option-audio > img{
   max-width: 100%;
   max-height: 100%;
+  cursor: pointer;
+}
+
+.selected-icon {
+  width: 100%;
+  position: absolute;
+  height: 10vh;
+  bottom: 4vh;
+  text-align: right;
+  z-index: 11;
+  padding-right: 1vw;
+}
+
+.selected-icon > img {
+  max-height: 100%;
+}
+.mcq-grid-option .selected-icon > img {
+  visibility: hidden;
+}
+
+.mcq-grid-option.selected .selected-icon > img {
+  visibility: visible;
 }
