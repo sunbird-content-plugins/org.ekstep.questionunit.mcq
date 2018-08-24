@@ -1,5 +1,4 @@
 var MCQController = MCQController || {};
-
 MCQController.initTemplate = function (pluginInstance) {
   MCQController.pluginInstance = pluginInstance;
 };
@@ -10,10 +9,11 @@ MCQController.isMediaAsset = function (question) {
   MCQController.isAudioIcon = !_.isUndefined(_.find(question.data.options, "audio")) ? true : false;
   MCQController.isImageIcon = !_.isUndefined(_.find(question.data.options, "image")) ? true : false;
 };
-
+// MCQController.audioIcon = MCQController.pluginInstance.getAssetUrl('audio-icon.png');
+// MCQController.expandIcon = MCQController.pluginInstance.getAssetUrl('expand-icon.png');
 MCQController.renderQuestion = function () {
   MCQController.renderTemplateLayout(MCQController.pluginInstance._question);
-  if (MCQController.pluginInstance._question.config.layout == "Horizontal") {
+  if (MCQController.pluginInstance._question.config.layout == "Grid2" || MCQController.pluginInstance._question.config.layout == "Vertical2") {
     MCQController.getMCQ2LayoutChanges();
   }
 
@@ -33,19 +33,24 @@ MCQController.renderTemplateLayout = function (question) {
       template = _.template(MCQController.getGridTemplate(question));
       break;
     case "Horizontal":
-      template = _.template(MCQController.getMcq2Template(question));
+      template = _.template(MCQController.getHorizontalTemplate(question));
       break;
     case "Vertical":
       template = _.template(MCQController.getVerticalTemplate(question));
       break;
-    default:
+    case "Grid2":
       template = _.template(MCQController.getMcq2Template(question));
+      break;
+    case "Vertical2":
+      template = _.template(MCQController.getMcq2Template(question));
+      break;
+    default:
+      template = _.template(MCQController.getHorizontalTemplate(question));
   }
   $("#mcq-question-container").append(template({
     question: question
   }));
 };
-
 /**
 * image will be shown in popup
 * @memberof org.ekstep.questionunit.mcq.template_controller
@@ -63,9 +68,8 @@ MCQController.showImageModel = function () {
   var templateData = template({
     src: eventData
   })
-  $("#qs-mcq-template").append(templateData);
+  $("#mcq-question-container").append(templateData);
 };
-
 /**
  * onclick overlay or X button the popup will be hide
  * @memberof org.ekstep.questionunit.mcq.template_controller
@@ -73,7 +77,6 @@ MCQController.showImageModel = function () {
 MCQController.hideImageModel = function () {
   $("#image-model-popup").remove();
 };
-
 /**
  * question text if long then handle using ellipse
  * @memberof org.ekstep.questionunit.mcq.template_controller
