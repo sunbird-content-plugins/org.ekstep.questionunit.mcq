@@ -52,7 +52,7 @@ MCQController.getCurrentOption = function (option, key) {
   <%= option.text %>\
   </div>\
   <div class='tick-icon-holder'>\
-  <img src=<%=MCQController.pluginInstance.getAudioIcon('renderer/assets/check.png') %> style='height: 100%;'>\
+  <img src=<%=MCQController.pluginInstance.getAudioIcon('renderer/assets/tick_icon.png') %> style='height: 100%;'>\
   </div>\
   </div>\
 "
@@ -72,7 +72,7 @@ MCQController.getOptionTemplate2_2 = function (option, key) {
   src=<%=MCQController.pluginInstance.getAssetUrl(option.image) %> />\
   <div class='mcq2-2-check-image-holder' >\
     <img class='mcq2-2-check-image'\
-    src=<%=MCQController.pluginInstance.getAudioIcon('renderer/assets/check.png') %> />\
+    src=<%=MCQController.pluginInstance.getAudioIcon('renderer/assets/tick_icon.png') %> />\
   </div>\
 </div>\
 ";
