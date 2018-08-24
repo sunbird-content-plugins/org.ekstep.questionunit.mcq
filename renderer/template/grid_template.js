@@ -71,7 +71,7 @@ MCQController.getGridOptionsTemplate = function (options) {
 
 MCQController.getGridTemplate = function (question) {
   var template = '\
-  <div class="mcq-question-container-grid plugin-content-container">\
+  <div class="mcq-question-container-grid">\
     <div class="mcq-grid-question-container question-content-container">' +
     org.ekstep.questionunit.questionComponent.generateQuestionComponent() +
     '</div>\
