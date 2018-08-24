@@ -6,15 +6,15 @@ var MCQController = MCQController || {};
  * @param {Object} availableLayout provides list of layouts
  * @memberof org.ekstep.questionunit.mcq.horizontal_and_vertical
  */
-MCQController.getQuestionTemplateType1 = function (selectedLayout, availableLayout) {
+MCQController.getQuestionTemplateType1 = function (selectedLayout) {
 
-  MCQController.selectedLayout = selectedLayout;
-  var wrapperStart = '<div class="mcq-content-container plugin-content-container" >';
+  //MCQController.selectedLayout = selectedLayout;
+  var wrapperStart = org.ekstep.questionunit.backgroundComponent.getBackgroundGraphics() + '<div class="mcq-content-container plugin-content-container" >';
   var wrapperStartQuestionComponent = '<div class="question-content-container">';
   var wrapperEndQuestionComponent = '</div>';
-  var wrapperEnd = '</div><script>MCQController.onDomReady()</script>';
+  var wrapperEnd = '</div>';
   var getLayout;
-  if (availableLayout.horizontalLayout == selectedLayout) {
+  if (selectedLayout == MCQController.pluginInstance._constant.horizontalLayout) {
     getLayout = MCQController.getOptionLayout('horizontal');
   } else {
     getLayout = MCQController.getOptionLayout('vertical');
@@ -23,23 +23,32 @@ MCQController.getQuestionTemplateType1 = function (selectedLayout, availableLayo
 }
 
 MCQController.getOptionLayout = function(layout){
-  return '<div class="option-container <%= layout %>">\
+  return '<div class="option-container ' +  layout + '">\
             <div class="option-block-container">\
-                <div class="option-block">\
-                    <img src="./public/assets/music-blue.png" class="audio" />\
-                    <div class="option-image-container">\
-                        <img src="./public/assets/sample-images/laugh.png"  />\
+            <% _.each(question.data.options,function(val,key){ %>\
+                <div class="option-block <% if(val.isCorrect) { %> mcq-correct-answer<% } %>" onclick="MCQController.selectOptionType1(this)">\
+                    <div class="option-image-container <% if(!val.image) { %> no-image<% } %>" \>\
+                  <%  if(val.image) { %>\
+                        <img onclick="MCQController.showImageModel(event, \'<%= val.image %>\')" src="<%= val.image %>" />\
+                  <% } %>\
                     </div>\
-                    <div class="option-text-container">\
-                        <span>HClO3</span>\
+                    <%  if(val.audio) { %>\
+                      <img onclick="MCQController.pluginInstance.playAudio({src:\'<%= val.audio %>\'})" src="<%= MCQController.pluginInstance.getDefaultAsset("music-blue.png") %>" class="audio" />\
+                    <% } %>\
+                    <div class="option-text-container<% if(val.audio) { %> with-audio <% } %> <% if(val.image) { %>with-image<% } %>">\
+                  <%  if(val.text) { %>\
+                        <span><%= val.text %></span>\
+                  <% } %>\
                     </div>\
-                    <img src="./public/assets/tick_icon.png" class="tick" />\
+                    <img src="<%= MCQController.pluginInstance.getDefaultAsset("tick_icon.png") %>" class="tick" />\
                 </div>\
+              <% }) %>\
               </div>\
             </div>\
           </div>'
 }
 
-MCQController.onDomReady = function(){
-
+MCQController.selectOptionType1 = function(element){
+  $('.option-block').removeClass('selected');
+  $(element).addClass('selected');
 }
