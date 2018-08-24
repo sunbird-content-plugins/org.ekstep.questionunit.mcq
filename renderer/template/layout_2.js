@@ -2,9 +2,9 @@ var MCQController = MCQController || {};
 MCQController.getMcq2Template = function (question) {
   var questionTemplate = MCQController.getQuestionTemplate();
   var optionsTemplate = '';
-  if (question.data.options[0].text.length > 0)
+  if (question.config.layout == "Vertical2")
     optionsTemplate = MCQController.getOptionsTemplate2_1(question.data.options);
-  else
+  else if (question.config.layout == "Grid2")
     optionsTemplate = MCQController.getOptionsTemplate2_2(question.data.options)
   return org.ekstep.questionunit.backgroundComponent.getBackgroundGraphics() + "<div class='mcq-qLeft-content-container'>"
     + questionTemplate + optionsTemplate +
@@ -68,8 +68,13 @@ MCQController.getOptionsTemplate2_2 = function (options) {
 
 MCQController.getOptionForMcq2_2 = function (option, key) {
   var optTemplate = " <div class='mcq2-2-option mcq2-2-option<%=key+1%>' onClick=MCQController.pluginInstance.onOptionSelected(event,<%= key %>)>\
-  <img class='mcq2-2-option-image'\
-  src=<%=MCQController.pluginInstance.getAssetUrl(option.image) %> />\
+  <%if(option.image){%>\
+      <img class='mcq2-2-option-image'\
+      src=<%=MCQController.pluginInstance.getAssetUrl(option.image) %> />\
+  <%}%>\
+  <%if(option.text){%>\
+    <div><%= option.text %></div>\
+  <%}%>\
   <div class='mcq2-2-check-image-holder' >\
     <img class='mcq2-2-check-image'\
     src=<%=MCQController.pluginInstance.getAudioIcon('renderer/assets/tick_icon.png') %> />\
@@ -113,7 +118,7 @@ MCQController.adjustOptions = function (question) {
       $(".text-option-1").css("margin-top", "25.71%");
     }
     else if (optLength == 3) {
-      $(".text-option-1").css("margin-top", "12.81%");
+      $(".text-option-1").css("margin-top", "12.85%");
     }
   }
   else {
