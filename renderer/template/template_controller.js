@@ -18,8 +18,10 @@ MCQController.renderQuestion = function () {
     question: MCQController.pluginInstance._question
   })); */
   MCQController.renderTemplateLayout(MCQController.pluginInstance._question);
-  MCQController.deselectAll();
-  MCQController.registerClick();
+  if (MCQController.pluginInstance._question.config.layout == "Horizontal") {
+    MCQController.getMCQ2LayoutChanges();
+  }
+
 };
 
 /**
@@ -171,24 +173,6 @@ MCQController.closePopup = function () {
   $(".mcq-expand-popup").remove();
 };
 
-MCQController.deselectAll = function () {
-  $(".mcq2-2-check-image").hide();
-  $(".tick-icon-holder").hide();
-}
 
-MCQController.registerClick = function () {
-  $(".mcq2-2-option").click(function () {
-    $(".mcq2-2-check-image").hide();
-    $(this).find(".mcq2-2-check-image").show();
-  })
-  $(".text-option").click(function () {
-    $(".text-option").removeClass("selected-option-bg");
-    $(".text-option").addClass("option-background");
-    $(".tick-icon-holder").hide();
-    $(this).removeClass("option-background");
-    $(this).addClass("selected-option-bg");
-    $(this).find(".tick-icon-holder").show();
-  })
-}
 
 //# sourceURL=MCQController.js
