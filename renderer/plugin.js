@@ -11,6 +11,8 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
   _render: true,
   _selectedanswere: undefined,
   _constant: {
+    verticalLayout:'Vertical',
+    horizontalLayout: 'Horizontal',
     gridLayout: "Grid",
     mcqParentDiv: "#qs-mcq-template",
     mcqSelectOption: ".mcq-option-value",

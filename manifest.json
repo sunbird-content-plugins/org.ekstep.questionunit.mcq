@@ -54,16 +54,12 @@
                 "src": "renderer/styles/style.css"
             },
             {
+                "type": "css",
+                "src": "renderer/styles/horizontal_and_vertical.css"
+            },
+            {
                 "type": "js",
                 "src": "renderer/template/grid_template.js"
-            },
-            {
-                "type": "js",
-                "src": "renderer/template/horizontal_template.js"
-            },
-            {
-                "type": "js",
-                "src": "renderer/template/vertical_template.js"
             },
             {
                 "type": "js",
@@ -72,6 +68,10 @@
             {
                 "type": "js",
                 "src": "renderer/template/layout_2.js"
+            },
+            {
+                "type": "js",
+                "src": "renderer/template/horizontal_and_vertical.js"
             }
         ]
     },
