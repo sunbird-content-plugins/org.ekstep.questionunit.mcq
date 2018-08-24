@@ -4,7 +4,7 @@ MCQController.initTemplate = function (pluginInstance) {
 };
 MCQController.loadTemplateContent = function () {
   //return "<div id='qs-mcq-template'><div id='qc-mcqlayout'></div></div>";
-  return "<div id='mcq-question-container'></div>";
+  return '<div id="mcq-question-container"></div>';
 };
 MCQController.isMediaAsset = function (question) {
   MCQController.isAudioIcon = !_.isUndefined(_.find(question.data.options, "audio")) ? true : false;
@@ -18,6 +18,8 @@ MCQController.renderQuestion = function () {
     question: MCQController.pluginInstance._question
   })); */
   MCQController.renderTemplateLayout(MCQController.pluginInstance._question);
+  MCQController.deselectAll();
+  MCQController.registerClick();
 };
 
 /**
@@ -34,13 +36,13 @@ MCQController.renderTemplateLayout = function (question) {
       template = _.template(MCQController.getGridTemplate(question));
       break;
     case "Horizontal":
-      template = _.template(MCQController.getHorizontalTemplate(question));
+      template = _.template(MCQController.getMcq2Template(question));
       break;
     case "Vertical":
       template = _.template(MCQController.getVerticalTemplate(question));
       break;
     default:
-      template = _.template(MCQController.getHorizontalTemplate(question));
+      template = _.template(MCQController.getMcq2Template(question));
   }
   $("#mcq-question-container").append(template({
     question: question
@@ -169,6 +171,24 @@ MCQController.closePopup = function () {
   $(".mcq-expand-popup").remove();
 };
 
+MCQController.deselectAll = function () {
+  $(".mcq2-2-check-image").hide();
+  $(".tick-icon-holder").hide();
+}
 
+MCQController.registerClick = function () {
+  $(".mcq2-2-option").click(function () {
+    $(".mcq2-2-check-image").hide();
+    $(this).find(".mcq2-2-check-image").show();
+  })
+  $(".text-option").click(function () {
+    $(".text-option").removeClass("selected-option-bg");
+    $(".text-option").addClass("option-background");
+    $(".tick-icon-holder").hide();
+    $(this).removeClass("option-background");
+    $(this).addClass("selected-option-bg");
+    $(this).find(".tick-icon-holder").show();
+  })
+}
 
 //# sourceURL=MCQController.js

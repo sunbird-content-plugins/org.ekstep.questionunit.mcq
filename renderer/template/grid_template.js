@@ -18,7 +18,7 @@ MCQController.onGridOptionSelected = function (event, index) {
   $('.mcq-grid-option').removeClass('selected');
   var optElt = $(event.target).closest('.mcq-grid-option');
   if (optElt) optElt.addClass('selected');
-  MCQController.pluginInstance.selectedvalue(event, index);
+  MCQController.pluginInstance.onOptionSelected(event, index);
   if (MCQController.pluginInstance._question.data.options[index].audio)
     MCQController.pluginInstance.playAudio(MCQController.pluginInstance._question.data.options[index].audio);
 }
