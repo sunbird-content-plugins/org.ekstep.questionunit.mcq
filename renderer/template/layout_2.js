@@ -110,10 +110,10 @@ MCQController.adjustOptions = function (question) {
   var optLength = question.data.options.length;
   if (question.data.options[0].text.length > 0) {
     if (optLength == 2) {
-      $(".text-option-1").css("margin-top", "23%");
+      $(".text-option-1").css("margin-top", "25.71%");
     }
     else if (optLength == 3) {
-      $(".text-option-1").css("margin-top", "11%");
+      $(".text-option-1").css("margin-top", "12.81%");
     }
   }
   else {
