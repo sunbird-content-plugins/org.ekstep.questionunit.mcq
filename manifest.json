@@ -68,6 +68,10 @@
             {
                 "type": "js",
                 "src": "renderer/template/template_controller.js"
+            },
+            {
+                "type": "js",
+                "src": "renderer/template/layout_2.js"
             }
         ]
     },
