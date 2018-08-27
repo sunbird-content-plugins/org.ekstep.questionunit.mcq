@@ -9,7 +9,7 @@ var MCQController = MCQController || {};
 MCQController.getQuestionTemplateType1 = function (selectedLayout) {
 
   //MCQController.selectedLayout = selectedLayout;
-  var wrapperStart = org.ekstep.questionunit.backgroundComponent.getBackgroundGraphics() + '<div class="mcq-content-container plugin-content-container" >';
+  var wrapperStart = org.ekstep.questionunit.backgroundComponent.getBackgroundGraphics() + '<div class="mcq-content-container plugin-content-container" id="mcq-question-container">';
   var wrapperStartQuestionComponent = '<div class="question-content-container">';
   var wrapperEndQuestionComponent = '</div>';
   var wrapperEnd = '</div>';
@@ -23,17 +23,23 @@ MCQController.getQuestionTemplateType1 = function (selectedLayout) {
 }
 
 MCQController.getOptionLayout = function(layout){
+  var audioIcon;
+  if('vertical' == layout){
+    audioIcon = "music-blue.png"
+  }else{
+    audioIcon = "audio-icon2.png"
+  }
   return '<div class="option-container ' +  layout + '">\
             <div class="option-block-container">\
             <% _.each(question.data.options,function(val,key){ %>\
-                <div class="option-block <% if(val.isCorrect) { %> mcq-correct-answer<% } %>" onclick="MCQController.selectOptionType1(this)">\
+                <div class="option-block <% if(val.isCorrect) { %> mcq-correct-answer<% } %>" onclick="MCQController.selectOptionType1(this);MCQController.pluginInstance.onOptionSelected(event,<%= key %>)">\
                     <div class="option-image-container <% if(!val.image) { %> no-image<% } %>" \>\
                   <%  if(val.image) { %>\
                         <img onclick="MCQController.showImageModel(event, \'<%= val.image %>\')" src="<%= val.image %>" />\
                   <% } %>\
                     </div>\
                     <%  if(val.audio) { %>\
-                      <img onclick="MCQController.pluginInstance.playAudio({src:\'<%= val.audio %>\'})" src="<%= MCQController.pluginInstance.getDefaultAsset("music-blue.png") %>" class="audio" />\
+                      <img onclick="MCQController.pluginInstance.playAudio({src:\'<%= val.audio %>\'})" src="<%= MCQController.pluginInstance.getDefaultAsset("'+ audioIcon + '") %>" class="audio" />\
                     <% } %>\
                     <div class="option-text-container<% if(val.audio) { %> with-audio <% } %> <% if(val.image) { %>with-image<% } %>">\
                   <%  if(val.text) { %>\
@@ -52,3 +58,5 @@ MCQController.selectOptionType1 = function(element){
   $('.option-block').removeClass('selected');
   $(element).addClass('selected');
 }
+
+//# sourceURL=org.ekstep.questionunit.mcq.horizontal_and_vertical.js
