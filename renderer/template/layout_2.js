@@ -23,7 +23,7 @@ MCQController.getQuestionTemplate = function () {
                   </div>\
                 </div>\
                 <% if ( question.data.question.audio.length > 0 ){ %> \
-                <img class='audio-image' src=<%=MCQController.pluginInstance.getDefaultAsset(MCQController.pluginInstance._defaultAudioIcon)%>\ onclick=MCQController.pluginInstance.playAudio('<%= question.data.question.audio %>') />\
+                <img class='audio-image' src=<%=MCQController.pluginInstance.getAudioIcon('renderer/assets/audio-icon2.png')%> onclick=MCQController.pluginInstance.playAudio('<%= question.data.question.audio %>') />\
                 <% } %> \
               </div>\
               ";
@@ -45,7 +45,7 @@ MCQController.getOptionForMCQ2 = function (option, key) {
   var optTemplate = "<div class='text-option option-background text-option-<%=key+1%>' onClick=MCQController.pluginInstance.onOptionSelected(event,<%= key %>)>\
   <div class='audio-option-image-container'>\
   <% if ( option.audio.length > 0 ){ %> \
-  <img class='audio-option-image'    src=<%=MCQController.pluginInstance.getDefaultAsset(MCQController.pluginInstance._defaultAudioIcon)%> onclick=MCQController.pluginInstance.playAudio('<%= option.audio %>') />\
+  <img class='audio-option-image'    src=<%=MCQController.pluginInstance.getAudioIcon('renderer/assets/audio-icon2.png')%> onclick=MCQController.pluginInstance.playAudio('<%= option.audio %>') />\
   <% } %> \
   </div>\
   <div class='text-content'>\
