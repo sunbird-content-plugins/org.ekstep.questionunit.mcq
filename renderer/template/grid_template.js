@@ -20,7 +20,7 @@ MCQController.onGridOptionSelected = function (event, index) {
   if (optElt) optElt.addClass('selected');
   MCQController.pluginInstance.onOptionSelected(event, index);
   if (MCQController.pluginInstance._question.data.options[index].audio)
-    MCQController.pluginInstance.playAudio(MCQController.pluginInstance._question.data.options[index].audio);
+    MCQController.pluginInstance.playAudio({src:MCQController.pluginInstance._question.data.options[index].audio});
 }
 
 MCQController.getOptionTemplate = function (option, index) {
@@ -28,7 +28,7 @@ MCQController.getOptionTemplate = function (option, index) {
   <div class="mcq-grid-option-outer">\
     <% if (false && option.audio){ %> \
       <div class="mcq-grid-option-audio">\
-        <img src="<%= MCQController.pluginInstance.getDefaultAsset("audio-icon2.png") %>"  onclick=MCQController.pluginInstance.playAudio("<%= option.audio %>") />\
+        <img src="<%= MCQController.pluginInstance.getDefaultAsset("audio-icon2.png") %>"  onclick=MCQController.pluginInstance.playAudio({src:\'<%= val.audio %>\'}) />\
       </div>\
     <% } %> \
     <div class="mcq-grid-option" onclick="MCQController.onGridOptionSelected(event, <%= index %>)">\
