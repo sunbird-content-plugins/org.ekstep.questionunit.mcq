@@ -1141,10 +1141,10 @@ span.qc-option-txt {
 }
 
 .mcq-qLeft-question-container .audio-image {
-  height: 7.83%;
-  width: 10.5846%;
-  left: 84.61%;
-  top: 71%;
+  height: 9.83%;
+  width: 13.5846%;
+  left: 82.61%;
+  top: 70%;
   position: absolute;
   object-fit: contain;
 }
@@ -1194,12 +1194,21 @@ span.qc-option-txt {
   top: 17.21%;
   position: relative;
 }
+.mcq-2-options-container .text-content-outer {
+  height: 100%;
+  display: table;
+}
+.mcq-2-options-container .text-content-inner {
+  display: table-cell;
+  vertical-align: middle;
+}
 
 .mcq-2-options-container .audio-option-image {
-  height: 34.36%;
-  top: 30%;
+  height: 40%;
+  top: 32%;
   left: -34%;
   position: relative;
+  z-index: 10;
 }
 
 .mcq-2-options-container .audio-option-image-container {
@@ -1210,8 +1219,8 @@ span.qc-option-txt {
 
 .mcq-2-options-container .tick-icon-holder {
   margin-left: 90%;
-  height: 35%;
-  width: 35%;
+  height: 40%;
+  width: 40%;
   margin-top: -8%;
 }
 .text-option .tick-icon-holder > img {
