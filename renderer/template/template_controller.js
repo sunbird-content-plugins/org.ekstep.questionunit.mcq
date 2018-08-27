@@ -13,7 +13,7 @@ MCQController.isMediaAsset = function (question) {
 
 MCQController.renderQuestion = function () {
   MCQController.renderTemplateLayout(MCQController.pluginInstance._question);
-  if (MCQController.pluginInstance._question.config.layout == "Horizontal") {
+  if (MCQController.pluginInstance._question.config.layout == "Grid2" || MCQController.pluginInstance._question.config.layout == "Vertical2") {
     MCQController.getMCQ2LayoutChanges();
   }
 
@@ -38,8 +38,14 @@ MCQController.renderTemplateLayout = function (question) {
     case MCQController.pluginInstance._constant.verticalLayout:
       template = _.template(MCQController.getQuestionTemplateType1(layout));
       break;
-    default:
+    case "Grid2":
       template = _.template(MCQController.getMcq2Template(question));
+      break;
+    case "Vertical2":
+      template = _.template(MCQController.getMcq2Template(question));
+      break;
+    default:
+      template = _.template(MCQController.getHorizontalTemplate(question));
   }
   $("#mcq-question-container").append(template({
     question: question
@@ -63,7 +69,7 @@ MCQController.showImageModel = function () {
   var templateData = template({
     src: eventData
   })
-  $("#qs-mcq-template").append(templateData);
+  $("#mcq-question-container").append(templateData);
 };
 
 /**

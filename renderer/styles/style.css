@@ -1112,9 +1112,15 @@ span.qc-option-txt {
   position: relative;
 }
 
-.mcq2-2-check-image {
-  width: 3.5vw;
+.mcq2-2-option .mcq2-2-check-image {
+  width:3.5vw;
   position: absolute;
+  visibility: hidden;
+}
+.mcq2-2-option.opt-selected .mcq2-2-check-image {
+  width:3.5vw;
+  position: absolute;
+  visibility: visible;
 }
 
 .mcq2-2-option-image {
@@ -1154,14 +1160,15 @@ span.qc-option-txt {
   height: 22.78%;
   width: 100%;
   border-radius: 4px;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-}
-
-.mcq-2-options-container .option-background {
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.5);
   background: #ffffff;
 }
-
-.mcq-2-options-container .selected-option-bg {
+.mcq-2-options-container .text-option.opt-selected {
+  cursor: pointer;
+  height: 22.78%;
+  width: 100%;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.5);
   background: #8EEBFE;
 }
 
@@ -1206,4 +1213,10 @@ span.qc-option-txt {
   height: 35%;
   width: 35%;
   margin-top: -8%;
+}
+.text-option .tick-icon-holder > img {
+  visibility: hidden;
+}
+.text-option.opt-selected .tick-icon-holder > img {
+  visibility: visible;
 }
