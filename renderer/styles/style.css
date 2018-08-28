@@ -1060,8 +1060,8 @@ span.qc-option-txt {
 .mcq-qLeft-question-container .mcq-question-image {
   height: 74.02%;
   width: 100%;
+  margin: 0;
   background: #c6e2e7;
-  margin-left: 0%;
   border-radius: 4px 4px 0 0;
 }
 
@@ -1069,16 +1069,21 @@ span.qc-option-txt {
   height: 25.98%;
   width: 100%;
   background: #ffffff;
+  float: left;
+  overflow: hidden;
 }
 
 .mcq-qLeft-question-container .mcq-question-text .mcq-text-content {
-  padding-left: 7.7%;
-  margin-top: 103.84%;
-  padding-bottom: 2.22%;
-  padding-right: 2.5%;
   width: 100%;
-  height: 25%;
+  height: 100%;
   display: table;
+  padding: 5%;
+}
+
+.mcq-qLeft-question-container .mcq-question-text .mcq-text-content>div {
+  display: table-cell;
+  vertical-align: middle;
+  word-break: break-word;
 }
 
 .mcq2-2-option1 {
