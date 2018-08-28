@@ -32,11 +32,11 @@ MCQController.renderTemplateLayout = function (question) {
     case "Grid":
       template = _.template(MCQController.getGridTemplate(question));
       break;
-    case "Horizontal":
-      template = _.template(MCQController.getHorizontalTemplate(question));
+    case MCQController.pluginInstance._constant.horizontalLayout:
+      template = _.template(MCQController.getQuestionTemplateType1(layout));
       break;
-    case "Vertical":
-      template = _.template(MCQController.getVerticalTemplate(question));
+    case MCQController.pluginInstance._constant.verticalLayout:
+      template = _.template(MCQController.getQuestionTemplateType1(layout));
       break;
     case "Grid2":
       template = _.template(MCQController.getMcq2Template(question));

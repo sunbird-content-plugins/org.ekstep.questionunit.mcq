@@ -11,6 +11,8 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
   _render: true,
   _selectedanswere: undefined,
   _constant: {
+    verticalLayout:'Vertical',
+    horizontalLayout: 'Horizontal',
     gridLayout: "Grid",
     mcqParentDiv: "#qs-mcq-template",
     mcqSelectOption: ".mcq-option-value",
@@ -113,25 +115,6 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
     }
     else {
       return 'file:///' + EkstepRendererAPI.getBaseURL() + url;
-    }
-  },
-  /**
-   * play audio once at a time
-   * @memberof org.ekstep.questionunit.mcq
-   * @param {String} audio from question set.
-   */
-  playAudio: function (audio) {
-    audio = this.getAssetUrl(audio);
-    if (this._lastAudio && (this._lastAudio != audio)) { // eslint-disable-line no-undef
-      this._currentAudio.pause(); // eslint-disable-line no-undef
-    }
-    if (!this._currentAudio || this._currentAudio.paused) { // eslint-disable-line no-undef
-      this._currentAudio = new Audio(audio); // eslint-disable-line no-undef
-      this._currentAudio.play(); // eslint-disable-line no-undef
-      this._lastAudio = audio; // eslint-disable-line no-undef
-    } else {
-      this._currentAudio.pause(); // eslint-disable-line no-undef
-      this._currentAudio.currentTime = 0 // eslint-disable-line no-undef
     }
   },
   /**
