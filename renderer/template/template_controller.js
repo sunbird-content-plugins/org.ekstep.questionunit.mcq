@@ -1,22 +1,34 @@
 var MCQController = MCQController || {};
+
+/**
+ * Initializes the controller with the plugin instance
+ * @param {Object} pluginInstance 
+ */
 MCQController.initTemplate = function (pluginInstance) {
   MCQController.pluginInstance = pluginInstance;
 };
+
+/**
+ * loads the template content html
+ */
 MCQController.loadTemplateContent = function () {
   return '<div id="mcq-question-container"></div>';
 };
+
+/**
+ * initializes the presence of audio or image in the question
+ * @param {object} question 
+ */
 MCQController.isMediaAsset = function (question) {
   MCQController.isAudioIcon = !_.isUndefined(_.find(question.data.options, "audio")) ? true : false;
   MCQController.isImageIcon = !_.isUndefined(_.find(question.data.options, "image")) ? true : false;
 };
-// MCQController.audioIcon = MCQController.pluginInstance.getAssetUrl('audio-icon.png');
-// MCQController.expandIcon = MCQController.pluginInstance.getAssetUrl('expand-icon.png');
+
+/**
+ * renders the question html template by invoking the appropriate layout renderer
+ */
 MCQController.renderQuestion = function () {
   MCQController.renderTemplateLayout(MCQController.pluginInstance._question);
-  if (MCQController.pluginInstance._question.config.layout == "Grid2" || MCQController.pluginInstance._question.config.layout == "Vertical2") {
-    MCQController.getMCQ2LayoutChanges();
-  }
-
 };
 
 /**
@@ -27,30 +39,15 @@ MCQController.renderQuestion = function () {
 MCQController.renderTemplateLayout = function (question) {
   MCQController.isMediaAsset(question);
   var layout = question.config.layout;
-  var template;
-  switch (layout) {
-    case "Grid":
-      template = _.template(MCQController.getGridTemplate(question));
-      break;
-    case MCQController.pluginInstance._constant.horizontalLayout:
-      template = _.template(MCQController.getQuestionTemplateType1(layout));
-      break;
-    case MCQController.pluginInstance._constant.verticalLayout:
-      template = _.template(MCQController.getQuestionTemplateType1(layout));
-      break;
-    case "Grid2":
-      template = _.template(MCQController.getMcq2Template(question));
-      break;
-    case "Vertical2":
-      template = _.template(MCQController.getMcq2Template(question));
-      break;
-    default:
-      template = _.template(MCQController.getHorizontalTemplate(question));
-  }
+  MCQController[layout.toLowerCase()].preRender(question);
+  var strTemplate = MCQController[layout.toLowerCase()].getTemplate(question)
+  var template = _.template(strTemplate);
   $("#mcq-question-container").append(template({
     question: question
   }));
+  MCQController[layout.toLowerCase()].postRender(question);
 };
+
 /**
 * image will be shown in popup
 * @memberof org.ekstep.questionunit.mcq.template_controller
@@ -141,7 +138,5 @@ MCQController.openPopup = function (id) {
 MCQController.closePopup = function () {
   $(".mcq-expand-popup").remove();
 };
-
-
 
 //# sourceURL=MCQController.js
