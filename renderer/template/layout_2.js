@@ -15,7 +15,9 @@ MCQController.getMcq2Template = function (question) {
 MCQController.getQuestionTemplate = function () {
   return "<div class='mcq-qLeft-question-container'>\
                 <div class='mcq-question-image'>\
+                <% if(question.data.question.image){%>\
                 <img class='q-image' onclick='MCQController.showImageModel(event)'\ src=<%=MCQController.pluginInstance.getAssetUrl( question.data.question.image) %> />\
+                <%}%>\
                 </div>\
                 <div class='mcq-question-text'>\
                   <div class='mcq-text-content'>\
@@ -23,7 +25,7 @@ MCQController.getQuestionTemplate = function () {
                   </div>\
                 </div>\
                 <% if ( question.data.question.audio.length > 0 ){ %> \
-                <img class='audio-image' src=<%= MCQController.pluginInstance.getDefaultAsset('audio-icon2.png')%> onclick=MCQController.pluginInstance.playAudio('<%= question.data.question.audio %>') />\
+                <img class='audio-image' src=<%= MCQController.pluginInstance.getDefaultAsset('audio-icon2.png')%> onclick=MCQController.pluginInstance.playAudio({src:'<%= question.data.question.audio %>'}) />\
                 <% } %> \
               </div>\
               ";
@@ -40,16 +42,19 @@ MCQController.getOptionsTemplate2_1 = function (options) {
 ";
 }
 
-
 MCQController.getOptionForMCQ2 = function (option, key) {
   var optTemplate = "<div class='text-option option-background text-option-<%=key+1%>' onClick=MCQController.onMCQ2OptionSelected(event,<%= key %>)>\
   <div class='audio-option-image-container'>\
   <% if ( option.audio.length > 0 ){ %> \
-  <img class='audio-option-image'    src=<%= MCQController.pluginInstance.getDefaultAsset('audio-icon2.png')%> onclick=MCQController.pluginInstance.playAudio('<%= option.audio %>') />\
+  <img class='audio-option-image'    src=<%= MCQController.pluginInstance.getDefaultAsset('audio-icon2.png')%> onclick=MCQController.pluginInstance.playAudio({src:'<%= option.audio %>'}) />\
   <% } %> \
   </div>\
   <div class='text-content'>\
+  <div class='text-content-outer'>\
+  <div class='text-content-inner'>\
   <%= option.text %>\
+  </div>\
+  </div>\
   </div>\
   <div class='tick-icon-holder'>\
   <img src=<%= MCQController.pluginInstance.getDefaultAsset('tick_icon.png') %> style='height: 100%;'>\
@@ -73,7 +78,7 @@ MCQController.getOptionForMcq2_2 = function (option, key) {
       src=<%=MCQController.pluginInstance.getAssetUrl(option.image) %> />\
   <%}%>\
   <%if(!option.image && option.text){%>\
-    <div><%= option.text %></div>\
+    <div class='mcq2-2-option-text'><%= option.text %></div>\
   <%}%>\
   <div class='mcq2-2-check-image-holder' >\
     <img class='mcq2-2-check-image'\
@@ -84,33 +89,13 @@ MCQController.getOptionForMcq2_2 = function (option, key) {
   return _.template(optTemplate)({ "option": option, "key": key });
 }
 
-MCQController.deselectAll = function () {
-  $(".mcq2-2-check-image").hide();
-  $(".tick-icon-holder").hide();
-}
-
-MCQController.registerClick = function () {
-  $(".mcq2-2-option").click(function () {
-    $(".mcq2-2-check-image").hide();
-    $(this).find(".mcq2-2-check-image").show();
-  })
-  $(".text-option").click(function () {
-    $(".text-option").removeClass("selected-option-bg");
-    $(".text-option").addClass("option-background");
-    $(".tick-icon-holder").hide();
-    $(this).removeClass("option-background");
-    $(this).addClass("selected-option-bg");
-    $(this).find(".tick-icon-holder").show();
-  })
-}
-
 MCQController.onMCQ2_2OptionSelected = function (event, index) {
   $('.mcq2-2-option').removeClass('opt-selected');
   var optElt = $(event.target).closest('.mcq2-2-option');
   if (optElt) optElt.addClass('opt-selected');
   MCQController.pluginInstance.onOptionSelected(event, index);
   if (MCQController.pluginInstance._question.data.options[index].audio)
-    MCQController.pluginInstance.playAudio(MCQController.pluginInstance._question.data.options[index].audio);
+    MCQController.pluginInstance.playAudio({ src: MCQController.pluginInstance._question.data.options[index].audio });
 }
 
 MCQController.onMCQ2OptionSelected = function (event, index) {
