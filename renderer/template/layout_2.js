@@ -78,7 +78,7 @@ MCQController.getOptionForMcq2_2 = function (option, key) {
       src=<%=MCQController.pluginInstance.getAssetUrl(option.image) %> />\
   <%}%>\
   <%if(!option.image && option.text){%>\
-    <div class='mcq2-2-option-image'><%= option.text %></div>\
+    <div class='mcq2-2-option-text'><%= option.text %></div>\
   <%}%>\
   <div class='mcq2-2-check-image-holder' >\
     <img class='mcq2-2-check-image'\
@@ -87,26 +87,6 @@ MCQController.getOptionForMcq2_2 = function (option, key) {
 </div>\
 ";
   return _.template(optTemplate)({ "option": option, "key": key });
-}
-
-MCQController.deselectAll = function () {
-  $(".mcq2-2-check-image").hide();
-  $(".tick-icon-holder").hide();
-}
-
-MCQController.registerClick = function () {
-  $(".mcq2-2-option").click(function () {
-    $(".mcq2-2-check-image").hide();
-    $(this).find(".mcq2-2-check-image").show();
-  })
-  $(".text-option").click(function () {
-    $(".text-option").removeClass("selected-option-bg");
-    $(".text-option").addClass("option-background");
-    $(".tick-icon-holder").hide();
-    $(this).removeClass("option-background");
-    $(this).addClass("selected-option-bg");
-    $(this).find(".tick-icon-holder").show();
-  })
 }
 
 MCQController.onMCQ2_2OptionSelected = function (event, index) {
