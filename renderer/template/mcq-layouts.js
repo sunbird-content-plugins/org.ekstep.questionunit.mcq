@@ -1,29 +1,65 @@
 var MCQController = MCQController || {};
 
+/**
+ * The layout class that acts like a base class for layout specific classes
+ */
 MCQController.layout = MCQController.layout || {
+    /**
+     * called just before the layout's `getTemplate()` is called. This can be
+     * used to perform any initializations on the layout object
+     */
     preRender: function (question) { },
+    /**
+     * returns the html template for the layout
+     * @param {object} question the question object
+     */
     getTemplate: function (question) { },
+    /**
+     * called when the option is selected
+     * @param {object} event the mouse click or touch event
+     * @param {Number} index the index of the option
+     */
     onOptionSelected: function (event, index) {
         MCQController.pluginInstance.onOptionSelected(event, index);
     },
+    /**
+     * called after the DOM is initialized with the layout html
+     * @param {object} question the question object
+     */
     postRender: function (question) { }
 }
 
 /* ** Grid ** */
 MCQController.grid = MCQController.grid || jQuery.extend({}, MCQController.layout);
 
+/* The config object used for grid layout */
 MCQController.grid.config = {
     optIndices: []
 }
 
+/**
+ * initializes the grid layout.
+ * @param {object} question 
+ */
 MCQController.grid.preRender = function (question) {
     MCQController.grid.config.optIndices = _.range(question.data.options.length);
 }
 
+/**
+ * returns the number of rows for the grid layout depening on the number of options
+ * @param {Number} optsCount 
+ */
 MCQController.grid.getRowCount = function (optsCount) {
     return optsCount > 4 ? 2 : 1
 }
 
+/**
+ * called when the option in grid layout is selected. It updates the CSS class
+ * for selected option element, and also plays the audio if there is audio
+ * associated with the option
+ * @param {object} event 
+ * @param {number} index 
+ */
 MCQController.grid.onOptionSelected = function (event, index) {
     // clear all selected options and select this option
     $('.mcq-grid-option').removeClass('selected');
@@ -34,6 +70,11 @@ MCQController.grid.onOptionSelected = function (event, index) {
         MCQController.pluginInstance.playAudio({ src: MCQController.pluginInstance._question.data.options[index].audio });
 }
 
+/**
+ * returns the option template for grid layout
+ * @param {object} option 
+ * @param {number} index 
+ */
 MCQController.grid.getOptionTemplate = function (option, index) {
     var optTemplate = '\
   <div class="mcq-grid-option-outer">\
@@ -59,6 +100,12 @@ MCQController.grid.getOptionTemplate = function (option, index) {
     return _.template(optTemplate)({ "option": option, "index": index });
 }
 
+/**
+ * returns the HTML for all options for the row whose index is specified by `i`
+ * @param {array} optIndices the index array for the options
+ * @param {number} i the index of the row
+ * @param {array} options the array of options
+ */
 MCQController.grid.getOptionsForRow = function (optIndices, i, options) {
     var rowOpts = [], opts = "";
     if (i == 0)
@@ -74,6 +121,11 @@ MCQController.grid.getOptionsForRow = function (optIndices, i, options) {
     return opts;
 }
 
+/**
+ * returns the HTML for row elements with options populated
+ * @param {array} optIndices 
+ * @param {array} options 
+ */
 MCQController.grid.getOptionRows = function (optIndices, options) {
     var rowTemplate = '';
     var r = 0; maxRow = MCQController.grid.getRowCount(optIndices.length);
@@ -87,10 +139,18 @@ MCQController.grid.getOptionRows = function (optIndices, options) {
     return rowTemplate;
 }
 
+/**
+ * returns the options HTML template
+ * @param {array} options 
+ */
 MCQController.grid.getOptionsTemplate = function (options) {
     return MCQController.grid.getOptionRows(MCQController.grid.config.optIndices, options);
 }
 
+/**
+ * returns the HTML template for the grid layout
+ * @param {object} question 
+ */
 MCQController.grid.getTemplate = function (question) {
     var template =
         org.ekstep.questionunit.backgroundComponent.getBackgroundGraphics() +
@@ -108,6 +168,10 @@ MCQController.grid.getTemplate = function (question) {
 /** Horizontal */
 MCQController.horizontal = MCQController.horizontal || jQuery.extend({}, MCQController.layout);
 
+/**
+ * returns the template for the specified layout
+ * @param {string} layout the layout type `horizontal` or `vertical`
+ */
 MCQController.horizontal.getTemplateForLayout = function (layout) {
     var wrapperStartQuestionComponent = '<div class="question-content-container">';
     var wrapperEndQuestionComponent = '</div>';
@@ -131,6 +195,10 @@ MCQController.horizontal.getTemplate = function (question) {
     return MCQController.horizontal.getTemplateForLayout(question.config.layout.toLowerCase());
 }
 
+/**
+ * returns the options HTML template for the specified `layout` 
+ * @param {string} layout 
+ */
 MCQController.horizontal.getOptionLayout = function (layout) {
     var audioIcon;
     if ('vertical' == layout) {
@@ -163,6 +231,11 @@ MCQController.horizontal.getOptionLayout = function (layout) {
           </div>'
 }
 
+/**
+ * called when the option in `horizontal` or `vertical` layout is selected
+ * @param {object} element 
+ * @param {number} index 
+ */
 MCQController.horizontal.onSelectOption = function (element, index) {
     $('.option-block').removeClass('selected');
     $(element).addClass('selected');
@@ -170,12 +243,19 @@ MCQController.horizontal.onSelectOption = function (element, index) {
         MCQController.pluginInstance.playAudio({ src: MCQController.pluginInstance._question.data.options[index].audio });
     }
 }
+
 /** Vertical */
+/* vertical layout is exactly same as horizontal */
 MCQController.vertical = MCQController.vertical || jQuery.extend({}, MCQController.layout, MCQController.horizontal);
 
 /** Vertical2 */
 MCQController.vertical2 = MCQController.vertical2 || jQuery.extend({}, MCQController.layout);
 
+/**
+ * returns the HTML template for `vertial2` layout where question is to the left and options are
+ * displayed one below other on the right hand side
+ * @param {object} question 
+ */
 MCQController.vertical2.getTemplate = function (question) {
     var questionTemplate = MCQController.vertical2.getQuestionTemplate();
     var optionsTemplate = MCQController.vertical2.getOptionsTemplate(question.data.options);
@@ -184,6 +264,9 @@ MCQController.vertical2.getTemplate = function (question) {
         "</div>";
 }
 
+/**
+ * returns the question HTML template for the `vertical2` and `grid2` layouts
+ */
 MCQController.vertical2.getQuestionTemplate = function () {
     return "<div class='mcq-qLeft-question-container'>\
                 <div class='mcq-question-image'>\
@@ -203,6 +286,10 @@ MCQController.vertical2.getQuestionTemplate = function () {
               ";
 }
 
+/**
+ * returns the HTML options template for the `vertical2` layout
+ * @param {array} options 
+ */
 MCQController.vertical2.getOptionsTemplate = function (options) {
     var opts = ''
     _.each(options, function (val, key, index) {
@@ -214,6 +301,11 @@ MCQController.vertical2.getOptionsTemplate = function (options) {
 ";
 }
 
+/**
+ * returns the option HTML template
+ * @param {object} option the option object
+ * @param {number} key the index of the option
+ */
 MCQController.vertical2.getOption = function (option, key) {
     var optTemplate = "<div class='text-option option-background text-option-<%=key+1%>' onClick=MCQController.vertical2.onOptionSelected(event,<%= key %>)>\
     <div class='audio-option-image-container'>\
@@ -235,6 +327,10 @@ MCQController.vertical2.getOption = function (option, key) {
     return _.template(optTemplate)({ "option": option, "key": key });
 }
 
+/**
+ * adjusts the CSS properties of the options for `vertical2` layout
+ * @param {object} question 
+ */
 MCQController.vertical2.adjustOptions = function (question) {
     var optLength = question.data.options.length;
     if (optLength == 2) {
@@ -245,12 +341,21 @@ MCQController.vertical2.adjustOptions = function (question) {
     }
 }
 
+/**
+ * called after the HTML template is updated in the DOM
+ * @param {object} question 
+ */
 MCQController.vertical2.postRender = function (question) {
     if (question.data.options.length < 4) {
         MCQController.vertical2.adjustOptions(question);
     }
 }
 
+/**
+ * called when the option in `vertical2` layout is selected/tapped
+ * @param {object} event 
+ * @param {number} index 
+ */
 MCQController.vertical2.onOptionSelected = function (event, index) {
     $('.text-option').removeClass('opt-selected');
     var optElt = $(event.target).closest('.text-option');
@@ -261,6 +366,10 @@ MCQController.vertical2.onOptionSelected = function (event, index) {
 /** Grid2 */
 MCQController.grid2 = MCQController.grid2 || jQuery.extend({}, MCQController.layout);
 
+/**
+ * returns the HTML template for the `grid2` layout
+ * @param {object} question 
+ */
 MCQController.grid2.getTemplate = function (question) {
     var questionTemplate = MCQController.vertical2.getQuestionTemplate();
     var optionsTemplate = MCQController.grid2.getOptionsTemplate(question.data.options)
@@ -269,6 +378,10 @@ MCQController.grid2.getTemplate = function (question) {
         "</div>";
 }
 
+/**
+ * adjusts the option's CSS properties for `grid2` layout
+ * @param {object} question the question object
+ */
 MCQController.grid2.adjustOptions = function (question) {
     var optLength = question.data.options.length;
     if (optLength == 2) {
@@ -279,12 +392,20 @@ MCQController.grid2.adjustOptions = function (question) {
     }
 }
 
+/**
+ * called after the DOM is updated with the question template HTML
+ * @param {object} question the question object
+ */
 MCQController.grid2.postRender = function (question) {
     if (question.data.options.length < 4) {
         MCQController.grid2.adjustOptions(question);
     }
 }
 
+/**
+ * returns the HTML template for options for `grid2` layout
+ * @param {array} options 
+ */
 MCQController.grid2.getOptionsTemplate = function (options) {
     var optionTemplate = ''
     _.each(options, function (val, key, index) {
@@ -293,6 +414,11 @@ MCQController.grid2.getOptionsTemplate = function (options) {
     return optionTemplate;
 }
 
+/**
+ * returns the HTML template of the option in `grid2` template
+ * @param {object} option the option object
+ * @param {number} key the index of the option
+ */
 MCQController.grid2.getOption = function (option, key) {
     var optTemplate = " <div class='mcq2-2-option mcq2-2-option<%=key+1%>' onClick=MCQController.grid2.onOptionSelected(event,<%= key %>)>\
   <%if(option.image){%>\
@@ -311,6 +437,11 @@ MCQController.grid2.getOption = function (option, key) {
     return _.template(optTemplate)({ "option": option, "key": key });
 }
 
+/**
+ * called when the option in `grid2` layout is selected
+ * @param {object} event 
+ * @param {number} index 
+ */
 MCQController.grid2.onOptionSelected = function (event, index) {
     $('.mcq2-2-option').removeClass('opt-selected');
     var optElt = $(event.target).closest('.mcq2-2-option');
@@ -319,3 +450,5 @@ MCQController.grid2.onOptionSelected = function (event, index) {
     if (MCQController.pluginInstance._question.data.options[index].audio)
         MCQController.pluginInstance.playAudio({ src: MCQController.pluginInstance._question.data.options[index].audio });
 }
+
+//# sourceURL=mcq-layouts.js
