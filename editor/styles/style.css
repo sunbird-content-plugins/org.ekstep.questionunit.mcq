@@ -224,3 +224,8 @@ i.large.icon.delete-icon{
  position: absolute;
  left: 45%;
 }
+.qc-media-section{
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+  width: 100%!important;
+}
