@@ -193,7 +193,7 @@ MCQController.vertical2.getQuestionTemplate = function () {
                 </div>\
                 <div class='mcq-question-text'>\
                   <div class='mcq-text-content'>\
-                  <span style='display:table-cell; vertical-align:middle;'><%= question.data.question.text %></span>\
+                  <div><%= question.data.question.text %></div>\
                   </div>\
                 </div>\
                 <% if ( question.data.question.audio.length > 0 ){ %> \
