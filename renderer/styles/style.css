@@ -953,7 +953,7 @@ span.qc-option-txt {
 }
 
 .mcq-grid-option {
-  width: 19vw;
+  width: 100%;
   height: 33.27vh;
   position: relative;
   border-radius: 4px;
@@ -995,6 +995,10 @@ span.qc-option-txt {
 .mcq-grid-option-text>div {
   display: table-cell;
   vertical-align: middle;
+  text-overflow: clip;
+  white-space: nowrap;
+  padding-left: 1vw;
+  padding-right: 1vw;
 }
 
 .mcq-grid-option-audio {
@@ -1056,8 +1060,8 @@ span.qc-option-txt {
 .mcq-qLeft-question-container .mcq-question-image {
   height: 74.02%;
   width: 100%;
+  margin: 0;
   background: #c6e2e7;
-  margin-left: 0%;
   border-radius: 4px 4px 0 0;
 }
 
@@ -1065,16 +1069,21 @@ span.qc-option-txt {
   height: 25.98%;
   width: 100%;
   background: #ffffff;
+  float: left;
+  overflow: hidden;
 }
 
 .mcq-qLeft-question-container .mcq-question-text .mcq-text-content {
-  padding-left: 7.7%;
-  margin-top: 103.84%;
-  padding-bottom: 2.22%;
-  padding-right: 2.5%;
   width: 100%;
-  height: 25%;
+  height: 100%;
   display: table;
+  padding: 5%;
+}
+
+.mcq-qLeft-question-container .mcq-question-text .mcq-text-content>div {
+  display: table-cell;
+  vertical-align: middle;
+  word-break: break-word;
 }
 
 .mcq2-2-option1 {
@@ -1113,12 +1122,13 @@ span.qc-option-txt {
 }
 
 .mcq2-2-option .mcq2-2-check-image {
-  width:3.5vw;
+  width: 3.5vw;
   position: absolute;
   visibility: hidden;
 }
+
 .mcq2-2-option.opt-selected .mcq2-2-check-image {
-  width:3.5vw;
+  width: 3.5vw;
   position: absolute;
   visibility: visible;
 }
@@ -1131,6 +1141,7 @@ span.qc-option-txt {
   object-fit: contain;
   overflow: hidden;
 }
+
 .mcq2-2-option-text {
   padding-top: 2%;
   padding-left: 2%;
@@ -1170,15 +1181,16 @@ span.qc-option-txt {
   height: 22.78%;
   width: 100%;
   border-radius: 4px;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.5);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
   background: #ffffff;
 }
+
 .mcq-2-options-container .text-option.opt-selected {
   cursor: pointer;
   height: 22.78%;
   width: 100%;
   border-radius: 4px;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.5);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
   background: #8EEBFE;
 }
 
@@ -1204,10 +1216,12 @@ span.qc-option-txt {
   top: 17.21%;
   position: relative;
 }
+
 .mcq-2-options-container .text-content-outer {
   height: 100%;
   display: table;
 }
+
 .mcq-2-options-container .text-content-inner {
   display: table-cell;
   vertical-align: middle;
@@ -1233,9 +1247,11 @@ span.qc-option-txt {
   width: 40%;
   margin-top: -8%;
 }
-.text-option .tick-icon-holder > img {
+
+.text-option .tick-icon-holder>img {
   visibility: hidden;
 }
-.text-option.opt-selected .tick-icon-holder > img {
+
+.text-option.opt-selected .tick-icon-holder>img {
   visibility: visible;
 }
