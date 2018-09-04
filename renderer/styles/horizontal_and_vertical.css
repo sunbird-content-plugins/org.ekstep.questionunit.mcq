@@ -103,6 +103,7 @@
 }
 
 .mcq-content-container .option-container.vertical .option-block-container .option-block .option-text-container {
+    overflow:hidden;
     height: 25%;
     width: 100%;
     position: relative;
