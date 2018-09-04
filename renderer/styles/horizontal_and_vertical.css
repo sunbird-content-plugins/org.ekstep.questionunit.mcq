@@ -7,16 +7,23 @@
 }
 
 .mcq-content-container .question-content-container {
-    height: 17.33333%;
+    height: 22.33333vh;
+    font-size: 3.9vh;
+    line-height: 6.7vh;
 }
 
 .mcq-content-container .option-container.vertical {
-    height: 77.5%;
-    padding-right: 10.40%;
-    padding-left: 10.40%;
+    height: 100%;
     width: 100%;
     position: relative;
     display: table;
+}
+.mcq-content-container .outer-option-container.vertical {
+    height: 77.5%;
+    width: 78.2%;
+    position: relative;
+    margin-right: 10.40%;
+    margin-left: 10.40%;
 }
 
 .mcq-content-container .option-container.vertical .option-block-container {
@@ -33,7 +40,7 @@
 
 .mcq-content-container .option-container.vertical .option-block-container .option-block {
     cursor: pointer;
-    width: 19.5%;
+    width: 24.93%;
     height: 65.5161290323%;
     margin-right: 0.9%;
     border-radius: 4px;
@@ -63,7 +70,6 @@
     width: 100%;
     position: relative;
     border-radius:4px;
-    background-color: #dce5f4;
 }
 
 .mcq-content-container .option-container.vertical .option-block-container .option-block .option-image-container img {
@@ -121,12 +127,19 @@
 /* Horizontal layout starts */
 
 .mcq-content-container .option-container.horizontal {
-    height: 81.5%;
-    padding-right: 10.40%;
-    padding-left: 10.40%;
+    height: 100%;
     width: 100%;
     position: relative;
     display: table;
+}
+.mcq-content-container .outer-option-container.horizontal {
+    padding-top: 2.5%;
+    margin-right: 10.40%;
+    margin-left: 10.40%;
+    height: 76.5%;
+    position: relative;
+    overflow: auto;
+    padding-bottom: 2.5%;
 }
 
 .mcq-content-container .option-container.horizontal .option-block-container {
@@ -165,8 +178,7 @@
     height: 100%;
     width: 11.5%;
     float: left;
-    position: relative;
-    background-color: #dce5f4;
+    position: relative;    
 }
 
 .mcq-content-container .option-container.horizontal .option-block-container .option-block .option-image-container.no-image {

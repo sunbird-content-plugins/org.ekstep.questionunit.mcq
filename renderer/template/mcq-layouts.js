@@ -206,7 +206,8 @@ MCQController.horizontal.getOptionLayout = function (layout) {
     } else {
         audioIcon = "audio-icon2.png"
     }
-    return '<div class="option-container ' + layout + '">\
+    return '<div class="outer-option-container ' + layout + '">\
+            <div class="option-container ' + layout + '">\
             <div class="option-block-container">\
             <% _.each(question.data.options,function(val,key){ %>\
                 <div class="option-block <% if(val.isCorrect) { %> mcq-correct-answer<% } %>" onclick="MCQController.horizontal.onSelectOption(this, <%= key %>);MCQController.horizontal.onOptionSelected(event,<%= key %>)">\
@@ -227,6 +228,7 @@ MCQController.horizontal.getOptionLayout = function (layout) {
                 </div>\
               <% }) %>\
               </div>\
+            </div>\
             </div>\
           </div>'
 }
@@ -257,7 +259,7 @@ MCQController.vertical2 = MCQController.vertical2 || jQuery.extend({}, MCQContro
  * @param {object} question 
  */
 MCQController.vertical2.getTemplate = function (question) {
-    var questionTemplate = MCQController.vertical2.getQuestionTemplate();
+    var questionTemplate = MCQController.vertical2.getQuestionTemplate(question);
     var optionsTemplate = MCQController.vertical2.getOptionsTemplate(question.data.options);
     return org.ekstep.questionunit.backgroundComponent.getBackgroundGraphics() + "<div class='mcq-qLeft-content-container'>"
         + questionTemplate + optionsTemplate +
@@ -267,23 +269,29 @@ MCQController.vertical2.getTemplate = function (question) {
 /**
  * returns the question HTML template for the `vertical2` and `grid2` layouts
  */
-MCQController.vertical2.getQuestionTemplate = function () {
-    return "<div class='mcq-qLeft-question-container'>\
-                <div class='mcq-question-image'>\
+MCQController.vertical2.getQuestionTemplate = function (question) {
+    var q_image_class = '';
+    if (question.data.question.text) q_image_class = 'mcq-question-image'
+    else q_image_class = 'mcq-question-image-full'
+    var qTemplate = "<div class='mcq-qLeft-question-container'>\
+                <div class=<%= q_image_class%>>\
                 <% if(question.data.question.image){%>\
                 <img class='q-image' onclick='MCQController.showImageModel(event)'\ src=<%=MCQController.pluginInstance.getAssetUrl( question.data.question.image) %> />\
                 <%}%>\
                 </div>\
+                <% if(question.data.question.text){%>\
                 <div class='mcq-question-text'>\
                   <div class='mcq-text-content'>\
                   <div><%= question.data.question.text %></div>\
                   </div>\
                 </div>\
+                <%}%>\
                 <% if ( question.data.question.audio.length > 0 ){ %> \
                 <img class='audio-image' src=<%= MCQController.pluginInstance.getDefaultAsset('audio-icon2.png')%> onclick=MCQController.pluginInstance.playAudio({src:'<%= question.data.question.audio %>'}) />\
                 <% } %> \
               </div>\
               ";
+    return _.template(qTemplate)({ "question": question, "q_image_class": q_image_class });
 }
 
 /**
@@ -295,7 +303,7 @@ MCQController.vertical2.getOptionsTemplate = function (options) {
     _.each(options, function (val, key, index) {
         opts += MCQController.vertical2.getOption(val, key);
     });
-    return "<div class='mcq-2-options-container'>"
+    return "<div class='mcq-2-options-container-vertical'>"
         + opts +
         "</div>\
 ";
@@ -307,7 +315,10 @@ MCQController.vertical2.getOptionsTemplate = function (options) {
  * @param {number} key the index of the option
  */
 MCQController.vertical2.getOption = function (option, key) {
-    var optTemplate = "<div class='text-option option-background text-option-<%=key+1%>' onClick=MCQController.vertical2.onOptionSelected(event,<%= key %>)>\
+    var keyConst = 0;
+    if (key > 0) keyConst = 2
+    else keyConst = 1
+    var optTemplate = "<div class='text-option option-background text-option-<%=keyConst%>' onClick=MCQController.vertical2.onOptionSelected(event,<%= key %>)>\
     <div class='audio-option-image-container'>\
     <% if ( option.audio.length > 0 ){ %> \
     <img class='audio-option-image'    src=<%= MCQController.pluginInstance.getDefaultAsset('audio-icon2.png')%> onclick=MCQController.pluginInstance.playAudio({src:'<%= option.audio %>'}) />\
@@ -324,7 +335,7 @@ MCQController.vertical2.getOption = function (option, key) {
     <img src=<%= MCQController.pluginInstance.getDefaultAsset('tick_icon.png') %> style='height: 100%;'>\
     </div>\
     </div>"
-    return _.template(optTemplate)({ "option": option, "key": key });
+    return _.template(optTemplate)({ "option": option, "key": key, "keyConst": keyConst });
 }
 
 /**
@@ -371,7 +382,7 @@ MCQController.grid2 = MCQController.grid2 || jQuery.extend({}, MCQController.lay
  * @param {object} question 
  */
 MCQController.grid2.getTemplate = function (question) {
-    var questionTemplate = MCQController.vertical2.getQuestionTemplate();
+    var questionTemplate = MCQController.vertical2.getQuestionTemplate(question);
     var optionsTemplate = MCQController.grid2.getOptionsTemplate(question.data.options)
     return org.ekstep.questionunit.backgroundComponent.getBackgroundGraphics() + "<div class='mcq-qLeft-content-container'>"
         + questionTemplate + optionsTemplate +
