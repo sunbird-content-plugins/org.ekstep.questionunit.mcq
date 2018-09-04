@@ -1055,6 +1055,7 @@ span.qc-option-txt {
   box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.5);
   position: relative;
   background: #ffffff;
+  overflow: hidden;
 }
 
 .mcq-qLeft-question-container .mcq-question-image {
@@ -1062,7 +1063,12 @@ span.qc-option-txt {
   width: 100%;
   margin: 0;
   background: #c6e2e7;
-  border-radius: 4px 4px 0 0;
+}
+.mcq-qLeft-question-container .mcq-question-image-full {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  background: #ffffff;
 }
 
 .mcq-qLeft-question-container .mcq-question-text {
@@ -1077,7 +1083,9 @@ span.qc-option-txt {
   width: 100%;
   height: 100%;
   display: table;
-  padding: 5%;
+  padding-left: 5%;
+  font-size: 14px;
+  line-height: 18px;
 }
 
 .mcq-qLeft-question-container .mcq-question-text .mcq-text-content>div {
@@ -1151,6 +1159,7 @@ span.qc-option-txt {
   position: absolute;
   object-fit: contain;
   overflow: hidden;
+  font-size:14px;
 }
 
 .mcq-qLeft-question-container .q-image {
@@ -1175,59 +1184,67 @@ span.qc-option-txt {
   height: 100%;
   width: 54.731%;
 }
-
-.mcq-2-options-container .text-option {
+.mcq-2-options-container-vertical {
+  margin-left: 46.063%;
+  height: 100%;
+  width: 54.731%;
+  overflow: auto;
+}
+.mcq-2-options-container-vertical .text-option {
   cursor: pointer;
   height: 22.78%;
   width: 100%;
   border-radius: 4px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
   background: #ffffff;
+  overflow: hidden;
 }
 
-.mcq-2-options-container .text-option.opt-selected {
+.mcq-2-options-container-vertical .text-option.opt-selected {
   cursor: pointer;
   height: 22.78%;
   width: 100%;
   border-radius: 4px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
   background: #8EEBFE;
+  overflow: hidden;
 }
 
-.mcq-2-options-container .text-option-1 {
+.mcq-2-options-container-vertical .text-option-1 {
   margin-top: 0%;
 }
 
-.mcq-2-options-container .text-option-2 {
+.mcq-2-options-container-vertical .text-option-2 {
   margin-top: 2.797%;
 }
 
-.mcq-2-options-container .text-option-3 {
+.mcq-2-options-container-vertical .text-option-3 {
   margin-top: 2.797%;
 }
 
-.mcq-2-options-container .text-option-4 {
+.mcq-2-options-container-vertical .text-option-4 {
   margin-top: 2.797%;
 }
 
-.mcq-2-options-container .text-content {
+.mcq-2-options-container-vertical .text-content {
   width: 90.29%;
   height: 67.15%;
-  top: 17.21%;
+  top: 11.21%;
   position: relative;
+  font-size: 14px;
 }
 
-.mcq-2-options-container .text-content-outer {
+.mcq-2-options-container-vertical .text-content-outer {
   height: 100%;
   display: table;
 }
 
-.mcq-2-options-container .text-content-inner {
+.mcq-2-options-container-vertical .text-content-inner {
   display: table-cell;
   vertical-align: middle;
 }
 
-.mcq-2-options-container .audio-option-image {
+.mcq-2-options-container-vertical .audio-option-image {
   height: 40%;
   top: 32%;
   left: -34%;
@@ -1235,13 +1252,13 @@ span.qc-option-txt {
   z-index: 10;
 }
 
-.mcq-2-options-container .audio-option-image-container {
+.mcq-2-options-container-vertical .audio-option-image-container {
   width: 11.51%;
   height: 100%;
   float: left;
 }
 
-.mcq-2-options-container .tick-icon-holder {
+.mcq-2-options-container-vertical .tick-icon-holder {
   margin-left: 90%;
   height: 40%;
   width: 40%;
