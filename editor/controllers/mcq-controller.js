@@ -329,6 +329,8 @@ angular.module('mcqApp', ['org.ekstep.question']).controller('mcqQuestionFormCon
     $("#mcqoptions_").prop("id", "mcqoptions_" + index);
     //remove ckeditor instance if already exist
     $("#cke_mcqoptions_" + index).remove();
+    //remove tooltip
+    $scope.ckConfig.title = "Set Answer"; 
     var optionInput = CKEDITOR.inline("mcqoptions_" + index, $scope.ckConfig);
     //assign value to input box
     CKEDITOR.instances['mcqoptions_' + index].setData($scope.mcqFormData.options[index].text);
