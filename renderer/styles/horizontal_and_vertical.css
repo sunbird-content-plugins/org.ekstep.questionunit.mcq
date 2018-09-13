@@ -7,7 +7,7 @@
 }
 
 .mcq-content-container .question-content-container {
-    height: 22.33333vh;
+    height: 23.33333vh;
     font-size: 3.9vh;
     line-height: 6.7vh;
 }
@@ -103,6 +103,7 @@
 }
 
 .mcq-content-container .option-container.vertical .option-block-container .option-block .option-text-container {
+    overflow:hidden;
     height: 25%;
     width: 100%;
     position: relative;
