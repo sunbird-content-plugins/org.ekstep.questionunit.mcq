@@ -213,7 +213,7 @@ MCQController.horizontal.getOptionLayout = function (layout) {
                 <div class="option-block <% if(val.isCorrect) { %> mcq-correct-answer<% } %>" onclick="MCQController.horizontal.onSelectOption(this, <%= key %>);MCQController.horizontal.onOptionSelected(event,<%= key %>)">\
                     <div class="option-image-container <% if(!val.image) { %> no-image<% } %>" \>\
                   <%  if(val.image) { %>\
-                        <img onclick="MCQController.showImageModel(event, \'<%= val.image %>\')" src="<%= val.image %>" />\
+                        <img onclick="MCQController.showImageModel(event, \'<%= MCQController.pluginInstance.getAssetUrl(val.image) %>\')" src="<%= MCQController.pluginInstance.getAssetUrl(val.image) %>" />\
                   <% } %>\
                     </div>\
                     <%  if(val.audio) { %>\
@@ -276,7 +276,7 @@ MCQController.vertical2.getQuestionTemplate = function (question) {
     var qTemplate = "<div class='mcq-qLeft-question-container'>\
                 <div class=<%= q_image_class%>>\
                 <% if(question.data.question.image){%>\
-                <img class='q-image' onclick='MCQController.showImageModel(event)'\ src=<%=MCQController.pluginInstance.getAssetUrl( question.data.question.image) %> />\
+                <img class='q-image' onclick='MCQController.showImageModel(event, <%=MCQController.pluginInstance.getAssetUrl( question.data.question.image) %>)'\ src=<%=MCQController.pluginInstance.getAssetUrl( question.data.question.image) %> />\
                 <%}%>\
                 </div>\
                 <% if(question.data.question.text){%>\
