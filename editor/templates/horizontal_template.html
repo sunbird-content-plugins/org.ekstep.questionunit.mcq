@@ -51,7 +51,7 @@
                   <div class="ui grid">
                     <div class="one column row">
                       <div class="form-group one column row">
-                        <div class="form-control contenteditable option-text" ng-class="{'has-success':mcqForm['mcqoptions_' + $index].$valid, 'has-error': submitted && mcqForm['mcqoptions_' + $index].$error.required,'option-placeholder':mcqFormData.options[$index].text.length==0}" ng-required="!(mcqFormData.options[key].text.length || mcqFormData.options[key].image.length || mcqFormData.options[key].audio.length)" name="mcqoptions_{{$index}}" id="mcqoptions_" ng-model="mcqFormData.options[key].text" ng-init="bindCkEditor($index)" contenteditable="true"></div>
+                        <div class="form-control contenteditable mcqoption-text-ck" ng-class="{'has-success':mcqForm['mcqoptions_' + $index].$valid, 'has-error': submitted && mcqForm['mcqoptions_' + $index].$error.required,'option-placeholder':mcqFormData.options[$index].text.length==0}" ng-required="!(mcqFormData.options[key].text.length || mcqFormData.options[key].image.length || mcqFormData.options[key].audio.length)" name="mcqoptions_{{$index}}" id="mcqoptions_{{$index}}" ng-model="mcqFormData.options[key].text"  contenteditable="true"></div>
                       </div>
                        </div>
                        <div class="qc-media-section">

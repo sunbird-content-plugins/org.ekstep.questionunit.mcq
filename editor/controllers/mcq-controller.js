@@ -3,7 +3,7 @@
  * @class org.ekstep.questionunitmcq:mcqQuestionFormController
  * Jagadish P<jagadish.pujari@tarento.com>
  */
-angular.module('mcqApp', ['org.ekstep.question']).controller('mcqQuestionFormController', ['$scope', '$rootScope', 'questionServices', function($scope, rootScope, questionServices) {
+angular.module('mcqApp', ['org.ekstep.question']).controller('mcqQuestionFormController', ['$scope', '$rootScope', 'questionServices', '$timeout', function($scope, rootScope, questionServices, $timeout) {
   $scope.formVaild = false;
   $scope.mcqConfiguartion = {
     'questionConfig': {
@@ -101,6 +101,7 @@ angular.module('mcqApp', ['org.ekstep.question']).controller('mcqQuestionFormCon
     EventBus.listeners['org.ekstep.questionunit.mcq:editquestion'] = [];
     ecEditor.addEventListener('org.ekstep.questionunit.mcq:editquestion', $scope.editMcqQuestion, $scope);
     ecEditor.dispatchEvent("org.ekstep.questionunit:ready");
+    $scope.BindCkeditor();
   }
   $scope.editMcqQuestion = function(event, data) {
     var qdata = data.data;
@@ -134,6 +135,7 @@ angular.module('mcqApp', ['org.ekstep.question']).controller('mcqQuestionFormCon
       'isCorrect': false
     };
     if ($scope.mcqFormData.options.length < 8) $scope.mcqFormData.options.push(option);
+    $scope.BindCkeditor();
   }
   $scope.formValidation = function() {
     var opSel = false;
@@ -193,18 +195,19 @@ angular.module('mcqApp', ['org.ekstep.question']).controller('mcqQuestionFormCon
   }
   $scope.deleteAnswer = function(id) {
     if (id >= 0) $scope.mcqFormData.options.splice(id, 1);
+    $scope.BindCkeditor();
   }
   //if audio added then audio icon id sent to ecml add stage
   $scope.addDefaultMedia = function() {
     var addAllMedia = [{
       id: "org.ekstep.questionset.audioicon",
-      src: ecEditor.resolvePluginResource("org.ekstep.questionunit.mcq", "1.0", 'renderer/assets/audio.png'),
+      src: ecEditor.resolvePluginResource($scope.mcqPluginInstance.id, $scope.mcqPluginInstance.ver, 'renderer/assets/audio.png'),
       assetId: "org.ekstep.questionset.audioicon",
       type: "image",
       preload: true
     }, {
       id: "org.ekstep.questionset.default-imgageicon",
-      src: ecEditor.resolvePluginResource("org.ekstep.questionunit.mcq", "1.0", 'renderer/assets/default-image.png'),
+      src: ecEditor.resolvePluginResource($scope.mcqPluginInstance.id, $scope.mcqPluginInstance.ver, 'renderer/assets/default-image.png'),
       assetId: "org.ekstep.questionset.default-imgageicon",
       type: "image",
       preload: true
@@ -322,18 +325,24 @@ angular.module('mcqApp', ['org.ekstep.question']).controller('mcqQuestionFormCon
     qtype: 'mcq'
   }
   /**
-   * bind ckeditor in all option
+   * destroy ckeditor apart from question
+   * on click delete option we need to destroy all ckeditor option
+   * we are not destroy question ckedit
    */
-  $scope.bindCkEditor = function(index) {
-    //replace id with option count
-    $("#mcqoptions_").prop("id", "mcqoptions_" + index);
-    //remove ckeditor instance if already exist
+  $scope.destroyCkEditor = function() {
+    for (var name in CKEDITOR.instances) {
+      if (name != "ckedit") {
+        CKEDITOR.instances[name].destroy(true);
+      }
+    }
+  }
+  $scope.ckEditorEventHandler = function(index) {
     $("#cke_mcqoptions_" + index).remove();
-    //remove tooltip
-    $scope.ckConfig.title = "Set Answer"; 
-    var optionInput = CKEDITOR.inline("mcqoptions_" + index, $scope.ckConfig);
+    var optionelement = $(".mcqoption-text-ck")[index];
+    $scope.ckConfig.title = "Set Answer";
+    var optionInput = CKEDITOR.inline(optionelement.id, $scope.ckConfig);
     //assign value to input box
-    CKEDITOR.instances['mcqoptions_' + index].setData($scope.mcqFormData.options[index].text);
+    CKEDITOR.instances[optionelement.id].setData($scope.mcqFormData.options[index].text);
     optionInput.on('change', function() {
       //on changes get index id and assign to model
       var id = parseInt(this.name.split("mcqoptions_")[1]);
@@ -347,6 +356,18 @@ angular.module('mcqApp', ['org.ekstep.question']).controller('mcqQuestionFormCon
       ecEditor.jQuery('.cke_float').hide();
     });
     optionInput.focus();
+  }
+  /**
+   * bind ckeditor in all option
+   */
+  $scope.BindCkeditor = function() {
+    $timeout(function() {
+      $scope.destroyCkEditor();
+      var index = 0;
+      for (index; index < $(".mcqoption-text-ck").length; index++) {
+        $scope.ckEditorEventHandler(index);
+      }
+    }, 10);
   }
 }])
 //# sourceURL=horizontalMCQ.js
