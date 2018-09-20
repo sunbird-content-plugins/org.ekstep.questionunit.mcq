@@ -367,7 +367,7 @@ angular.module('mcqApp', ['org.ekstep.question']).controller('mcqQuestionFormCon
       for (index; index < $(".mcqoption-text-ck").length; index++) {
         $scope.ckEditorEventHandler(index);
       }
-    }, 10);
+    }, 0);
   }
 }])
 //# sourceURL=horizontalMCQ.js
