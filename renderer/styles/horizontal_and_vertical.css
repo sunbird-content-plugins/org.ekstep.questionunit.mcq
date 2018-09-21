@@ -110,7 +110,7 @@
     position: relative;
 }
 
-.mcq-content-container .option-container.vertical .option-block-container .option-block .option-text-container span {
+.mcq-content-container .option-container.vertical .option-block-container .option-block .option-text-container>span {
     font-size: 6vh;
     position: absolute;
     top: 0;
