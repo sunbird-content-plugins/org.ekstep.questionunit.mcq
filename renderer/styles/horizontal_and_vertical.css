@@ -255,7 +255,7 @@
     margin-left: 15%;
 }
 
-.mcq-content-container .option-container.horizontal .option-block-container .option-block .option-text-container span {
+.mcq-content-container .option-container.horizontal .option-block-container .option-block .option-text-container>span {
     height: auto;
     position: relative;
     top: 0;
