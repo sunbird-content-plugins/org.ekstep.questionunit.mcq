@@ -1,6 +1,6 @@
 {
     "id": "org.ekstep.questionunit.mcq",
-    "ver": "1.0",
+    "ver": "1.1",
     "author": "Jagadish",
     "title": "Multiple Choice Question Unit Plugin",
     "description": "Question Unit Plugin that enables creation of multiple choice questions.",
@@ -15,7 +15,7 @@
     "targets": [
         {
             "id": "org.ekstep.questionset",
-            "ver": 1.0
+            "ver": 1.1
         }
     ],
     "editor": {
@@ -24,7 +24,7 @@
             {
                 "type": "plugin",
                 "plugin": "org.ekstep.questionunit",
-                "ver": "1.0"
+                "ver": "1.1"
             },
             {
                 "type": "js",
@@ -75,7 +75,7 @@
     "dependencies": [
         {
             "plugin": "org.ekstep.questionunit",
-            "ver": "1.0",
+            "ver": "1.1",
             "type": "plugin",
             "scope": "all"
         }
