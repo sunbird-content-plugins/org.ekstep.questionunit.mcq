@@ -145,6 +145,21 @@
     padding-bottom: 2.5%;
 }
 
+.mcq-content-container .outer-option-container.horizontal::-webkit-scrollbar {
+    width: 0.5em;
+}
+.mcq-content-container .outer-option-container.horizontal::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.mcq-content-container .outer-option-container.horizontal::-webkit-scrollbar-thumb {
+    background-color: #65A0E6;
+    outline: 1px solid slategrey;
+    border: 0.3em;
+    height: 75%;
+    width: 75%;
+}
+
 .mcq-content-container .option-container.horizontal .option-block-container {
     justify-content: center;
     display: table-cell;
