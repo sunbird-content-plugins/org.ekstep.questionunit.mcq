@@ -315,9 +315,9 @@ MCQController.vertical2.getOptionsTemplate = function (options) {
     _.each(options, function (val, key, index) {
         opts += MCQController.vertical2.getOption(val, key);
     });
-    return "<div class='mcq-2-options-container-vertical'>" +
+    return "<div class='mcq-2-options-container-vertical'><div style='height: 100%;padding-right: 3px;'>" +
         opts +
-        "</div>\
+        "</div></div>\
 ";
 }
 
