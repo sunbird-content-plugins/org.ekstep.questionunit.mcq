@@ -1,23 +1,36 @@
 var MCQController = MCQController || {};
+
+/**
+ * Initializes the controller with the plugin instance
+ * @param {Object} pluginInstance 
+ */
 MCQController.initTemplate = function (pluginInstance) {
   MCQController.pluginInstance = pluginInstance;
 };
+
+/**
+ * loads the template content html
+ */
 MCQController.loadTemplateContent = function () {
-  return "<div id='qs-mcq-template'><div id='qc-mcqlayout'></div></div>";
+  return '<div id="mcq-question-container"></div>';
 };
+
+/**
+ * initializes the presence of audio or image in the question
+ * @param {object} question 
+ */
 MCQController.isMediaAsset = function (question) {
   MCQController.isAudioIcon = !_.isUndefined(_.find(question.data.options, "audio")) ? true : false;
   MCQController.isImageIcon = !_.isUndefined(_.find(question.data.options, "image")) ? true : false;
 };
-// MCQController.audioIcon = MCQController.pluginInstance.getAssetUrl('audio-icon.png');
-// MCQController.expandIcon = MCQController.pluginInstance.getAssetUrl('expand-icon.png');
+
+/**
+ * renders the question html template by invoking the appropriate layout renderer
+ */
 MCQController.renderQuestion = function () {
-  var template = _.template(MCQController.getQuesLayout());
-  $("#qc-mcqlayout").html(template({
-    question: MCQController.pluginInstance._question
-  }));
   MCQController.renderTemplateLayout(MCQController.pluginInstance._question);
 };
+
 /**
  * render template using underscore
  * @param {Object} question from question set.
@@ -26,60 +39,19 @@ MCQController.renderQuestion = function () {
 MCQController.renderTemplateLayout = function (question) {
   MCQController.isMediaAsset(question);
   var layout = question.config.layout;
-  var template;
-  switch (layout) {
-    case "Grid":
-      template = _.template(MCQController.getGridTemplate(question));
-      break;
-    case "Horizontal":
-      template = _.template(MCQController.getHorizontalTemplate(question));
-      break;
-    case "Vertical":
-      template = _.template(MCQController.getVerticalTemplate(question));
-      break;
-    default:
-      template = _.template(MCQController.getHorizontalTemplate(question));
-  }
-  $("#qc-mcqlayout").append(template({
+  MCQController[layout.toLowerCase()].preRender(question);
+  var strTemplate = MCQController[layout.toLowerCase()].getTemplate(question)
+  var template = _.template(strTemplate);
+  $("#mcq-question-container").append(template({
     question: question
   }));
+  MCQController[layout.toLowerCase()].postRender(question);
 };
+
 /**
- * This question layout is common for all the template
- * @memberof org.ekstep.questionunit.mcq.template_controller
- * @returns {String} template.
- */
-MCQController.getQuesLayout = function () {
-  return "<% if(question.config.layout != 'Horizontal') { %>\
-    <div id='mcq-question-header'> \
- <header id='mcq-question'> \
- <% if ( question.data.question.image.length > 0 ){ %> \
-    <div class='question-image'>\
-      <img class='mcq-question-image' onclick='MCQController.showImageModel(event)' src=<%=MCQController.pluginInstance.getAssetUrl( question.data.question.image) %>> \
-    </div>\
-     <% } %> \
-    <div class='mcq-question-text'>\
-    <% if ( question.data.question.text.length > 0 ){ %> \
-      <% if(question.data.question.text.length<85){ %> \
-        <span><%= question.data.question.text %></span> \
-      <%}else{ %> \
-        <div class='collapse-ques-text' onclick='MCQController.expandQuestion(event)'><%= question.data.question.text %></div> \
-       <% } %> \
-        <% } %> \
-    </div>\
-    <% if ( question.data.question.audio.length > 0 ){ %> \
-      <div class='mcq-question-audio'>\
-      <img class='qc-question-audio-image' src=<%=MCQController.pluginInstance.getDefaultAsset(MCQController.pluginInstance._defaultAudioIcon) %> onclick=MCQController.pluginInstance.playAudio('<%= question.data.question.audio %>') > \
-        </div>\
-       <% } %> \
-</header>\
-</div>\
-<% } %>";
-};
-/**
- * image will be shown in popup
- * @memberof org.ekstep.questionunit.mcq.template_controller
- */
+* image will be shown in popup
+* @memberof org.ekstep.questionunit.mcq.template_controller
+*/
 MCQController.showImageModel = function () {
   var eventData = event.target.src;
   var modelTemplate = "<div class='popup image-model-popup' id='image-model-popup' onclick='MCQController.hideImageModel()'><div class='popup-overlay' onclick='MCQController.hideImageModel()'></div> \
@@ -93,7 +65,7 @@ MCQController.showImageModel = function () {
   var templateData = template({
     src: eventData
   })
-  $("#qs-mcq-template").append(templateData);
+  $("#mcq-question-container").append(templateData);
 };
 /**
  * onclick overlay or X button the popup will be hide
@@ -154,19 +126,17 @@ MCQController.openPopup = function (id) {
      </div>\
        </div>\
   </div>";
-    var template = _.template(mcqpopupTemplate);
-    
-    var templateData = template({
-      data: data
-    })
-    $("#questionset").append(templateData);
-    EkstepRendererAPI.dispatchEvent('org.ekstep.questionunit:rendermath');
+  var template = _.template(mcqpopupTemplate);
+
+  var templateData = template({
+    data: data
+  })
+  $("#questionset").append(templateData);
+  EkstepRendererAPI.dispatchEvent('org.ekstep.questionunit:rendermath');
 };
 
 MCQController.closePopup = function () {
   $(".mcq-expand-popup").remove();
 };
-
-
 
 //# sourceURL=MCQController.js
