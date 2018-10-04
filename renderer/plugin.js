@@ -34,8 +34,13 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
    */
   preQuestionShow: function (event) {
     this._super(event);
-    if (this._question.config.isShuffleOption) {
-      this._question.data.options = _.shuffle(this._question.data.options);
+    //The state will created once an is selected, Only once a quesiton will be shuffled
+    if(!this._question.state){
+      if (this._question.config.isShuffleOption) {
+        this._question.data.options = _.shuffle(this._question.data.options);
+      }
+    } else {
+        this._question.data.options = this._question.state.options;
     }
   },
   /**
@@ -48,10 +53,12 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
     MCQController.renderQuestion(); // eslint-disable-line no-undef
     if (this._question.state && _.has(this._question.state, 'val')) {
       this._selectedIndex = this._question.state.val;
-      $("input[name='radio']", $(this._constant.mcqParentDiv))[this._selectedIndex].checked = true; // eslint-disable-line no-undef
-      if (this._question.config.layout == "Horizontal") {
-        $($("input[name='radio']")[this._selectedIndex]).parents('.option').addClass('selected');
-      }
+      var selectedIndex = this._selectedIndex;
+      _.each($(".org-ekstep-questionunit-mcq-option-element"), function(optionElement, index){
+        if(index == selectedIndex){
+          $(optionElement).trigger("click");
+        }
+      })
     } else {
       this._selectedIndex = undefined;
     }
