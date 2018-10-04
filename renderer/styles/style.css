@@ -1307,16 +1307,15 @@ span.qc-option-txt {
 
 .mcq-2-options-container-vertical .audio-option-image {
     height: 40%;
-    top: 32%;
-    left: -34%;
-    position: relative;
-    z-index: 10;
 }
 
 .mcq-2-options-container-vertical .audio-option-image-container {
-    width: 11.51%;
-    height: 100%;
-    float: left;
+    width: 6vw;
+    height: 17vh;
+    display: table-cell;
+    vertical-align: middle;
+    position: relative;
+    z-index: 2;
 }
 
 .mcq-2-options-container-vertical .tick-icon-holder {
