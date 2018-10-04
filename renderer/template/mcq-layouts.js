@@ -224,7 +224,7 @@ MCQController.horizontal.getOptionLayout = function (layout) {
                   <% } %>\
                     </div>\
                     <%  if(val.audio) { %>\
-                      <img src="<%= MCQController.pluginInstance.getDefaultAsset("' + audioIcon + '") %>" class="audio" />\
+                      <img src="<%= MCQController.pluginInstance.getDefaultAsset("' + audioIcon + '") %>" class="audio <% if(val.image) { %>with-image<% } %>" />\
                     <% } %>\
                     <div class="option-text-container<% if(val.audio) { %> with-audio <% } %> <% if(val.image) { %>with-image<% } %>">\
                   <%  if(val.text) { %>\
