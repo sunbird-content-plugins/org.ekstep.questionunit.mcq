@@ -1,6 +1,6 @@
 {
     "id": "org.ekstep.questionunit.mcq",
-    "ver": "1.0",
+    "ver": "1.1",
     "author": "Jagadish",
     "title": "Multiple Choice Question Unit Plugin",
     "description": "Question Unit Plugin that enables creation of multiple choice questions.",
