@@ -50,7 +50,7 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
       this._selectedIndex = this._question.state.val;
       $("input[name='radio']", $(this._constant.mcqParentDiv))[this._selectedIndex].checked = true; // eslint-disable-line no-undef
       if (this._question.config.layout == "Horizontal") {
-         $($("input[name='radio']")[this._selectedIndex]).parents('.option').addClass('selected');
+        $($("input[name='radio']")[this._selectedIndex]).parents('.option').addClass('selected');
       }
     } else {
       this._selectedIndex = undefined;
