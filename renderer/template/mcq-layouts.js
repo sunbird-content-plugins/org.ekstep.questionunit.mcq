@@ -90,7 +90,7 @@ MCQController.grid.getOptionTemplate = function (option, index) {
         <img src="<%= MCQController.pluginInstance.getDefaultAsset("audio-icon2.png") %>"  onclick=MCQController.pluginInstance.playAudio({src:\'<%= val.audio %>\'}) />\
       </div>\
     <% } %> \
-    <div class="org-ekstep-questionunit-mcq-option-element mcq-grid-option" onclick="MCQController.grid.onOptionSelected(event, <%= index %>)">\
+    <div class="mcq-grid-option" onclick="MCQController.grid.onOptionSelected(event, <%= index %>)">\
     <% if (option.image){ %> \
       <div class="mcq-grid-option-image-container">\
         <img class="mcq-grid-option-image" src="<%= MCQController.pluginInstance.getAssetUrl(option.image) %>"/>\
@@ -222,14 +222,14 @@ MCQController.horizontal.getOptionLayout = function (layout) {
             <div class="option-container ' + layout + '">\
             <div class="option-block-container">\
             <% _.each(question.data.options,function(val,key){ %>\
-                <div class="org-ekstep-questionunit-mcq-option-element option-block <% if(val.isCorrect) { %> mcq-correct-answer<% } %>" onclick="MCQController.horizontal.onSelectOption(this, <%= key %>);MCQController.horizontal.onOptionSelected(event,<%= key %>)">\
+                <div class="option-block <% if(val.isCorrect) { %> mcq-correct-answer<% } %>" onclick="MCQController.horizontal.onSelectOption(this, <%= key %>);MCQController.horizontal.onOptionSelected(event,<%= key %>)">\
                     <div class="option-image-container <% if(!val.image) { %> no-image<% } %>" \>\
                   <%  if(val.image) { %>\
                         <img onclick="MCQController.showImageModel(event, \'<%= MCQController.pluginInstance.getAssetUrl(val.image) %>\')" src="<%= MCQController.pluginInstance.getAssetUrl(val.image) %>" />\
                   <% } %>\
                     </div>\
                     <%  if(val.audio) { %>\
-                      <img src="<%= MCQController.pluginInstance.getDefaultAsset("' + audioIcon + '") %>" class="audio" />\
+                      <img src="<%= MCQController.pluginInstance.getDefaultAsset("' + audioIcon + '") %>" class="audio <% if(val.image) { %>with-image<% } %>" />\
                     <% } %>\
                     <div class="option-text-container<% if(val.audio) { %> with-audio <% } %> <% if(val.image) { %>with-image<% } %>">\
                   <%  if(val.text) { %>\
@@ -337,13 +337,13 @@ MCQController.vertical2.getOption = function (option, key) {
     var keyConst = 0;
     if (key > 0) keyConst = 2
     else keyConst = 1
-
-    var optTemplate = "<div class='text-option option-background org-ekstep-questionunit-mcq-option-element' onClick=MCQController.vertical2.onOptionSelected(event,<%= key %>)>\
+    var optTemplate = "<div class='outer-option-block'>\
     <div class='audio-option-image-container'>\
     <% if ( option.audio.length > 0 ){ %> \
     <img class='audio-option-image'    src=<%= MCQController.pluginInstance.getDefaultAsset('audio-icon2.png')%> onclick=MCQController.pluginInstance.playAudio({src:'<%= option.audio %>'}) />\
     <% } %> \
     </div>\
+    <div class='text-option option-background' onClick=MCQController.vertical2.onOptionSelected(event,<%= key %>)>\
     <div class='text-content'>\
     <span>\
     <%= option.text %>\
@@ -351,6 +351,7 @@ MCQController.vertical2.getOption = function (option, key) {
     </div>\
     <div class='tick-icon-holder'>\
     <img src=<%= MCQController.pluginInstance.getDefaultAsset('tick_icon.png') %> style='height: 100%;'>\
+    </div>\
     </div>\
     </div>"
     return _.template(optTemplate)({
@@ -455,7 +456,7 @@ MCQController.grid2.getOptionsTemplate = function (options) {
  * @param {number} key the index of the option
  */
 MCQController.grid2.getOption = function (option, key) {
-    var optTemplate = " <div class='org-ekstep-questionunit-mcq-option-element mcq2-2-option mcq2-2-option<%=key+1%>' onClick=MCQController.grid2.onOptionSelected(event,<%= key %>)>\
+    var optTemplate = " <div class='mcq2-2-option mcq2-2-option<%=key+1%>' onClick=MCQController.grid2.onOptionSelected(event,<%= key %>)>\
   <%if(option.image){%>\
       <img class='mcq2-2-option-image'\
       src=<%=MCQController.pluginInstance.getAssetUrl(option.image) %> />\

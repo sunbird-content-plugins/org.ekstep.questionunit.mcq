@@ -34,13 +34,8 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
    */
   preQuestionShow: function (event) {
     this._super(event);
-    //The state will created once an is selected, Only once a quesiton will be shuffled
-    if(!this._question.state){
-      if (this._question.config.isShuffleOption) {
-        this._question.data.options = _.shuffle(this._question.data.options);
-      }
-    } else {
-        this._question.data.options = this._question.state.options;
+    if (this._question.config.isShuffleOption) {
+      this._question.data.options = _.shuffle(this._question.data.options);
     }
   },
   /**
