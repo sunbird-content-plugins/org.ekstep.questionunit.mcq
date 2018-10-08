@@ -34,8 +34,12 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
    */
   preQuestionShow: function (event) {
     this._super(event);
-    if (this._question.config.isShuffleOption) {
-      this._question.data.options = _.shuffle(this._question.data.options);
+    if (this._question.state && _.has(this._question.state, 'val')) {
+      this._question.data.options = this._question.state.options;
+    }else{
+      if (this._question.config.isShuffleOption) {
+        this._question.data.options = _.shuffle(this._question.data.options);
+      }
     }
   },
   /**
