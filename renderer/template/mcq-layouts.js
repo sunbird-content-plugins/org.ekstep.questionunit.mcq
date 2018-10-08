@@ -330,12 +330,13 @@ MCQController.vertical2.getOption = function (option, key) {
     var keyConst = 0;
     if (key > 0) keyConst = 2
     else keyConst = 1
-    var optTemplate = "<div class='text-option option-background' onClick=MCQController.vertical2.onOptionSelected(event,<%= key %>)>\
+    var optTemplate = "<div class='outer-option-block'>\
     <div class='audio-option-image-container'>\
     <% if ( option.audio.length > 0 ){ %> \
     <img class='audio-option-image'    src=<%= MCQController.pluginInstance.getDefaultAsset('audio-icon2.png')%> onclick=MCQController.pluginInstance.playAudio({src:'<%= option.audio %>'}) />\
     <% } %> \
     </div>\
+    <div class='text-option option-background' onClick=MCQController.vertical2.onOptionSelected(event,<%= key %>)>\
     <div class='text-content'>\
     <span>\
     <%= option.text %>\
@@ -343,6 +344,7 @@ MCQController.vertical2.getOption = function (option, key) {
     </div>\
     <div class='tick-icon-holder'>\
     <img src=<%= MCQController.pluginInstance.getDefaultAsset('tick_icon.png') %> style='height: 100%;'>\
+    </div>\
     </div>\
     </div>"
     return _.template(optTemplate)({
