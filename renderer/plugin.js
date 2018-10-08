@@ -94,6 +94,7 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
       callback(result);
     }
     QSTelemetryLogger.logEvent(QSTelemetryLogger.EVENT_TYPES.ASSESSEND, result); // eslint-disable-line no-undef
+    EkstepRendererAPI.dispatchEvent('org.ekstep.questionset:saveQuestionState', result.state);
   },
   /**
    * provide media url to audio image
@@ -132,25 +133,14 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
    * @param {Integer} index from question set.
    */
   onOptionSelected: function (event, index) {
-    var state = {}, value, telValues = {};
+    var value, telValues = {};
     value = this._question.data.options[index];
     this._selectedIndex = index; // eslint-disable-line no-undef
-    state = {
-      val: this._selectedIndex, // eslint-disable-line no-undef
-      options: this._question.data.options, // eslint-disable-line no-undef
-      score: this._question.config.max_score // eslint-disable-line no-undef
-    };
     telValues['option' + index] = value.image.length > 0 ? value.image : value.text;
     QSTelemetryLogger.logEvent(QSTelemetryLogger.EVENT_TYPES.RESPONSE, { // eslint-disable-line no-undef
       "type": "MCQ",
       "values": [telValues]
     });
-    /**
-  * renderer:questionunit.mcq:save question set state.
-  * @event renderer:questionunit.mcq:dispatch
-  * @memberof org.ekstep.questionunit.mcq
-  */
-    EkstepRendererAPI.dispatchEvent('org.ekstep.questionset:saveQuestionState', state);
   },
 
   logTelemetryInteract: function (event) {
