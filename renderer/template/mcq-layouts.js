@@ -53,6 +53,12 @@ MCQController.grid.getRowCount = function (optsCount) {
     return optsCount > 4 ? 2 : 1
 }
 
+MCQController.grid.optionStyleUponClick = function (element) {
+    $('.mcq-grid-option').removeClass('selected');
+    var optElt = $(element).closest('.mcq-grid-option');
+    if (optElt) optElt.addClass('selected');
+}
+
 /**
  * called when the option in grid layout is selected. It updates the CSS class
  * for selected option element, and also plays the audio if there is audio
@@ -62,9 +68,8 @@ MCQController.grid.getRowCount = function (optsCount) {
  */
 MCQController.grid.onOptionSelected = function (event, index) {
     // clear all selected options and select this option
-    $('.mcq-grid-option').removeClass('selected');
-    var optElt = $(event.target).closest('.mcq-grid-option');
-    if (optElt) optElt.addClass('selected');
+    var optElt = $(event.target);
+    MCQController.grid.optionStyleUponClick(optElt);
     MCQController.pluginInstance.onOptionSelected(event, index);
     if (MCQController.pluginInstance._question.data.options[index].audio)
         MCQController.pluginInstance.playAudio({
@@ -239,15 +244,17 @@ MCQController.horizontal.getOptionLayout = function (layout) {
             </div>\
           </div>'
 }
-
+MCQController.horizontal.optionStyleUponClick = function (element) {
+    $('.option-block').removeClass('selected');
+    $(element).addClass('selected');
+}
 /**
  * called when the option in `horizontal` or `vertical` layout is selected
  * @param {object} element 
  * @param {number} index 
  */
 MCQController.horizontal.onSelectOption = function (element, index) {
-    $('.option-block').removeClass('selected');
-    $(element).addClass('selected');
+    MCQController.horizontal.optionStyleUponClick(element);
     if (MCQController.pluginInstance._question.data.options[index].audio) {
         MCQController.pluginInstance.playAudio({
             src: MCQController.pluginInstance._question.data.options[index].audio
@@ -376,15 +383,19 @@ MCQController.vertical2.postRender = function (question) {
     }
 }
 
+MCQController.vertical2.optionStyleUponClick = function (element) {
+    $('.text-option').removeClass('opt-selected');
+    var optElt = $(element).closest('.text-option');
+    if (optElt) optElt.addClass('opt-selected');
+}
 /**
  * called when the option in `vertical2` layout is selected/tapped
  * @param {object} event 
  * @param {number} index 
  */
 MCQController.vertical2.onOptionSelected = function (event, index) {
-    $('.text-option').removeClass('opt-selected');
-    var optElt = $(event.target).closest('.text-option');
-    if (optElt) optElt.addClass('opt-selected');
+    var optionElement = $(event.target);
+    MCQController.vertical2.optionStyleUponClick(optionElement);
     MCQController.pluginInstance.onOptionSelected(event, index);
 }
 
@@ -464,15 +475,19 @@ MCQController.grid2.getOption = function (option, key) {
     });
 }
 
+MCQController.grid2.optionStyleUponClick = function (element) {
+    $('.mcq2-2-option').removeClass('opt-selected');
+    var optElt = $(element).closest('.mcq2-2-option');
+    if (optElt) optElt.addClass('opt-selected');
+}
 /**
  * called when the option in `grid2` layout is selected
  * @param {object} event 
  * @param {number} index 
  */
-MCQController.grid2.onOptionSelected = function (event, index) {
-    $('.mcq2-2-option').removeClass('opt-selected');
-    var optElt = $(event.target).closest('.mcq2-2-option');
-    if (optElt) optElt.addClass('opt-selected');
+MCQController.grid2.onOptionSelected = function (event, index) {    
+    var optElt = $(event.target);
+    MCQController.grid2.optionStyleUponClick(optElt);
     MCQController.pluginInstance.onOptionSelected(event, index);
     if (MCQController.pluginInstance._question.data.options[index].audio)
         MCQController.pluginInstance.playAudio({

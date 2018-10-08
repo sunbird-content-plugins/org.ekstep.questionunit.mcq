@@ -16,7 +16,7 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
     gridLayout: "Grid",
     mcqParentDiv: "#qs-mcq-template",
     mcqSelectOption: ".mcq-option-value",
-    optionSelectionUI: "qsselectedopt"
+    optionSelectionUI: "qsselectedopt",
   },
   _defaultImageIcon: "default-image.png",
   _defaultAudioIcon: "audio.png",
@@ -54,9 +54,10 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
     if (this._question.state && _.has(this._question.state, 'val')) {
       this._selectedIndex = this._question.state.val;
       var selectedIndex = this._selectedIndex;
+      var layout = this._question.config.layout;
       _.each($(".org-ekstep-questionunit-mcq-option-element"), function(optionElement, index){
         if(index == selectedIndex){
-          $(optionElement).trigger("click");
+          MCQController[layout.toLowerCase()].optionStyleUponClick(optionElement);
         }
       })
     } else {
