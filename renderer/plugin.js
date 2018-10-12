@@ -48,9 +48,9 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
     MCQController.renderQuestion(); // eslint-disable-line no-undef
     if (this._question.state && _.has(this._question.state, 'val')) {
       this._selectedIndex = this._question.state.val;
-      $("input[name='radio']", $(this._constant.mcqParentDiv))[this._selectedIndex].checked = true; // eslint-disable-line no-undef
+      // put the logice in checkbox selection
       if (this._question.config.layout == "Horizontal") {
-        $($("input[name='radio']")[this._selectedIndex]).parents('.option').addClass('selected');
+      //put the logic if we add something in horizontal template in state save  
       }
     } else {
       this._selectedIndex = undefined;
