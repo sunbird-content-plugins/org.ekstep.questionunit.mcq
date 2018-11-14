@@ -180,7 +180,7 @@ angular.module('mcqApp', ['org.ekstep.question']).controller('mcqQuestionFormCon
     temp = tempArray.filter(function (element) {
       return element !== undefined;
     });
-    $scope.editMedia = _.isEmpty(temp) ? 0 : _.union($scope.editMedia, temp);
+    $scope.editMedia = _.union($scope.editMedia, temp);
     $scope.mcqFormData.media = _.isEmpty($scope.editMedia[0]) ? temp : $scope.editMedia;
     //check if audio is their then add audio icon in media array
     if ($scope.mcqFormData.media.length > 0) $scope.addDefaultMedia();
