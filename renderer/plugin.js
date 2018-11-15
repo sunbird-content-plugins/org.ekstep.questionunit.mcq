@@ -105,7 +105,6 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
     if (_.isFunction(callback)) {
       callback(result);
     }
-    QSTelemetryLogger.logEvent(QSTelemetryLogger.EVENT_TYPES.ASSESSEND, result); // eslint-disable-line no-undef
   },
   /**
    * provide media url to audio image
@@ -186,7 +185,6 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
    * @event renderer:questionunit.mcq:dispatch
    * @memberof org.ekstep.questionunit.mcq
    */
-    EkstepRendererAPI.dispatchEvent('org.ekstep.questionset:saveQuestionState', state);
   },
   selectOptionUI: function (event) {
     if(this._question.config.layout != "Horizontal"){
