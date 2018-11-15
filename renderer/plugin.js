@@ -70,6 +70,7 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
    */
   evaluateQuestion: function (event) {
     var callback = event.target;
+    var qmaxscore = QSTelemetryLogger.qsConfig.shuffle_questions ? 1 : MCQController.pluginInstance._question.config.max_score;
     var correctAnswer = false, telValues = {}, selectedAnsData, selectedAns, result = {}, option;
     option = MCQController.pluginInstance._question.data.options;// eslint-disable-line no-undef
     selectedAnsData = option[MCQController.pluginInstance._selectedIndex]; // eslint-disable-line no-undef
@@ -86,14 +87,15 @@ org.ekstep.questionunitmcq.RendererPlugin = org.ekstep.contentrenderer.questionU
         val: MCQController.pluginInstance._selectedIndex, // eslint-disable-line no-undef
         options: option // eslint-disable-line no-undef
       },
-      score: correctAnswer ? MCQController.pluginInstance._question.config.max_score : 0, // eslint-disable-line no-undef
+      score: correctAnswer ? qmaxscore : 0, // eslint-disable-line no-undef
+      max_score: qmaxscore,
       values: [telValues]
     }
+    QSTelemetryLogger.logEvent(QSTelemetryLogger.EVENT_TYPES.ASSESSEND, result); 
     if (_.isFunction(callback)) {
       callback(result);
     }
     EkstepRendererAPI.dispatchEvent('org.ekstep.questionset:saveQuestionState', result.state);
-    QSTelemetryLogger.logEvent(QSTelemetryLogger.EVENT_TYPES.ASSESSEND, result); // eslint-disable-line no-undef
   },
   /**
    * provide media url to audio image
