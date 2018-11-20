@@ -255,7 +255,7 @@ angular.module('mcqApp', ['org.ekstep.question']).controller('mcqQuestionFormCon
         $scope.questionMedia[mediaType] = data.assetMedia;
       } else {
         telemetryObject.target.id = 'questionunit-mcq-option-add-' + mediaType;
-        !_.isEmpty($scope.mcqFormData.options[index][mediaType]) ? oldMedia = $scope.optionsMedia[index][mediaType] : oldMedia = undefined;
+        !_.isEmpty($scope.mcqFormData.options[index][mediaType]) ? oldMedia = $scope.optionsMedia[mediaType][index] : oldMedia = undefined;
         questionUnitInstance.setMedia(newMedia, oldMedia);
         $scope.mcqFormData.options[index][mediaType] = org.ekstep.contenteditor.mediaManager.getMediaOriginURL(data.assetMedia.src);
         data.assetMedia.type == 'audio' ? $scope.mcqFormData.options[index].audioName = data.assetMedia.name : '';
@@ -296,9 +296,8 @@ angular.module('mcqApp', ['org.ekstep.question']).controller('mcqQuestionFormCon
       questionUnitInstance.removeMedia('id', $scope.optionsMedia[mediaType][index].id);
       $scope.mcqFormData.media = questionUnitInstance.getAllMedia();
       $scope.mcqFormData.options[index][mediaType] = '';
-      delete $scope.optionsMedia[index][mediaType];
+      delete $scope.optionsMedia[mediaType][index];
     }
-
     $scope.generateTelemetry(telemetryObject)
   }
   $scope.addHint = function (id) {
