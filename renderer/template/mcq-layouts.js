@@ -277,7 +277,7 @@ MCQController.vertical2 = MCQController.vertical2 || jQuery.extend({}, MCQContro
 MCQController.vertical2.getTemplate = function (question) {
     var questionTemplate = MCQController.vertical2.getQuestionTemplate(question);
     var optionsTemplate = MCQController.vertical2.getOptionsTemplate(question.data.options);
-    return org.ekstep.questionunit.backgroundComponent.getBackgroundGraphics() + "<div class='mcq-qLeft-content-container'>" +
+    return org.ekstep.questionunit.backgroundComponent.getBackgroundGraphics() + "<div class='mcq-qLeft-content-container plugin-content-container'>" +
         questionTemplate + optionsTemplate +
         "</div>";
 }
@@ -410,7 +410,7 @@ MCQController.grid2 = MCQController.grid2 || jQuery.extend({}, MCQController.lay
 MCQController.grid2.getTemplate = function (question) {
     var questionTemplate = MCQController.vertical2.getQuestionTemplate(question);
     var optionsTemplate = MCQController.grid2.getOptionsTemplate(question.data.options)
-    return org.ekstep.questionunit.backgroundComponent.getBackgroundGraphics() + "<div class='mcq-qLeft-content-container'>" +
+    return org.ekstep.questionunit.backgroundComponent.getBackgroundGraphics() + "<div class='mcq-qLeft-content-container plugin-content-container'>" +
         questionTemplate + optionsTemplate +
         "</div>";
 }
